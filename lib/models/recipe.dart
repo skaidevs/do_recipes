@@ -1,3 +1,5 @@
+import 'package:flutter/cupertino.dart';
+
 class Recipe {
   final String id;
   final String title;
@@ -10,15 +12,15 @@ class Recipe {
   bool isFavorite;
 
   Recipe(
-    this.id,
-    this.title,
-    this.time,
-    this.difficulty,
-    this.calories,
-    this.imageUri,
-    this.ingredients,
-    this.method,
-  );
+      {@required this.id,
+      @required this.title,
+      @required this.time,
+      @required this.difficulty,
+      @required this.calories,
+      @required this.imageUri,
+      @required this.ingredients,
+      @required this.method,
+      this.isFavorite = false});
 
   /*factory Recipe.fromJson(Map<String, dynamic> parsedJson) {
     return Recipe(

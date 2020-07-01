@@ -1,6 +1,7 @@
 import 'package:daisyinthekitchen/providers/bottom_navigator.dart';
 import 'package:daisyinthekitchen/screens/admin.dart';
 import 'package:daisyinthekitchen/screens/recipe_book.dart';
+import 'package:daisyinthekitchen/screens/recipe_detail.dart';
 import 'package:daisyinthekitchen/screens/recipe_overview.dart';
 import 'package:daisyinthekitchen/screens/shopping_list.dart';
 import 'package:flutter/material.dart';
@@ -28,6 +29,9 @@ class MyApp extends StatelessWidget {
         home: DaisyInTheKitchenHomePage(
           title: 'Daisy In The Kitchen',
         ),
+        routes: {
+          RecipeDetailScreen.routeName: (context) => RecipeDetailScreen(),
+        },
       ),
     );
   }

@@ -1,4 +1,5 @@
 import 'package:daisyinthekitchen/providers/bottom_navigator.dart';
+import 'package:daisyinthekitchen/providers/recipes.dart';
 import 'package:daisyinthekitchen/screens/admin.dart';
 import 'package:daisyinthekitchen/screens/recipe_book.dart';
 import 'package:daisyinthekitchen/screens/recipe_detail.dart';
@@ -18,6 +19,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider<BottomNavigation>(
           create: (_) => BottomNavigation(),
           child: DaisyInTheKitchenHomePage(),
+        ),
+        ChangeNotifierProvider<RecipeNotifier>(
+          create: (context) => RecipeNotifier(),
         ),
       ],
       child: MaterialApp(

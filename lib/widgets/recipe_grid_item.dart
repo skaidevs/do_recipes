@@ -7,7 +7,12 @@ class RecipeGridItem extends StatelessWidget {
   final String imageUrl;
   final String time;
 
-  RecipeGridItem({this.id, this.title, this.imageUrl, this.time});
+  RecipeGridItem({
+    this.id,
+    this.title,
+    this.imageUrl,
+    this.time,
+  });
 
   @override
   Widget build(BuildContext context) {

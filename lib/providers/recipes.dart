@@ -44,6 +44,9 @@ class RecipeNotifier with ChangeNotifier {
         ingredients: ['sugar', 'spice'],
         method: ['fry', 'dry']),
   ];
+  Recipe findRecipeById(String id) {
+    return _recipeItems.firstWhere((recipe) => recipe.id == id);
+  }
 
   List<Recipe> get recipeItems {
     return [..._recipeItems];

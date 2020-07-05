@@ -8,17 +8,19 @@ class RecipeGrid extends StatelessWidget {
   Widget build(BuildContext context) {
     final _recipeNotifier = Provider.of<RecipeNotifier>(
       context,
-      listen: false,
     );
     final _recipes = _recipeNotifier.recipeItems;
 
     return GridView.builder(
       itemCount: _recipes.length,
-      itemBuilder: (context, index) => RecipeGridItem(
-        id: _recipes[index].id,
-        title: _recipes[index].title,
-        time: _recipes[index].time,
-        imageUrl: _recipes[index].imageUri,
+      itemBuilder: (context, index) => ChangeNotifierProvider(
+        create: (context) => _recipes[index],
+        child: RecipeGridItem(
+            /*id: _recipes[index].id,
+          title: _recipes[index].title,
+          time: _recipes[index].time,
+          imageUrl: _recipes[index].imageUri,*/
+            ),
       ),
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,

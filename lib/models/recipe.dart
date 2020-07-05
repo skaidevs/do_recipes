@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
-class Recipe {
+class Recipe with ChangeNotifier {
   final String id;
   final String title;
   final String time;

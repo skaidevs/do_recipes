@@ -18,7 +18,8 @@ class RecipeGridItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _recipe = Provider.of<Recipe>(context);
+    final _recipe = Provider.of<Recipe>(context, listen: false);
+    final _shoppingList = Provider.of<Recipe>(context);
 
     return GestureDetector(
       onTap: () {

@@ -9,6 +9,7 @@ class Recipe with ChangeNotifier {
   final String imageUri;
   final List ingredients;
   final List method;
+  final List shoppingList;
   bool isFavorite;
 
   Recipe(
@@ -20,6 +21,7 @@ class Recipe with ChangeNotifier {
       @required this.imageUri,
       @required this.ingredients,
       @required this.method,
+      this.shoppingList,
       this.isFavorite = false});
 
   /*factory Recipe.fromJson(Map<String, dynamic> parsedJson) {

@@ -1,4 +1,4 @@
-import 'package:daisyinthekitchen/providers/recipes.dart';
+import 'package:daisyinthekitchen/providers/all_recipe.dart';
 import 'package:daisyinthekitchen/widgets/circle_button.dart';
 import 'package:daisyinthekitchen/widgets/commons.dart';
 import 'package:daisyinthekitchen/widgets/time_cal_difficulty.dart';
@@ -10,13 +10,11 @@ class RecipeDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _recipeId = ModalRoute.of(context).settings.arguments as String;
-    final _recipeNotifier = Provider.of<RecipeNotifier>(
+    final _recipeNotifier = Provider.of<AllRecipeNotifier>(
       context,
       listen: false,
     );
-    final _loadedRecipe = _recipeNotifier.findRecipeById(
-      _recipeId,
-    );
+    final _loadedRecipe = _recipeNotifier.findAlbumById(code: _recipeId);
 
     return Scaffold(
       appBar: AppBar(),
@@ -27,7 +25,7 @@ class RecipeDetailScreen extends StatelessWidget {
               height: 300.0,
               width: double.infinity,
               child: Image.network(
-                _loadedRecipe.imageUri,
+                _loadedRecipe.imageUrl,
                 fit: BoxFit.cover,
               ),
             ),
@@ -87,7 +85,7 @@ class RecipeDetailScreen extends StatelessWidget {
                         ),
                       ],
                     ),
-                    Column(
+                    /*Column(
                       children: _loadedRecipe.ingredients
                           .map<Widget>(
                             (ingredient) => SizedBox(
@@ -96,7 +94,7 @@ class RecipeDetailScreen extends StatelessWidget {
                                     textAlign: TextAlign.left)),
                           )
                           .toList(),
-                    ),
+                    ),*/
                     SizedBox(
                       height: 10,
                     ),
@@ -113,8 +111,10 @@ class RecipeDetailScreen extends StatelessWidget {
                       ),
                     ),
                     kRecipeTexts(text: 'Method'),
-                    Column(
-                      children: _loadedRecipe.method
+                    Text(_loadedRecipe.method, textAlign: TextAlign.left),
+
+                    /*Column(
+                      children: _loadedRecipe
                           .map<Widget>(
                             (ingredient) => SizedBox(
                               width: double.infinity,
@@ -123,7 +123,7 @@ class RecipeDetailScreen extends StatelessWidget {
                             ),
                           )
                           .toList(),
-                    ),
+                    ),*/
                   ],
                 ),
               ),

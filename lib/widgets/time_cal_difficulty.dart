@@ -5,11 +5,11 @@ import 'package:flutter/material.dart';
 class TimeCalDifficulty extends StatelessWidget {
   const TimeCalDifficulty({
     Key key,
-    @required Recipe loadedRecipe,
+    @required Data loadedRecipe,
   })  : _loadedRecipe = loadedRecipe,
         super(key: key);
 
-  final Recipe _loadedRecipe;
+  final Data _loadedRecipe;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -26,7 +26,7 @@ class TimeCalDifficulty extends StatelessWidget {
               ),
             ),
             Text(
-              'PREP ${_loadedRecipe.time}',
+              '${_loadedRecipe.duration}',
               style: TextStyle(
                 color: kColorGrey,
                 fontSize: 12.0,
@@ -46,7 +46,7 @@ class TimeCalDifficulty extends StatelessWidget {
               ),
             ),
             Text(
-              '${_loadedRecipe.calories} CALS',
+              '${_loadedRecipe.calories} Cals',
               style: TextStyle(
                 color: kColorGrey,
                 fontSize: 12.0,
@@ -64,7 +64,7 @@ class TimeCalDifficulty extends StatelessWidget {
               ),
             ),
             Text(
-              '${_loadedRecipe.difficulty} DIFFICULTY',
+              '${_loadedRecipe.difficulty} Difficulty',
               style: TextStyle(
                 color: kColorGrey,
                 fontSize: 12.0,

@@ -1,10 +1,12 @@
+import 'package:daisyinthekitchen/providers/all_recipe.dart';
 import 'package:daisyinthekitchen/providers/bottom_navigator.dart';
-import 'package:daisyinthekitchen/providers/recipes.dart';
+import 'package:daisyinthekitchen/providers/category.dart';
 import 'package:daisyinthekitchen/providers/shopping_list.dart';
 import 'package:daisyinthekitchen/screens/admin.dart';
+import 'package:daisyinthekitchen/screens/all_recipe_and_catigories.dart';
+import 'package:daisyinthekitchen/screens/amin_edit_recipe.dart';
 import 'package:daisyinthekitchen/screens/recipe_book.dart';
 import 'package:daisyinthekitchen/screens/recipe_detail.dart';
-import 'package:daisyinthekitchen/screens/recipe_overview.dart';
 import 'package:daisyinthekitchen/screens/shopping_list.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -21,8 +23,11 @@ class MyApp extends StatelessWidget {
           create: (_) => BottomNavigation(),
           child: DaisyInTheKitchenHomePage(),
         ),
-        ChangeNotifierProvider<RecipeNotifier>(
-          create: (context) => RecipeNotifier(),
+        ChangeNotifierProvider<AllRecipeNotifier>(
+          create: (context) => AllRecipeNotifier(),
+        ),
+        ChangeNotifierProvider<CategoryNotifier>(
+          create: (context) => CategoryNotifier(),
         ),
         ChangeNotifierProvider<ShoppingListNotifier>(
           create: (context) => ShoppingListNotifier(),
@@ -39,6 +44,7 @@ class MyApp extends StatelessWidget {
         ),
         routes: {
           RecipeDetailScreen.routeName: (context) => RecipeDetailScreen(),
+          EditRecipe.routeName: (context) => EditRecipe(),
         },
       ),
     );
@@ -80,7 +86,7 @@ class _DaisyInTheKitchenHomePageState extends State<DaisyInTheKitchenHomePage> {
   void initState() {
     _pages = [
       {
-        'page': RecipeOverviewScreen(),
+        'page': AllRecipeAndCategories(),
         'title': 'Daisy In The Kitchen',
       },
       {
@@ -106,13 +112,20 @@ class _DaisyInTheKitchenHomePageState extends State<DaisyInTheKitchenHomePage> {
     );
     return Scaffold(
       appBar: AppBar(
+        elevation: 0.0,
         title: Text(_pages[_bottomNavigation.currentIndex]['title']),
         actions: <Widget>[
-          IconButton(
-              icon: Icon(Icons.search),
-              onPressed: () {
-                print('Taped');
-              })
+          _bottomNavigation.currentIndex == 3
+              ? IconButton(
+                  icon: Icon(Icons.add),
+                  onPressed: () {
+                    Navigator.of(context).pushNamed(EditRecipe.routeName);
+                  })
+              : IconButton(
+                  icon: Icon(Icons.search),
+                  onPressed: () {
+                    print('Taped');
+                  })
         ],
       ),
       body: _pages[_bottomNavigation.currentIndex]['page'],

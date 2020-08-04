@@ -1,26 +1,20 @@
-import 'package:daisyinthekitchen/providers/recipes.dart';
+import 'package:daisyinthekitchen/providers/all_recipe.dart';
 import 'package:daisyinthekitchen/widgets/recipe_grid_item.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class RecipeGrid extends StatelessWidget {
+  final AllRecipeNotifier notifier;
+  const RecipeGrid({Key key, this.notifier}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    final _recipeNotifier = Provider.of<RecipeNotifier>(
-      context,
-    );
-    final _recipes = _recipeNotifier.recipeItems;
-
     return GridView.builder(
-      itemCount: _recipes.length,
-      itemBuilder: (context, index) => ChangeNotifierProvider(
-        create: (context) => _recipes[index],
-        child: RecipeGridItem(
-            /*id: _recipes[index].id,
-          title: _recipes[index].title,
-          time: _recipes[index].time,
-          imageUrl: _recipes[index].imageUri,*/
-            ),
+      itemCount: notifier.allRecipeData.length,
+      itemBuilder: (context, index) => RecipeGridItem(
+        id: notifier.allRecipeData[index].id,
+        title: notifier.allRecipeData[index].title,
+        duration: notifier.allRecipeData[index].duration,
+        imageUrl: notifier.allRecipeData[index].imageUrl,
       ),
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,

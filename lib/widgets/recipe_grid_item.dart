@@ -1,31 +1,26 @@
-import 'package:daisyinthekitchen/models/recipe.dart';
 import 'package:daisyinthekitchen/screens/recipe_detail.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class RecipeGridItem extends StatelessWidget {
-  /*final String id;
+  final String id;
   final String title;
   final String imageUrl;
-  final String time;
+  final String duration;
 
   RecipeGridItem({
     this.id,
     this.title,
     this.imageUrl,
-    this.time,
-  });*/
+    this.duration,
+  });
 
   @override
   Widget build(BuildContext context) {
-    final _recipe = Provider.of<Recipe>(context, listen: false);
-    final _shoppingList = Provider.of<Recipe>(context);
-
     return GestureDetector(
       onTap: () {
         Navigator.of(context).pushNamed(
           RecipeDetailScreen.routeName,
-          arguments: _recipe.id,
+          arguments: id,
         );
       },
       child: ClipRRect(
@@ -34,12 +29,12 @@ class RecipeGridItem extends StatelessWidget {
         ),
         child: GridTile(
           child: Image.network(
-            _recipe.imageUri,
+            imageUrl,
             fit: BoxFit.cover,
           ),
           footer: GridTileBar(
             subtitle: Text(
-              _recipe.title,
+              title,
               style: TextStyle(
                   fontSize: 14.0,
                   color: Colors.white,
@@ -58,7 +53,7 @@ class RecipeGridItem extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(left: 4.0),
                     child: Text(
-                      _recipe.time,
+                      duration,
                       textAlign: TextAlign.center,
                     ),
                   )

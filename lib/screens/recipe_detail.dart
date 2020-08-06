@@ -4,6 +4,8 @@ import 'package:daisyinthekitchen/widgets/commons.dart';
 import 'package:daisyinthekitchen/widgets/time_cal_difficulty.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:flutter_html/html_parser.dart';
+import 'package:flutter_html/style.dart';
 import 'package:provider/provider.dart';
 
 class RecipeDetailScreen extends StatelessWidget {
@@ -132,12 +134,14 @@ class RecipeDetailScreen extends StatelessWidget {
                       ),
                     ),
                   ),*/
+
                   Column(
                     children: _loadedRecipe.ingredients
                         .map<Widget>(
                           (ingredient) => SizedBox(
                             width: double.infinity,
                             child: Text('${ingredient[0]}',
+                                style: TextStyle(fontSize: 16.0),
                                 textAlign: TextAlign.left),
                           ),
                         )
@@ -171,8 +175,58 @@ class RecipeDetailScreen extends StatelessWidget {
                     ),
                   ),
                   //kRecipeTexts(text: 'Method'),
+
                   Html(
                     data: _loadedRecipe.method,
+                    //Optional parameters:
+                    style: {
+                      "html": Style(
+                        fontSize: FontSize(18.0),
+                        //backgroundColor: Colors.black12,
+//                        color: Colors.white,
+                      ),
+                      "h1": Style(
+                        textAlign: TextAlign.center,
+                      ),
+                      "li": Style(
+                        fontSize: FontSize(18.0),
+                      ),
+                      "table": Style(
+                        backgroundColor: Color.fromARGB(0x50, 0xee, 0xee, 0xee),
+                      ),
+                      "tr": Style(
+                        border: Border(bottom: BorderSide(color: Colors.grey)),
+                      ),
+                      "th": Style(
+                        padding: EdgeInsets.all(6),
+                        backgroundColor: Colors.grey,
+                      ),
+                      "td": Style(
+                        padding: EdgeInsets.all(6),
+                      ),
+                      "var": Style(fontFamily: 'serif'),
+                    },
+                    customRender: {
+                      "flutter":
+                          (RenderContext context, Widget child, attributes, _) {
+                        return FlutterLogo(
+                          style: (attributes['horizontal'] != null)
+                              ? FlutterLogoStyle.horizontal
+                              : FlutterLogoStyle.markOnly,
+                          textColor: context.style.color,
+                          size: context.style.fontSize.size * 5,
+                        );
+                      },
+                    },
+                    onLinkTap: (url) {
+                      print("Opening $url...");
+                    },
+                    onImageTap: (src) {
+                      print(src);
+                    },
+                    onImageError: (exception, stackTrace) {
+                      print(exception);
+                    },
                   ),
                 ],
               ),

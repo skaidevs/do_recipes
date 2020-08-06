@@ -30,6 +30,11 @@ class AllRecipeNotifier with ChangeNotifier {
     });
   }
 
+  void _loadByCati() {
+    var loadByCategory = _allRecipeData.contains('Breakfast');
+    if (loadByCategory) {}
+  }
+
   Future<void> _initializeAllRecipe() async {
     _allRecipeData = await _updateAllRecipe();
     print('Whats here ${_allRecipeData[0].title}');
@@ -43,6 +48,7 @@ class AllRecipeNotifier with ChangeNotifier {
     return futureRecipe;
   }
 
+//https://recipes.trapcode.io/app/recipes?category=Breakfast
   Future<List<Data>> _getAllRecipe() async {
     String _id = '_id';
     if (!_cachedAllRecipe.containsKey(_id)) {
@@ -54,9 +60,12 @@ class AllRecipeNotifier with ChangeNotifier {
         if (extractedData == null) {
           return null;
         }
-        print('Recipe Data ${extractedData.toString()}');
+        // print('Recipe Data ${extractedData.toString()}');
         Recipe _recipe = Recipe.fromJson(extractedData);
-        print(' Recipe Data1 ${_recipe.data[0].title}');
+//        var ing =
+//            _recipe.data.map((e) => e.ingredients[0]).toList()[0].toString();
+
+        //print('Recipe Data1 ${ing}');
 
         _cachedAllRecipe[_id] = _recipe.data;
       } else {

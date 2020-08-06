@@ -64,18 +64,23 @@ class Data with ChangeNotifier {
   final String difficulty;
   final String imageUrl;
   final String method;
+  final String preparation;
+  final List ingredients;
 
-  Data(
-      {this.id,
-      this.publishedAt,
-      this.title,
-      this.image,
-      this.category,
-      this.calories,
-      this.duration,
-      this.difficulty,
-      this.imageUrl,
-      this.method});
+  Data({
+    this.id,
+    this.publishedAt,
+    this.title,
+    this.image,
+    this.category,
+    this.calories,
+    this.duration,
+    this.difficulty,
+    this.imageUrl,
+    this.method,
+    this.preparation,
+    this.ingredients,
+  });
 
   factory Data.fromJson(Map<dynamic, dynamic> parsedJson) {
     return Data(
@@ -88,6 +93,8 @@ class Data with ChangeNotifier {
         duration: parsedJson['duration'] as String,
         difficulty: parsedJson['difficulty'] as String,
         imageUrl: parsedJson['imageUrl'] as String,
-        method: parsedJson['method'] as String);
+        method: parsedJson['method'] as String,
+        preparation: parsedJson['preparation'] as String,
+        ingredients: parsedJson['ingredients'] as List);
   }
 }

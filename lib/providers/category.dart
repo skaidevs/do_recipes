@@ -52,8 +52,8 @@ class CategoryNotifier with ChangeNotifier {
         }
         print('Data ${extractedData.toString()}');
         CategoryList _category = CategoryList.fromJson(extractedData);
-        print('Data1 ${_category.category[0].name}');
 
+        var _recipeByCategory = print('Data1 ${_category.category[0].name}');
         _cachedCategories[recipes] = _category.category;
       } else {
         print('ERROR ${_categoryResponse.body.toString()}');

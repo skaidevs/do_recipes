@@ -1,5 +1,6 @@
 import 'package:daisyinthekitchen/providers/category.dart';
 import 'package:daisyinthekitchen/widgets/category_list.dart';
+import 'package:daisyinthekitchen/widgets/empty_recipe.dart';
 import 'package:daisyinthekitchen/widgets/loading_info.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -15,10 +16,15 @@ class Categories extends StatelessWidget {
               child: LoadingInfo(),
             );
           }
-
-          return CategoryList(
-            notifier: notifier,
-          );
+          if (notifier.categoryListData.isEmpty) {
+            return Empty(
+              text: 'No Category to Show',
+            );
+          } else {
+            return CategoryList(
+              notifier: notifier,
+            );
+          }
         },
       ),
     );

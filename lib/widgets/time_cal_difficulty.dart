@@ -29,7 +29,7 @@ class TimeCalDifficulty extends StatelessWidget {
               '${_loadedRecipe.duration}',
               style: TextStyle(
                 color: kColorGrey,
-                fontSize: 12.0,
+                fontSize: 14.0,
               ),
             ),
           ],
@@ -49,7 +49,7 @@ class TimeCalDifficulty extends StatelessWidget {
               '${_loadedRecipe.calories} Cals',
               style: TextStyle(
                 color: kColorGrey,
-                fontSize: 12.0,
+                fontSize: 14.0,
               ),
             ),
             SizedBox(
@@ -67,7 +67,7 @@ class TimeCalDifficulty extends StatelessWidget {
               '${_loadedRecipe.difficulty} Difficulty',
               style: TextStyle(
                 color: kColorGrey,
-                fontSize: 12.0,
+                fontSize: 14.0,
               ),
             ),
           ],

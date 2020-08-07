@@ -1,6 +1,6 @@
 import 'package:daisyinthekitchen/providers/all_recipe.dart';
 import 'package:daisyinthekitchen/providers/recipe_by_category.dart';
-import 'package:daisyinthekitchen/widgets/empty_recipe.dart';
+import 'package:daisyinthekitchen/widgets/empty_and_error_recipe.dart';
 import 'package:daisyinthekitchen/widgets/loading_info.dart';
 import 'package:daisyinthekitchen/widgets/recipe_grid.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +15,13 @@ class AllRecipe extends StatelessWidget {
           if (notifier.isLoading) {
             return Center(
               child: LoadingInfo(),
+            );
+          }
+          if (notifier.error.isNotEmpty) {
+            return Center(
+              child: Error(
+                text: 'An Error Occurred!!',
+              ),
             );
           }
 

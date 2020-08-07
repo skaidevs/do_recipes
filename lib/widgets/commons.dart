@@ -4,16 +4,16 @@ const Color kColorDKGreen = Color(0xFF029D75);
 const Color kColorGrey = Colors.grey;
 const Color kColorWhite = Colors.white;
 
-Padding kRecipeTexts({String text, double bottom}) {
-  return Padding(
-    padding: const EdgeInsets.only(bottom: 10.0),
-    child: Text(
-      text,
-      style: TextStyle(
-        fontSize: 20.0,
-        fontWeight: FontWeight.bold,
-        fontStyle: FontStyle.italic,
-      ),
+Text kRecipeTexts({
+  String text,
+}) {
+  return Text(
+    text,
+    style: TextStyle(
+      color: kColorDKGreen,
+      fontSize: 20.0,
+      fontWeight: FontWeight.bold,
+      //fontStyle: FontStyle.italic,
     ),
   );
 }

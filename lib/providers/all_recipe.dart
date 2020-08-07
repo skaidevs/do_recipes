@@ -11,7 +11,21 @@ const baseUrl = 'https://recipes.trapcode.io/app/';
 class AllRecipeNotifier with ChangeNotifier {
   Map<String, List<Data>> _cachedAllRecipe;
 
+  int _activeServe = 0;
+  int get activeServe => _activeServe;
+
+  set activeServe(int value) {
+    if (value != activeServe) {
+      _activeServe = value;
+      print('Active $value');
+      notifyListeners();
+    }
+  }
+
   List<Data> _allRecipeData = [];
+  String error = '';
+  var _eachServes;
+  dynamic get eachServes => _eachServes;
 
   UnmodifiableListView<Data> get allRecipeData =>
       UnmodifiableListView(_allRecipeData);
@@ -30,27 +44,25 @@ class AllRecipeNotifier with ChangeNotifier {
     });
   }
 
-  void _loadByCati() {
-    var loadByCategory = _allRecipeData.contains('Breakfast');
-    if (loadByCategory) {}
-  }
-
   Future<void> _initializeAllRecipe() async {
     _allRecipeData = await _updateAllRecipe();
-    print('Whats here ${_allRecipeData[0].title}');
   }
 
   Future<List<Data>> _updateAllRecipe() async {
     _isLoading = true;
     notifyListeners();
-    final futureRecipe = await _getAllRecipe();
-    print('Length ${futureRecipe.length}');
+    final futureRecipe = await _getAllRecipe().catchError((onError) {
+      print("SOMETHING IS WRONG IN ALL RECIPE. $onError");
+      _isLoading = false;
+      notifyListeners();
+      return;
+    });
     return futureRecipe;
   }
 
-//https://recipes.trapcode.io/app/recipes?category=Breakfast
   Future<List<Data>> _getAllRecipe() async {
     String _id = '_id';
+
     if (!_cachedAllRecipe.containsKey(_id)) {
       final _allRecipeResponse = await http.get(
         Uri.encodeFull('$baseUrl${'recipes'}'),
@@ -60,20 +72,42 @@ class AllRecipeNotifier with ChangeNotifier {
         if (extractedData == null) {
           return null;
         }
-        // print('Recipe Data ${extractedData.toString()}');
+        var _serve;
         Recipe _recipe = Recipe.fromJson(extractedData);
-//        var ing =
-//            _recipe.data.map((e) => e.ingredients[0]).toList()[0].toString();
 
-        //print('Recipe Data1 ${ing}');
+        _recipe.data.forEach((ingredient) {
+          for (int index = 0; index < ingredient.ingredients.length; index++) {
+            _serve = ingredient.ingredients;
+            // print('_ingredient ${_serve[_activeServe]}');
+          }
+        });
 
+        //print('_ingredient $_serve');
+        // _activeServe = 0;
+        _eachServes = _serve[_activeServe];
+        //print('EachServes $_eachServes');
+        notifyListeners();
         _cachedAllRecipe[_id] = _recipe.data;
       } else {
-        print('ERROR ${_allRecipeResponse.body.toString()}');
-        throw RecipeError(
-            'Recipe could not be fetched. {{}} ${_allRecipeResponse.body}');
+        error = _allRecipeResponse.body.toString();
+        print('ERROR in All Recipe $error');
+        throw RecipeError('Recipe could not be fetched. {{}} $error}');
       }
     }
     return _cachedAllRecipe[_id];
+  }
+
+  void slideToNext() {
+    print('Called Button');
+
+    var nextPage = this._activeServe + 1;
+
+    _allRecipeData.forEach((element) {
+      if (nextPage < element.ingredients.length) {
+        this._activeServe += 1;
+        print('Called Next ${_activeServe} AND ${element.ingredients}');
+        notifyListeners();
+      }
+    });
   }
 }

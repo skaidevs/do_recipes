@@ -10,6 +10,7 @@ const baseUrl = 'https://recipes.trapcode.io/app/';
 
 class CategoryNotifier with ChangeNotifier {
   Map<String, List<cati.Category>> _cachedCategories;
+  String error = '';
 
   List<cati.Category> _categoryList = [];
 
@@ -28,14 +29,17 @@ class CategoryNotifier with ChangeNotifier {
 
   Future<void> _initializeCategories() async {
     _categoryList = await _updateCategories();
-    print('Whats here ${_categoryList[1].name}');
   }
 
   Future<List<cati.Category>> _updateCategories() async {
     _isLoading = true;
     notifyListeners();
-    final futureCategories = await _getCategories();
-    print('Length ${futureCategories.length}');
+    final futureCategories = await _getCategories().catchError((onError) {
+      print("SOMETHING IS WRONG In Category. $onError");
+      _isLoading = false;
+      notifyListeners();
+      return;
+    });
     return futureCategories;
   }
 
@@ -50,15 +54,14 @@ class CategoryNotifier with ChangeNotifier {
         if (extractedData == null) {
           return null;
         }
-        print('Data ${extractedData.toString()}');
         CategoryList _category = CategoryList.fromJson(extractedData);
 
-        var _recipeByCategory = print('Data1 ${_category.category[0].name}');
         _cachedCategories[recipes] = _category.category;
       } else {
-        print('ERROR ${_categoryResponse.body.toString()}');
-        throw RecipeError(
-            'Categories could not be fetched. {{}} ${_categoryResponse.body}');
+        error = _categoryResponse.body.toString();
+
+        print('ERROR In Category $error');
+        throw RecipeError('Categories could not be fetched. {{}}}');
       }
     }
     return _cachedCategories[recipes];

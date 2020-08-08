@@ -13,7 +13,6 @@ class AllRecipeNotifier with ChangeNotifier {
 
   int _activeServe = 0;
   int get activeServe => _activeServe;
-
   List _serve;
 
   List<Data> _allRecipeData = [];

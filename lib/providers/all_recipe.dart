@@ -98,7 +98,6 @@ class AllRecipeNotifier with ChangeNotifier {
   }
 
   void slideToNext() {
-    //print('Called Button');
     if (_activeServe < _serve.length - 1) {
       _activeServe++;
       _eachServes = _serve[_activeServe];

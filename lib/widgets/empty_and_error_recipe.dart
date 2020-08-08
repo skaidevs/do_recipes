@@ -1,3 +1,4 @@
+import 'package:daisyinthekitchen/widgets/commons.dart';
 import 'package:flutter/material.dart';
 
 class Empty extends StatelessWidget {
@@ -13,9 +14,10 @@ class Empty extends StatelessWidget {
           Text(
             text,
             style: TextStyle(
-                fontSize: 24.0,
+                fontSize: 30.0,
                 fontStyle: FontStyle.italic,
                 fontWeight: FontWeight.bold,
+                fontFamily: kRobotoCondensed,
                 color: Colors.grey),
           ),
           Padding(
@@ -43,8 +45,9 @@ class Error extends StatelessWidget {
         child: Text(
           text,
           style: TextStyle(
-            fontSize: 20.0,
+            fontSize: 30.0,
             color: Colors.grey,
+            fontFamily: kRobotoCondensed,
             fontStyle: FontStyle.italic,
             fontWeight: FontWeight.bold,
           ),

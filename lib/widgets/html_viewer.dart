@@ -1,3 +1,4 @@
+import 'package:daisyinthekitchen/widgets/commons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_html/style.dart';
@@ -15,12 +16,11 @@ class HtmlViewer extends StatelessWidget {
 
         //Optional parameters:
         style: {
-          "html": Style(
-            fontSize: FontSize(18.0),
+          "html": Style(fontSize: FontSize(18.0), fontFamily: kRobotoCondensed
 
-            //backgroundColor: Colors.black12,
+              //backgroundColor: Colors.black12,
 //                        color: Colors.white,
-          ),
+              ),
           "h1": Style(
             textAlign: TextAlign.center,
           ),

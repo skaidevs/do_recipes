@@ -1,5 +1,8 @@
+import 'package:daisyinthekitchen/providers/all_recipe.dart';
 import 'package:daisyinthekitchen/screens/recipe_detail.dart';
+import 'package:daisyinthekitchen/widgets/commons.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class RecipeGridItem extends StatelessWidget {
   final String id;
@@ -18,10 +21,12 @@ class RecipeGridItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.of(context).pushNamed(
-          RecipeDetailScreen.routeName,
-          arguments: id,
-        );
+        Provider.of<AllRecipeNotifier>(
+          context,
+          listen: false,
+        ).activeServe = 0;
+        Navigator.of(context)
+            .pushNamed(RecipeDetailScreen.routeName, arguments: id);
       },
       child: ClipRRect(
         borderRadius: BorderRadius.circular(
@@ -36,9 +41,10 @@ class RecipeGridItem extends StatelessWidget {
             subtitle: Text(
               title,
               style: TextStyle(
-                  fontSize: 14.0,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold),
+                fontSize: 18.0,
+                fontFamily: kRobotoCondensed,
+                color: Colors.white,
+              ),
             ),
             backgroundColor: Colors.black54,
             title: Padding(
@@ -55,6 +61,10 @@ class RecipeGridItem extends StatelessWidget {
                     child: Text(
                       duration,
                       textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontFamily: kRobotoCondensed,
+                        fontSize: 12,
+                      ),
                     ),
                   )
                 ],

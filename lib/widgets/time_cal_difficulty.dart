@@ -10,6 +10,8 @@ class TimeCalDifficulty extends StatelessWidget {
         super(key: key);
 
   final Data _loadedRecipe;
+  String capitalize(String s) => s[0].toUpperCase() + s.substring(1);
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -28,6 +30,7 @@ class TimeCalDifficulty extends StatelessWidget {
             Text(
               '${_loadedRecipe.duration}',
               style: TextStyle(
+                fontFamily: kRobotoCondensed,
                 color: kColorGrey,
                 fontSize: 14.0,
               ),
@@ -48,6 +51,7 @@ class TimeCalDifficulty extends StatelessWidget {
             Text(
               '${_loadedRecipe.calories} Cals',
               style: TextStyle(
+                fontFamily: kRobotoCondensed,
                 color: kColorGrey,
                 fontSize: 14.0,
               ),
@@ -64,8 +68,9 @@ class TimeCalDifficulty extends StatelessWidget {
               ),
             ),
             Text(
-              '${_loadedRecipe.difficulty} Difficulty',
+              '${capitalize(_loadedRecipe.difficulty)} Difficulty',
               style: TextStyle(
+                fontFamily: kRobotoCondensed,
                 color: kColorGrey,
                 fontSize: 14.0,
               ),

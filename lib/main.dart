@@ -10,6 +10,7 @@ import 'package:daisyinthekitchen/screens/amin_edit_recipe.dart';
 import 'package:daisyinthekitchen/screens/recipe_book.dart';
 import 'package:daisyinthekitchen/screens/recipe_detail.dart';
 import 'package:daisyinthekitchen/screens/shopping_list.dart';
+import 'package:daisyinthekitchen/widgets/commons.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -43,6 +44,7 @@ class MyApp extends StatelessWidget {
         title: 'DINK',
         theme: ThemeData(
           primarySwatch: Colors.teal,
+          fontFamily: kRobotoCondensed,
         ),
         home: DaisyInTheKitchenHomePage(
           title: 'Daisy In The Kitchen',
@@ -119,7 +121,10 @@ class _DaisyInTheKitchenHomePageState extends State<DaisyInTheKitchenHomePage> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0.0,
-        title: Text(_pages[_bottomNavigation.currentIndex]['title']),
+        title: Text(
+          _pages[_bottomNavigation.currentIndex]['title'],
+          style: TextStyle(fontFamily: kRobotoCondensed),
+        ),
         actions: <Widget>[
           _bottomNavigation.currentIndex == 3
               ? IconButton(
@@ -138,12 +143,21 @@ class _DaisyInTheKitchenHomePageState extends State<DaisyInTheKitchenHomePage> {
       bottomNavigationBar: BottomNavigationBar(
         items: [
           _buildBottomNavBarItem(
-              iconData: Icons.restaurant, title: 'Browse Recipe'),
+            iconData: Icons.restaurant,
+            title: 'Browse Recipe',
+          ),
           _buildBottomNavBarItem(
-              iconData: Icons.shopping_cart, title: 'Shopping List'),
+            iconData: Icons.shopping_cart,
+            title: 'Shopping List',
+          ),
           _buildBottomNavBarItem(
-              iconData: Icons.collections_bookmark, title: 'Recipe Book'),
-          _buildBottomNavBarItem(iconData: Icons.add_box, title: 'Admin'),
+            iconData: Icons.collections_bookmark,
+            title: 'Recipe Book',
+          ),
+          _buildBottomNavBarItem(
+            iconData: Icons.add_box,
+            title: 'Admin',
+          ),
         ],
         currentIndex: _bottomNavigation.currentIndex,
         onTap: (index) {

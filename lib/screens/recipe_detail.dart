@@ -14,6 +14,19 @@ class RecipeDetailScreen extends StatefulWidget {
 }
 
 class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
+  void fitchActiveServe() {
+    Future.delayed(Duration(seconds: 0)).then((_) async {
+      Provider.of<AllRecipeNotifier>(context).activeServe = 0;
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    //fitchActiveServe();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final _recipeId = ModalRoute.of(context).settings.arguments as String;
@@ -64,6 +77,7 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
                 '${_loadedRecipe.title}',
                 style: TextStyle(
                   fontSize: 24.0,
+                  fontFamily: kRobotoCondensed,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -96,6 +110,7 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
                               Text(
                                 'Serves ${_recipeNotifier.activeServe + 1}',
                                 style: TextStyle(
+                                  fontFamily: kRobotoCondensed,
                                   fontSize: 18.0,
                                 ),
                               ),
@@ -105,7 +120,7 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
                                 ),
                                 child: ServesButton(
                                   onTap: () {
-                                    _recipeNotifier.slideToPrev();
+                                    _recipeNotifier.slideToPrev(_loadedRecipe);
                                     setState(() {});
                                   },
                                   iconData: Icons.remove,
@@ -117,8 +132,7 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
                                 ),
                                 child: ServesButton(
                                   onTap: () {
-                                    _recipeNotifier.slideToNext();
-
+                                    _recipeNotifier.slideToNext(_loadedRecipe);
                                     setState(() {});
                                   },
                                   iconData: Icons.add,
@@ -133,24 +147,26 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
 
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: _recipeNotifier.eachServes
-                        .map<Widget>(
-                          (eachServes) => Text(
-                            '$eachServes',
-                            style: TextStyle(
-                              fontSize: 18.0,
-                            ),
-                            textAlign: TextAlign.left,
-                          ),
-                        )
-                        .toList(),
+                    children:
+                        _loadedRecipe.ingredients[_recipeNotifier.activeServe]
+                            .map<Widget>(
+                              (eachServes) => Text(
+                                '$eachServes',
+                                style: TextStyle(
+                                  fontFamily: kRobotoCondensed,
+                                  fontSize: 18.0,
+                                ),
+                                textAlign: TextAlign.left,
+                              ),
+                            )
+                            .toList(),
                   ),
 
                   _loadedRecipe.preparation == null
                       ? Container()
                       : Padding(
                           padding: const EdgeInsets.only(
-                            top: 10,
+                            top: 16,
                             bottom: 10.0,
                           ),
                           child: kRecipeTexts(text: 'Preparation'),
@@ -164,14 +180,15 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
                           child: Text(
                             _loadedRecipe.preparation,
                             style: TextStyle(
-                              fontSize: 16.0,
+                              fontFamily: kRobotoCondensed,
+                              fontSize: 18.0,
                             ),
                           ),
                         ),
 
                   Padding(
                     padding: const EdgeInsets.only(
-                      top: 16,
+                      top: 6.0,
                     ),
                     child: kRecipeTexts(text: 'Method'),
                   ),

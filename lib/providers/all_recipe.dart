@@ -12,8 +12,18 @@ class AllRecipeNotifier with ChangeNotifier {
   Map<String, List<Data>> _cachedAllRecipe;
 
   int _activeServe = 0;
+
   int get activeServe => _activeServe;
-  List _serve;
+
+  set activeServe(int value) {
+    if (value != activeServe) {
+      _activeServe = value;
+      print('ACTIVE $_activeServe');
+      notifyListeners();
+    }
+  }
+
+  int currentRecipeIndex;
 
   List<Data> _allRecipeData = [];
   String error = '';
@@ -67,14 +77,13 @@ class AllRecipeNotifier with ChangeNotifier {
         }
 
         Recipe _recipe = Recipe.fromJson(extractedData);
-        _recipe.data.forEach((ingredient) {
+        /*_recipe.data.forEach((ingredient) {
           _serve = ingredient.ingredients;
+          print('RECIPE... ${_serve}');
         });
-
-        _eachServes = _serve[_activeServe];
-        //print('EachServes... $_eachServes');
-        notifyListeners();
+        _eachServes = _serve[_activeServe];*/
         _cachedAllRecipe[_id] = _recipe.data;
+        notifyListeners();
       } else {
         error = _allRecipeResponse.body.toString();
         print('ERROR in All Recipe $error');
@@ -84,23 +93,24 @@ class AllRecipeNotifier with ChangeNotifier {
     return _cachedAllRecipe[_id];
   }
 
-  void slideToPrev() {
-    if (_activeServe > -_serve.length) {
+  void slideToPrev(Data serve) {
+    if (_activeServe > -serve.ingredients.length) {
+      print('slideToPrev $_activeServe');
       if (_activeServe <= 0) {
         return;
       }
       _activeServe--;
-      _eachServes = _serve[_activeServe];
+      //_eachServes = _serve[_activeServe];
       notifyListeners();
     } else {
       return;
     }
   }
 
-  void slideToNext() {
-    if (_activeServe < _serve.length - 1) {
+  void slideToNext(Data serve) {
+    if (_activeServe < serve.ingredients.length - 1) {
       _activeServe++;
-      _eachServes = _serve[_activeServe];
+      //_eachServes = _serve[_activeServe];
       notifyListeners();
     } else {
       return;

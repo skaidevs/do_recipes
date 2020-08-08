@@ -73,9 +73,9 @@ flutter:
     # see https://flutter.dev/custom-fonts/#from-packages
 
   fonts:
-    - family: RobotoCondensed
+    - family: BalooTamma2
       fonts:
-        - asset: fonts/RobotoCondensed-Regular.ttf
+        - asset: fonts/BalooTamma2-Medium.ttf
 
 
   #      - asset: fonts/Coustard-Black.ttf

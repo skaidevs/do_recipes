@@ -1,5 +1,6 @@
 import 'package:daisyinthekitchen/providers/all_recipe.dart';
 import 'package:daisyinthekitchen/providers/recipe_by_category.dart';
+import 'package:daisyinthekitchen/widgets/commons.dart';
 import 'package:daisyinthekitchen/widgets/empty_and_error_recipe.dart';
 import 'package:daisyinthekitchen/widgets/loading_info.dart';
 import 'package:daisyinthekitchen/widgets/recipe_grid.dart';
@@ -48,7 +49,10 @@ class AllRecipeByCategory extends StatelessWidget {
     final _categoryName = ModalRoute.of(context).settings.arguments as String;
     return Scaffold(
       appBar: AppBar(
-        title: Text(_categoryName),
+        title: Text(
+          _categoryName,
+          style: TextStyle(fontFamily: BalooTamma2),
+        ),
       ),
       body: Container(
         child: Consumer<RecipeByCategoryNotifier>(

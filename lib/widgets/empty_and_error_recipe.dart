@@ -17,7 +17,7 @@ class Empty extends StatelessWidget {
                 fontSize: 30.0,
                 fontStyle: FontStyle.italic,
                 fontWeight: FontWeight.bold,
-                fontFamily: kRobotoCondensed,
+                fontFamily: BalooTamma2,
                 color: Colors.grey),
           ),
           Padding(
@@ -47,7 +47,7 @@ class Error extends StatelessWidget {
           style: TextStyle(
             fontSize: 30.0,
             color: Colors.grey,
-            fontFamily: kRobotoCondensed,
+            fontFamily: BalooTamma2,
             fontStyle: FontStyle.italic,
             fontWeight: FontWeight.bold,
           ),

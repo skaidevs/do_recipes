@@ -1,3 +1,4 @@
+import 'package:daisyinthekitchen/models/recipe.dart';
 import 'package:daisyinthekitchen/providers/all_recipe.dart';
 import 'package:daisyinthekitchen/providers/recipe_by_category.dart';
 import 'package:daisyinthekitchen/widgets/recipe_grid_item.dart';
@@ -16,6 +17,34 @@ class RecipeGrid extends StatelessWidget {
         title: notifier.allRecipeData[index].title,
         duration: notifier.allRecipeData[index].duration,
         imageUrl: notifier.allRecipeData[index].imageUrl,
+      ),
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        childAspectRatio: 3 / 3.4,
+        crossAxisSpacing: 6,
+        mainAxisSpacing: 6,
+      ),
+      padding: const EdgeInsets.all(4.0),
+      scrollDirection: Axis.vertical,
+      shrinkWrap: true,
+      physics: ClampingScrollPhysics(),
+    );
+  }
+}
+
+class SearchRecipeGrid extends StatelessWidget {
+  final List<Data> recipeData;
+  const SearchRecipeGrid({Key key, this.recipeData}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return GridView.builder(
+      itemCount: recipeData.length,
+      itemBuilder: (context, index) => RecipeGridItem(
+        id: recipeData[index].id,
+        title: recipeData[index].title,
+        duration: recipeData[index].duration,
+        imageUrl: recipeData[index].imageUrl,
       ),
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,

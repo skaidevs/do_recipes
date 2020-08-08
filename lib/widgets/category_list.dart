@@ -24,10 +24,10 @@ class CategoryList extends StatelessWidget {
             Text(
               title,
               style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 20.0,
-                color: kColorDKGreen,
-              ),
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20.0,
+                  color: kColorDKGreen,
+                  fontFamily: BalooTamma2),
               //textAlign: TextAlign.start,
             ),
             Container(
@@ -40,6 +40,7 @@ class CategoryList extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 14,
                       color: kColorWhite,
+                      fontFamily: BalooTamma2,
                       //fontWeight: FontWeight.w100,
                     ),
                   ),

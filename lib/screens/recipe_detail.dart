@@ -77,7 +77,7 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
                 '${_loadedRecipe.title}',
                 style: TextStyle(
                   fontSize: 24.0,
-                  fontFamily: kRobotoCondensed,
+                  fontFamily: BalooTamma2,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -110,7 +110,7 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
                               Text(
                                 'Serves ${_recipeNotifier.activeServe + 1}',
                                 style: TextStyle(
-                                  fontFamily: kRobotoCondensed,
+                                  fontFamily: BalooTamma2,
                                   fontSize: 18.0,
                                 ),
                               ),
@@ -153,7 +153,7 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
                               (eachServes) => Text(
                                 '$eachServes',
                                 style: TextStyle(
-                                  fontFamily: kRobotoCondensed,
+                                  fontFamily: BalooTamma2,
                                   fontSize: 18.0,
                                 ),
                                 textAlign: TextAlign.left,
@@ -167,7 +167,7 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
                       : Padding(
                           padding: const EdgeInsets.only(
                             top: 16,
-                            bottom: 10.0,
+                            bottom: 0.0,
                           ),
                           child: kRecipeTexts(text: 'Preparation'),
                         ),
@@ -180,7 +180,7 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
                           child: Text(
                             _loadedRecipe.preparation,
                             style: TextStyle(
-                              fontFamily: kRobotoCondensed,
+                              fontFamily: BalooTamma2,
                               fontSize: 18.0,
                             ),
                           ),

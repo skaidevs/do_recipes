@@ -11,6 +11,7 @@ import 'package:daisyinthekitchen/screens/recipe_book.dart';
 import 'package:daisyinthekitchen/screens/recipe_detail.dart';
 import 'package:daisyinthekitchen/screens/shopping_list.dart';
 import 'package:daisyinthekitchen/widgets/commons.dart';
+import 'package:daisyinthekitchen/widgets/search.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -44,7 +45,6 @@ class MyApp extends StatelessWidget {
         title: 'DINK',
         theme: ThemeData(
           primarySwatch: Colors.teal,
-          fontFamily: kRobotoCondensed,
         ),
         home: DaisyInTheKitchenHomePage(
           title: 'Daisy In The Kitchen',
@@ -79,7 +79,12 @@ class _DaisyInTheKitchenHomePageState extends State<DaisyInTheKitchenHomePage> {
     return BottomNavigationBarItem(
       backgroundColor: Theme.of(context).accentColor,
       icon: Icon(iconData),
-      title: Text(title),
+      title: Text(
+        title,
+        style: TextStyle(
+          fontFamily: BalooTamma2,
+        ),
+      ),
     );
   }
 
@@ -118,25 +123,29 @@ class _DaisyInTheKitchenHomePageState extends State<DaisyInTheKitchenHomePage> {
     _bottomNavigation = Provider.of<BottomNavigation>(
       context,
     );
+
+    final _allRecipeNotifier = Provider.of<AllRecipeNotifier>(
+      context,
+      listen: false,
+    );
+
     return Scaffold(
       appBar: AppBar(
         elevation: 0.0,
         title: Text(
           _pages[_bottomNavigation.currentIndex]['title'],
-          style: TextStyle(fontFamily: kRobotoCondensed),
+          style: TextStyle(fontFamily: BalooTamma2),
         ),
         actions: <Widget>[
-          _bottomNavigation.currentIndex == 3
-              ? IconButton(
-                  icon: Icon(Icons.add),
-                  onPressed: () {
-                    Navigator.of(context).pushNamed(EditRecipe.routeName);
-                  })
-              : IconButton(
-                  icon: Icon(Icons.search),
-                  onPressed: () {
-                    print('Taped');
-                  })
+          IconButton(
+              icon: Icon(Icons.search),
+              onPressed: () {
+                print('Taped');
+                showSearch(
+                  context: context,
+                  delegate: RecipeSearch(),
+                );
+              })
         ],
       ),
       body: _pages[_bottomNavigation.currentIndex]['page'],

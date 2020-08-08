@@ -14,13 +14,7 @@ class AllRecipeNotifier with ChangeNotifier {
   int _activeServe = 0;
   int get activeServe => _activeServe;
 
-  set activeServe(int value) {
-    if (value != activeServe) {
-      _activeServe = value;
-      print('Active $value');
-      notifyListeners();
-    }
-  }
+  List _serve;
 
   List<Data> _allRecipeData = [];
   String error = '';
@@ -72,20 +66,14 @@ class AllRecipeNotifier with ChangeNotifier {
         if (extractedData == null) {
           return null;
         }
-        var _serve;
-        Recipe _recipe = Recipe.fromJson(extractedData);
 
+        Recipe _recipe = Recipe.fromJson(extractedData);
         _recipe.data.forEach((ingredient) {
-          for (int index = 0; index < ingredient.ingredients.length; index++) {
-            _serve = ingredient.ingredients;
-            // print('_ingredient ${_serve[_activeServe]}');
-          }
+          _serve = ingredient.ingredients;
         });
 
-        //print('_ingredient $_serve');
-        // _activeServe = 0;
         _eachServes = _serve[_activeServe];
-        //print('EachServes $_eachServes');
+        //print('EachServes... $_eachServes');
         notifyListeners();
         _cachedAllRecipe[_id] = _recipe.data;
       } else {
@@ -97,17 +85,27 @@ class AllRecipeNotifier with ChangeNotifier {
     return _cachedAllRecipe[_id];
   }
 
-  void slideToNext() {
-    print('Called Button');
-
-    var nextPage = this._activeServe + 1;
-
-    _allRecipeData.forEach((element) {
-      if (nextPage < element.ingredients.length) {
-        this._activeServe += 1;
-        print('Called Next ${_activeServe} AND ${element.ingredients}');
-        notifyListeners();
+  void slideToPrev() {
+    if (_activeServe > -_serve.length) {
+      if (_activeServe <= 0) {
+        return;
       }
-    });
+      _activeServe--;
+      _eachServes = _serve[_activeServe];
+      notifyListeners();
+    } else {
+      return;
+    }
+  }
+
+  void slideToNext() {
+    //print('Called Button');
+    if (_activeServe < _serve.length - 1) {
+      _activeServe++;
+      _eachServes = _serve[_activeServe];
+      notifyListeners();
+    } else {
+      return;
+    }
   }
 }

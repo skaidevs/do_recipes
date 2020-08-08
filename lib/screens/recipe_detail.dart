@@ -1,4 +1,3 @@
-import 'package:daisyinthekitchen/models/recipe.dart';
 import 'package:daisyinthekitchen/providers/all_recipe.dart';
 import 'package:daisyinthekitchen/widgets/commons.dart';
 import 'package:daisyinthekitchen/widgets/html_viewer.dart';
@@ -15,22 +14,6 @@ class RecipeDetailScreen extends StatefulWidget {
 }
 
 class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
-  int _activeServe = 0;
-//  void slideToPrev() {
-//    var prevPage = this._activeServe - 1;
-//    if (this.data.ingredients[prevPage]) {
-//      this._activeServe--;
-//    }
-//  }
-
-  void slideToNext({Data data, int active}) {
-    var nextPage = active + 1;
-    if (data.ingredients[nextPage]) {
-      active++;
-      print('Called ${active}');
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final _recipeId = ModalRoute.of(context).settings.arguments as String;
@@ -80,7 +63,7 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
               child: Text(
                 '${_loadedRecipe.title}',
                 style: TextStyle(
-                  fontSize: 20.0,
+                  fontSize: 24.0,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -111,9 +94,9 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
                           Row(
                             children: <Widget>[
                               Text(
-                                'Serves  10',
+                                'Serves ${_recipeNotifier.activeServe + 1}',
                                 style: TextStyle(
-                                  fontSize: 16.0,
+                                  fontSize: 18.0,
                                 ),
                               ),
                               Padding(
@@ -121,7 +104,10 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
                                   left: 18.0,
                                 ),
                                 child: ServesButton(
-                                  onTap: () => print("reduce"),
+                                  onTap: () {
+                                    _recipeNotifier.slideToPrev();
+                                    setState(() {});
+                                  },
                                   iconData: Icons.remove,
                                 ),
                               ),
@@ -132,21 +118,8 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
                                 child: ServesButton(
                                   onTap: () {
                                     _recipeNotifier.slideToNext();
-                                    /*print('Called Button}');
-                                    var nextPage =
-                                        _recipeNotifier.activeServe + 1;
-                                    if (nextPage <
-                                        _loadedRecipe.ingredients.length) {
-                                      */ /*_recipeNotifier.activeServe += 1;
-                                      print(
-                                          'Called ${_recipeNotifier.activeServe}');*/ /*
-                                      setState(() {
-                                        _recipeNotifier.activeServe += 1;
 
-                                        print(
-                                            'Called ${_recipeNotifier.activeServe}');
-                                      });
-                                    }*/
+                                    setState(() {});
                                   },
                                   iconData: Icons.add,
                                 ),
@@ -158,63 +131,20 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
                     ),
                   ),
 
-                  //TODO: recontruct
-
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: _recipeNotifier.eachServes
                         .map<Widget>(
-                          (eachServes) => Text('$eachServes',
-                              style: TextStyle(fontSize: 16.0),
-                              textAlign: TextAlign.left),
+                          (eachServes) => Text(
+                            '$eachServes',
+                            style: TextStyle(
+                              fontSize: 18.0,
+                            ),
+                            textAlign: TextAlign.left,
+                          ),
                         )
                         .toList(),
                   ),
-
-//                  Text('${_recipeNotifier.eachServes}',
-//                      style: TextStyle(fontSize: 16.0),
-//                      textAlign: TextAlign.left),
-
-                  /* ListView.builder(
-                      //scrollDirection: Axis.vertical,
-                      shrinkWrap: true,
-                      itemCount: _loadedRecipe.ingredients.length,
-                      itemBuilder: (context, index) {
-                        var ing;
-                        activeServe = index;
-
-                        _loadedRecipe.ingredients.forEach((element) {
-                          element.forEach((e) {
-                            ing = e;
-
-                            print('here!!!${ing}');
-                          });
-                        });
-
-                        return Text('$ing',
-                            style: TextStyle(fontSize: 16.0),
-                            textAlign: TextAlign.left);
-                      }),*/
-
-                  /* ListView.builder(
-                    //scrollDirection: Axis.vertical,
-                    shrinkWrap: true,
-                    itemCount: _recipeNotifier.eachServes.length,
-                    itemBuilder: (context, index) => Column(
-                      children: _loadedRecipe.ingredients
-                          .map<Widget>(
-                            (ingredient) => SizedBox(
-                              width: double.infinity,
-                              child: Text('${ingredient[index]}',
-                                  style: TextStyle(fontSize: 16.0),
-                                  textAlign: TextAlign.left),
-                            ),
-                          )
-                          .toList(),
-                    ),
-
-
-                  ),*/
 
                   _loadedRecipe.preparation == null
                       ? Container()

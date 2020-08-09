@@ -167,7 +167,7 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
                       : Padding(
                           padding: const EdgeInsets.only(
                             top: 16,
-                            bottom: 0.0,
+                            bottom: 6.0,
                           ),
                           child: kRecipeTexts(text: 'Preparation'),
                         ),

@@ -16,7 +16,7 @@ class HtmlViewer extends StatelessWidget {
 
         //Optional parameters:
         style: {
-          "html": Style(fontSize: FontSize(28.0), fontFamily: BalooTamma2
+          "html": Style(fontSize: FontSize(28.0), fontFamily: kBalooTamma2
 
               //backgroundColor: Colors.black12,
 //                        color: Colors.white,

@@ -30,7 +30,7 @@ class TimeCalDifficulty extends StatelessWidget {
             Text(
               '${_loadedRecipe.duration}',
               style: TextStyle(
-                fontFamily: BalooTamma2,
+                fontFamily: kBalooTamma2,
                 color: kColorGrey,
                 fontSize: 14.0,
               ),
@@ -51,7 +51,7 @@ class TimeCalDifficulty extends StatelessWidget {
             Text(
               '${_loadedRecipe.calories} Cals',
               style: TextStyle(
-                fontFamily: BalooTamma2,
+                fontFamily: kBalooTamma2,
                 color: kColorGrey,
                 fontSize: 14.0,
               ),
@@ -62,7 +62,7 @@ class TimeCalDifficulty extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(right: 6),
               child: Icon(
-                Icons.ac_unit,
+                Icons.grain,
                 size: 18,
                 color: kColorGrey,
               ),
@@ -70,7 +70,7 @@ class TimeCalDifficulty extends StatelessWidget {
             Text(
               '${capitalize(_loadedRecipe.difficulty)} Difficulty',
               style: TextStyle(
-                fontFamily: BalooTamma2,
+                fontFamily: kBalooTamma2,
                 color: kColorGrey,
                 fontSize: 14.0,
               ),

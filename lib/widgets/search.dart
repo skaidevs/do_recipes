@@ -1,6 +1,7 @@
 import 'package:daisyinthekitchen/models/recipe.dart';
 import 'package:daisyinthekitchen/providers/all_recipe.dart';
 import 'package:daisyinthekitchen/widgets/commons.dart';
+import 'package:daisyinthekitchen/widgets/empty_and_error_recipe.dart';
 import 'package:daisyinthekitchen/widgets/recipe_grid.dart';
 import 'package:daisyinthekitchen/widgets/recipe_grid_item.dart';
 import 'package:flutter/material.dart';
@@ -73,7 +74,7 @@ class RecipeSearch extends SearchDelegate<Data> {
         headline6: TextStyle(
           color: kColorWhite,
           fontSize: 20.0,
-          fontFamily: BalooTamma2,
+          fontFamily: kBalooTamma2,
         ),
       ),
       primaryIconTheme: theme.primaryIconTheme.copyWith(
@@ -87,11 +88,8 @@ class RecipeSearch extends SearchDelegate<Data> {
     return Consumer<AllRecipeNotifier>(
       builder: (context, notifier, _) {
         if (notifier.allRecipeData.isEmpty) {
-          return Center(
-            child: Text(
-              'NO RECIPE IN SEARCH',
-              style: TextStyle(color: kColorDKGreen),
-            ),
+          return Empty(
+            text: 'NO RECIPE TO SHOW \n IN SEARCH',
           );
         }
 
@@ -100,25 +98,29 @@ class RecipeSearch extends SearchDelegate<Data> {
         );
         return Container(
           color: kColorWhite,
-          child: GridView.builder(
-            itemCount: result.length,
-            itemBuilder: (context, index) => RecipeGridItem(
-              id: result.toList()[index].id,
-              title: result.toList()[index].title,
-              duration: result.toList()[index].duration,
-              imageUrl: result.toList()[index].imageUrl,
-            ),
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              childAspectRatio: 3 / 3.4,
-              crossAxisSpacing: 6,
-              mainAxisSpacing: 6,
-            ),
-            padding: const EdgeInsets.all(4.0),
-            scrollDirection: Axis.vertical,
-            shrinkWrap: true,
-            physics: ClampingScrollPhysics(),
-          ),
+          child: result.toList().isEmpty
+              ? Empty(
+                  text: 'NO RECIPE TO SHOW \n IN SEARCH',
+                )
+              : GridView.builder(
+                  itemCount: result.length,
+                  itemBuilder: (context, index) => RecipeGridItem(
+                    id: result.toList()[index].id,
+                    title: result.toList()[index].title,
+                    duration: result.toList()[index].duration,
+                    imageUrl: result.toList()[index].imageUrl,
+                  ),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    childAspectRatio: 3 / 3.4,
+                    crossAxisSpacing: 6,
+                    mainAxisSpacing: 6,
+                  ),
+                  padding: const EdgeInsets.all(4.0),
+                  scrollDirection: Axis.vertical,
+                  shrinkWrap: true,
+                  physics: ClampingScrollPhysics(),
+                ),
         );
       },
     );

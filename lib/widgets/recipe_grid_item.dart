@@ -42,7 +42,7 @@ class RecipeGridItem extends StatelessWidget {
               title,
               style: TextStyle(
                 fontSize: 18.0,
-                fontFamily: BalooTamma2,
+                fontFamily: kBalooTamma2,
                 color: Colors.white,
               ),
             ),
@@ -62,7 +62,7 @@ class RecipeGridItem extends StatelessWidget {
                       duration,
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        fontFamily: BalooTamma2,
+                        fontFamily: kBalooTamma2,
                         fontSize: 12,
                       ),
                     ),

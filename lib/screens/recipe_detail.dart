@@ -70,20 +70,27 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
               ),
             ),
             SizedBox(
-              height: 16.0,
+              height: 12.0,
             ),
             Center(
-              child: Text(
-                '${_loadedRecipe.title}',
-                style: TextStyle(
-                  fontSize: 24.0,
-                  fontFamily: BalooTamma2,
-                  fontWeight: FontWeight.bold,
+              child: Padding(
+                padding: const EdgeInsets.only(
+                  left: 12.0,
+                  right: 12.0,
+                ),
+                child: Text(
+                  '${_loadedRecipe.title}',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 28.0,
+                    fontFamily: kBalooTamma2,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(10.0),
+              padding: const EdgeInsets.all(14.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
@@ -91,7 +98,7 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
 
                   Padding(
                     padding: const EdgeInsets.only(
-                      top: 16,
+                      top: 10,
                       bottom: 12.0,
                     ),
                     child: kRecipeTexts(text: 'Ingredients'),
@@ -110,7 +117,7 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
                               Text(
                                 'Serves ${_recipeNotifier.activeServe + 1}',
                                 style: TextStyle(
-                                  fontFamily: BalooTamma2,
+                                  fontFamily: kBalooTamma2,
                                   fontSize: 18.0,
                                 ),
                               ),
@@ -153,7 +160,7 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
                               (eachServes) => Text(
                                 '$eachServes',
                                 style: TextStyle(
-                                  fontFamily: BalooTamma2,
+                                  fontFamily: kBalooTamma2,
                                   fontSize: 18.0,
                                 ),
                                 textAlign: TextAlign.left,
@@ -180,7 +187,7 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
                           child: Text(
                             _loadedRecipe.preparation,
                             style: TextStyle(
-                              fontFamily: BalooTamma2,
+                              fontFamily: kBalooTamma2,
                               fontSize: 18.0,
                             ),
                           ),

@@ -51,7 +51,7 @@ class AllRecipeByCategory extends StatelessWidget {
       appBar: AppBar(
         title: Text(
           _categoryName,
-          style: TextStyle(fontFamily: BalooTamma2),
+          style: TextStyle(fontFamily: kBalooTamma2),
         ),
       ),
       body: Container(

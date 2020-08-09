@@ -82,7 +82,7 @@ class _DaisyInTheKitchenHomePageState extends State<DaisyInTheKitchenHomePage> {
       title: Text(
         title,
         style: TextStyle(
-          fontFamily: BalooTamma2,
+          fontFamily: kBalooTamma2,
         ),
       ),
     );
@@ -134,7 +134,7 @@ class _DaisyInTheKitchenHomePageState extends State<DaisyInTheKitchenHomePage> {
         elevation: 0.0,
         title: Text(
           _pages[_bottomNavigation.currentIndex]['title'],
-          style: TextStyle(fontFamily: BalooTamma2),
+          style: TextStyle(fontFamily: kBalooTamma2),
         ),
         actions: <Widget>[
           IconButton(

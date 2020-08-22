@@ -1,3 +1,4 @@
+import 'package:daisyinthekitchen/helpers/recipe_database.dart';
 import 'package:daisyinthekitchen/providers/all_recipe.dart';
 import 'package:daisyinthekitchen/providers/bottom_navigator.dart';
 import 'package:daisyinthekitchen/providers/category.dart';
@@ -25,6 +26,10 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider<BottomNavigation>(
           create: (_) => BottomNavigation(),
+          child: DaisyInTheKitchenHomePage(),
+        ),
+        Provider(
+          create: (_) => AppDatabase(),
           child: DaisyInTheKitchenHomePage(),
         ),
         ChangeNotifierProvider<AllRecipeNotifier>(

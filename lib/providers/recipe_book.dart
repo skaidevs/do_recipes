@@ -1,3 +1,4 @@
+/*
 import 'package:flutter/foundation.dart';
 
 class RecipeBook {
@@ -11,11 +12,13 @@ class RecipeBook {
 }
 
 class RecipeBookNotifier with ChangeNotifier {
+*/
 /*  List<Recipe> _recipeItems = [];
 
   List<Recipe> get recipeItems {
     return [..._recipeItems];
-  }*/
+  }*/ /*
+
   Map<String, RecipeBook> _recipeItems;
 
   Map<String, RecipeBook> get recipeItems {
@@ -51,3 +54,4 @@ class RecipeBookNotifier with ChangeNotifier {
     notifyListeners();
   }
 }
+*/

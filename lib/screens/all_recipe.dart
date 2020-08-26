@@ -18,7 +18,8 @@ class AllRecipe extends StatelessWidget {
               child: LoadingInfo(),
             );
           }
-          if (notifier.error.isNotEmpty) {
+          if (notifier.error.isNotEmpty ||
+              notifier.allRecipeData.length == null) {
             return Center(
               child: Error(
                 text: 'An Error Occurred!!',

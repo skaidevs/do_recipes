@@ -8,6 +8,7 @@ import 'package:daisyinthekitchen/screens/admin.dart';
 import 'package:daisyinthekitchen/screens/all_recipe.dart';
 import 'package:daisyinthekitchen/screens/all_recipe_and_catigories.dart';
 import 'package:daisyinthekitchen/screens/amin_edit_recipe.dart';
+import 'package:daisyinthekitchen/screens/downlaod_details.dart';
 import 'package:daisyinthekitchen/screens/recipe_book.dart';
 import 'package:daisyinthekitchen/screens/recipe_detail.dart';
 import 'package:daisyinthekitchen/screens/shopping_list.dart';
@@ -28,9 +29,10 @@ class MyApp extends StatelessWidget {
           create: (_) => BottomNavigation(),
           child: DaisyInTheKitchenHomePage(),
         ),
-        Provider(
-          create: (_) => AppDatabase(),
+        Provider<RecipeDao>(
+          create: (_) => AppDatabase().recipeDao,
           child: DaisyInTheKitchenHomePage(),
+          dispose: (context, db) => db.db.close(),
         ),
         ChangeNotifierProvider<AllRecipeNotifier>(
           create: (context) => AllRecipeNotifier(),
@@ -56,6 +58,8 @@ class MyApp extends StatelessWidget {
         ),
         routes: {
           RecipeDetailScreen.routeName: (context) => RecipeDetailScreen(),
+          DownloadedRecipeDetailScreen.routeName: (context) =>
+              DownloadedRecipeDetailScreen(),
           AllRecipeByCategory.routeName: (context) => AllRecipeByCategory(),
           EditRecipe.routeName: (context) => EditRecipe(),
         },

@@ -10,6 +10,7 @@ part 'recipe_database.g.dart';
 class DownloadRecipes extends Table {
   IntColumn get id => integer().autoIncrement()();
   TextColumn get title => text()();
+  TextColumn get code => text()();
   TextColumn get imageUri => text()();
   TextColumn get calories => text()();
   TextColumn get duration => text()();
@@ -34,27 +35,59 @@ LazyDatabase _openConnection() {
   });
 }
 
-@UseMoor(tables: [DownloadRecipes])
+@UseMoor(tables: [DownloadRecipes], daos: [RecipeDao])
 class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
   @override
   int get schemaVersion => 1;
+}
+
+@UseDao(tables: [DownloadRecipes])
+class RecipeDao extends DatabaseAccessor<AppDatabase> with _$RecipeDaoMixin {
+  final AppDatabase db;
+  String downloadedCode;
+
+  RecipeDao(this.db) : super(db);
+
   Future<List<DownloadRecipe>> get allDownloadRecipes =>
       select(downloadRecipes).get();
 
-  DownloadRecipe findAlbumById({String code}) {
-    return  .firstWhere((id) => id.id == code);
+  Stream<List<DownloadRecipe>> watchDownloadRecipes() {
+    return (select(db.downloadRecipes)
+          ..orderBy([
+            (table) => OrderingTerm(
+                  expression: table.id,
+                  mode: OrderingMode.desc,
+                )
+          ]))
+        .watch();
   }
 
-  Stream<List<DownloadRecipe>> get watchDownloadRecipes =>
-      select(downloadRecipes).watch();
+  Future insertDownloadRecipe(
+    Insertable<DownloadRecipe> downloadRecipe,
+  ) =>
+      into(db.downloadRecipes).insert(downloadRecipe);
 
-  Future insertDownloadRecipe(DownloadRecipe downloadRecipe) =>
-      into(downloadRecipes).insert(downloadRecipe);
+  Future deleteDownloadRecipe(String code) => (delete(db.downloadRecipes)
+        ..where(
+          (recipe) => recipe.code.equals(code),
+        ))
+      .go();
 
-  Future updateDownloadRecipe(DownloadRecipe downloadRecipe) =>
+  Future deleteAllDownloadRecipe() {
+    return delete(db.downloadRecipes).go();
+  }
+
+  Stream<bool> isDownloaded(String code) {
+    return (select(db.downloadRecipes)
+          ..where(
+            (download) => download.code.equals(code),
+          ))
+        .watch()
+        .map((downloadList) => downloadList.length >= 1);
+  }
+
+  Future updateDownloadRecipe(Insertable<DownloadRecipe> downloadRecipe) =>
       update(downloadRecipes).replace(downloadRecipe);
-  Future deleteDownloadRecipe(DownloadRecipe downloadRecipe) =>
-      delete(downloadRecipes).delete(downloadRecipe);
 }

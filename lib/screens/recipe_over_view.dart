@@ -1,3 +1,4 @@
+import 'package:daisyinthekitchen/helpers/ingredient_database.dart';
 import 'package:daisyinthekitchen/helpers/recipe_database.dart';
 import 'package:daisyinthekitchen/providers/bottom_navigator.dart';
 import 'package:daisyinthekitchen/screens/admin.dart';
@@ -79,11 +80,11 @@ class _DoRecipeHomePageState extends State<DoRecipeHomePage> {
         // return object of type Dialog
         return AlertDialog(
           title: new Text(
-            "Clear",
+            "Clear recipe book",
             style: TextStyle(fontFamily: kBalooTamma2),
           ),
           content: new Text(
-            "Are you sure you want to clear all Recipe Book?",
+            "Are you sure you want to clear all items from recipe book?",
             style: TextStyle(
               fontFamily: kBalooTamma2,
               fontSize: 18,
@@ -93,8 +94,10 @@ class _DoRecipeHomePageState extends State<DoRecipeHomePage> {
             // usually buttons at the bottom of the dialog
             FlatButton(
               child: new Text(
-                "Cancel",
-                style: TextStyle(fontSize: 18.0, fontFamily: kBalooTamma2),
+                "CANCEL",
+                style: TextStyle(
+                  fontFamily: kBalooTamma2,
+                ),
               ),
               onPressed: () {
                 Navigator.of(context).pop();
@@ -102,13 +105,70 @@ class _DoRecipeHomePageState extends State<DoRecipeHomePage> {
             ),
             FlatButton(
               child: new Text(
-                "Clear",
-                style: TextStyle(fontSize: 18.0, fontFamily: kBalooTamma2),
+                "CLEAR",
+                style: TextStyle(
+                  fontFamily: kBalooTamma2,
+                ),
               ),
               onPressed: () {
                 dao.deleteAllDownloadRecipe().then((_) {
                   Navigator.of(context).pop();
                   kFlutterToast(context: context, msg: 'Recipe Book Cleared');
+                });
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _showIngDialog() {
+    // flutter defined function
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        final dao = Provider.of<RecipeIngredientDao>(
+          context,
+          listen: false,
+        );
+        // return object of type Dialog
+        return AlertDialog(
+          title: new Text(
+            "Clear shopping list",
+            style: TextStyle(fontFamily: kBalooTamma2),
+          ),
+          content: new Text(
+            "Are you sure you want to clear all items from Shopping list?",
+            style: TextStyle(
+              fontFamily: kBalooTamma2,
+              fontSize: 18,
+            ),
+          ),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            FlatButton(
+              child: new Text(
+                "CANCEL",
+                style: TextStyle(
+                  fontFamily: kBalooTamma2,
+                ),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            FlatButton(
+              child: new Text(
+                "CLEAR",
+                style: TextStyle(
+                  fontFamily: kBalooTamma2,
+                ),
+              ),
+              onPressed: () {
+                dao.deleteAllDownloadIng().then((_) {
+                  Navigator.of(context).pop();
+                  kFlutterToast(context: context, msg: 'Shopping list Cleared');
                 });
               },
             ),
@@ -128,6 +188,10 @@ class _DoRecipeHomePageState extends State<DoRecipeHomePage> {
       context,
       listen: false,
     );
+    final daoIng = Provider.of<RecipeIngredientDao>(
+      context,
+      listen: false,
+    );
 
     return Scaffold(
       appBar: AppBar(
@@ -137,6 +201,25 @@ class _DoRecipeHomePageState extends State<DoRecipeHomePage> {
           style: TextStyle(fontFamily: kBalooTamma2),
         ),
         actions: <Widget>[
+          StreamBuilder(
+              stream: daoIng.watchDownloadRecipes(),
+              builder: (context,
+                  AsyncSnapshot<List<DownloadRecipeIngredientData>> snapshot) {
+                final downloadRecipes = snapshot.data ?? List();
+                if (snapshot.data == null) {
+                  return Container();
+                } else if (downloadRecipes.isEmpty) {
+                  return Container();
+                } else {
+                  return _bottomNavigation.currentIndex == 1
+                      ? IconButton(
+                          icon: Icon(Icons.delete),
+                          onPressed: () {
+                            _showIngDialog();
+                          })
+                      : Container();
+                }
+              }),
           StreamBuilder(
               stream: dao.watchDownloadRecipes(),
               builder: (context, AsyncSnapshot<List<DownloadRecipe>> snapshot) {

@@ -31,8 +31,7 @@ class _RecipeBookState extends State<RecipeBook> {
             return Container();
           } else if (downloadRecipes.isEmpty) {
             return Empty(
-              text: 'No Recipe to Show in Recipe Book',
-            );
+                text: 'You don\'t have any recipes in your recipe book yet!');
           } else {
             return GridView.builder(
               itemCount: downloadRecipes.length,

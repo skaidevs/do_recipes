@@ -1,3 +1,4 @@
+import 'package:daisyinthekitchen/helpers/ingredient_database.dart';
 import 'package:daisyinthekitchen/helpers/recipe_database.dart';
 import 'package:daisyinthekitchen/models/recipe.dart';
 import 'package:daisyinthekitchen/providers/all_recipe.dart';
@@ -42,6 +43,10 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
       context,
       listen: false,
     );
+    final daoIng = Provider.of<RecipeIngredientDao>(
+      context,
+      listen: false,
+    );
 
     return Scaffold(
       appBar: AppBar(
@@ -62,7 +67,7 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
                     print('REMOVED ${_recipeId}');
 
                     kFlutterToast(
-                        context: context, msg: 'Removed from Recipe Book');
+                        context: context, msg: 'Removed from recipe book');
                   },
                   icon: Icon(
                     Icons.library_books,
@@ -86,14 +91,44 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
               );
             },
           ),
-          IconButton(
-              icon: Icon(Icons.add_shopping_cart),
-              onPressed: () {
-                int _activeServe = _recipeNotifier.activeServe;
-                print('Active Serve $_activeServe');
+          StreamBuilder<bool>(
+            stream: daoIng.isDownloaded(_loadedRecipe.id),
+            builder: (context, AsyncSnapshot snapshot) {
+              if (snapshot.hasData && snapshot.data) {
+                DownloadRecipe _recipe;
 
-                //Navigator.of(context).pushNamed(EditRecipe.routeName);
-              }),
+                return IconButton(
+                  onPressed: () {
+                    daoIng.deleteDownloadRecipe(
+                      _recipeId,
+                    );
+                    print('REMOVED InG ${_recipeId}');
+
+                    kFlutterToast(
+                        context: context, msg: 'Removed from shopping list');
+                  },
+                  icon: Icon(
+                    Icons.add_shopping_cart,
+                    color: kColorGrey,
+                  ),
+                );
+              }
+
+              return IconButton(
+                  icon: Icon(Icons.add_shopping_cart),
+                  onPressed: () {
+                    // int _activeServe = _recipeNotifier.activeServe;
+                    // print('Active Serve $_activeServe');
+
+                    _insertIngredient(
+                        dao: daoIng,
+                        recipeNotifier: _recipeNotifier,
+                        loadedRecipe: _loadedRecipe);
+                    print('ADDED To Shopping List');
+                    //Navigator.of(context).pushNamed(EditRecipe.routeName);
+                  });
+            },
+          ),
           IconButton(
               icon: Icon(Icons.share),
               onPressed: () {
@@ -255,6 +290,23 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
     );
   }
 
+  void _insertIngredient({
+    Data loadedRecipe,
+    AllRecipeNotifier recipeNotifier,
+    RecipeIngredientDao dao,
+  }) {
+    final ingredientDownload = DownloadRecipeIngredientCompanion(
+      code: v.Value(loadedRecipe.id),
+      title: v.Value(loadedRecipe.title),
+      ingredients: v.Value(
+        loadedRecipe.ingredients.toString(),
+      ),
+    );
+    dao.insertIngredient(ingredientDownload).then((_) {
+      kFlutterToast(context: context, msg: 'Added to shopping list');
+    });
+  }
+
   void _insertRecipe({
     Data loadedRecipe,
     AllRecipeNotifier recipeNotifier,
@@ -277,7 +329,7 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
       ),
     );
     dao.insertDownloadRecipe(recipeDownload).then((_) {
-      kFlutterToast(context: context, msg: 'Add To Recipe Book');
+      kFlutterToast(context: context, msg: 'Added to recipe book');
     });
   }
 }

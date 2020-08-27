@@ -46,7 +46,6 @@ class AppDatabase extends _$AppDatabase {
 @UseDao(tables: [DownloadRecipes])
 class RecipeDao extends DatabaseAccessor<AppDatabase> with _$RecipeDaoMixin {
   final AppDatabase db;
-  String downloadedCode;
 
   RecipeDao(this.db) : super(db);
 
@@ -65,6 +64,11 @@ class RecipeDao extends DatabaseAccessor<AppDatabase> with _$RecipeDaoMixin {
   }
 
   Future insertDownloadRecipe(
+    Insertable<DownloadRecipe> downloadRecipe,
+  ) =>
+      into(db.downloadRecipes).insert(downloadRecipe);
+
+  Future insertIngredient(
     Insertable<DownloadRecipe> downloadRecipe,
   ) =>
       into(db.downloadRecipes).insert(downloadRecipe);

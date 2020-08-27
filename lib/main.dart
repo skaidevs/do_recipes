@@ -1,3 +1,4 @@
+import 'package:daisyinthekitchen/helpers/ingredient_database.dart';
 import 'package:daisyinthekitchen/helpers/recipe_database.dart';
 import 'package:daisyinthekitchen/providers/all_recipe.dart';
 import 'package:daisyinthekitchen/providers/bottom_navigator.dart';
@@ -29,6 +30,11 @@ class MyApp extends StatelessWidget {
           child: DoRecipeHomePage(),
           dispose: (context, db) => db.db.close(),
         ),
+        Provider<RecipeIngredientDao>(
+          create: (_) => AppDatabaseIngredient().recipeIngredientDao,
+          child: DoRecipeHomePage(),
+          dispose: (context, db) => db.db.close(),
+        ),
         ChangeNotifierProvider<AllRecipeNotifier>(
           create: (context) => AllRecipeNotifier(),
         ),
@@ -44,12 +50,12 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'DINK',
+        title: 'Do Recipe',
         theme: ThemeData(
           primarySwatch: Colors.teal,
         ),
         home: DoRecipeHomePage(
-          title: 'Daisy In The Kitchen',
+          title: 'Do Recipe',
         ),
         routes: {
           RecipeDetailScreen.routeName: (context) => RecipeDetailScreen(),

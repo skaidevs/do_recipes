@@ -25,28 +25,33 @@ class _RecipeBookState extends State<RecipeBook> {
         stream: dao.watchDownloadRecipes(),
         builder: (context, AsyncSnapshot<List<DownloadRecipe>> snapshot) {
           final downloadRecipes = snapshot.data ?? List();
+          print("Empty???? ${snapshot.data}");
 
-          return downloadRecipes.isEmpty
-              ? Empty(
-                  text: 'No Recipe to Show in Recipe Book',
-                )
-              : GridView.builder(
-                  itemCount: downloadRecipes.length,
-                  itemBuilder: (context, index) {
-                    final itemRecipeDownload = downloadRecipes[index];
-                    return _buildListItem(itemRecipeDownload, dao.db);
-                  },
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    childAspectRatio: 3 / 3.4,
-                    crossAxisSpacing: 6,
-                    mainAxisSpacing: 6,
-                  ),
-                  padding: const EdgeInsets.all(4.0),
-                  scrollDirection: Axis.vertical,
-                  shrinkWrap: true,
-                  physics: ClampingScrollPhysics(),
-                );
+          if (snapshot.data == null) {
+            return Container();
+          } else if (downloadRecipes.isEmpty) {
+            return Empty(
+              text: 'No Recipe to Show in Recipe Book',
+            );
+          } else {
+            return GridView.builder(
+              itemCount: downloadRecipes.length,
+              itemBuilder: (context, index) {
+                final itemRecipeDownload = downloadRecipes[index];
+                return _buildListItem(itemRecipeDownload, dao.db);
+              },
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                childAspectRatio: 3 / 3.4,
+                crossAxisSpacing: 6,
+                mainAxisSpacing: 6,
+              ),
+              padding: const EdgeInsets.all(4.0),
+              scrollDirection: Axis.vertical,
+              shrinkWrap: true,
+              physics: ClampingScrollPhysics(),
+            );
+          }
         });
   }
 

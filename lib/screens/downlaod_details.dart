@@ -17,6 +17,7 @@ class DownloadedRecipeDetailScreen extends StatefulWidget {
 
 class _DownloadedRecipeDetailScreenState
     extends State<DownloadedRecipeDetailScreen> {
+  int _activeServes = 0;
   @override
   void initState() {
     // TODO: implement initState
@@ -33,19 +34,14 @@ class _DownloadedRecipeDetailScreenState
       context,
       listen: false,
     );
-    /*final _recipeDownload = {
-      _recipeNotifier.allDownloadRecipes.then((value) {
-        value.firstWhere((element) => element.title == _recipeId);
-      })
-    };*/
 
-    String ingredients = _recipeId.ingredients;
-
-    print('Id from Downloaded Details... ${ingredients.split('') // p
-        // ut the text inside a widget
-        }');
-
-    //var _loadedRecipe = _recipeNotifier.findAlbumById(code: _recipeId);
+    final regExp = new RegExp(r'(?:\[)?(\[[^\]]*?\](?:,?))(?:\])?');
+    final input = _recipeId.ingredients;
+    final _ingredients = regExp
+        .allMatches(input)
+        .map((m) => m.group(1))
+        .map((String item) => item.replaceAll(new RegExp(r'[\[\]]'), ''))
+        .toList();
 
     return Scaffold(
         appBar: AppBar(
@@ -224,20 +220,29 @@ class _DownloadedRecipeDetailScreenState
                           children: <Widget>[
                             Row(
                               children: <Widget>[
-                                /*Text(
-                                'Serves ${_recipeNotifier.activeServe + 1}',
-                                style: TextStyle(
-                                  fontFamily: kBalooTamma2,
-                                  fontSize: 18.0,
+                                Text(
+                                  'Serves ${_activeServes + 1}',
+                                  style: TextStyle(
+                                    fontFamily: kBalooTamma2,
+                                    fontSize: 18.0,
+                                  ),
                                 ),
-                              ),*/
                                 Padding(
                                   padding: const EdgeInsets.only(
                                     left: 18.0,
                                   ),
                                   child: ServesButton(
                                     onTap: () {
-                                      // _recipeNotifier.slideToPrev(_loadedRecipe);
+                                      if (_activeServes >
+                                          -_ingredients.length) {
+                                        print('slideToPrev $_activeServes');
+                                        if (_activeServes <= 0) {
+                                          return;
+                                        }
+                                        _activeServes--;
+                                      } else {
+                                        return;
+                                      }
                                       setState(() {});
                                     },
                                     iconData: Icons.remove,
@@ -249,7 +254,14 @@ class _DownloadedRecipeDetailScreenState
                                   ),
                                   child: ServesButton(
                                     onTap: () {
-                                      //_recipeNotifier.slideToNext(_loadedRecipe);
+                                      print(
+                                          'slideToNext: ${_ingredients.length}');
+                                      if (_activeServes <
+                                          _ingredients.length - 1) {
+                                        _activeServes++;
+                                      } else {
+                                        return;
+                                      }
                                       setState(() {});
                                     },
                                     iconData: Icons.add,
@@ -262,22 +274,13 @@ class _DownloadedRecipeDetailScreenState
                       ),
                     ),
 
-                    /*Text(
-                      '${_recipeId.ingredients}',
-                      style: TextStyle(
-                        fontFamily: kBalooTamma2,
-                        fontSize: 18.0,
-                      ),
-                      textAlign: TextAlign.left,
-                    ),*/
-
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: _recipeId.ingredients
-                          .split(']')
+                      children: _ingredients[_activeServes]
+                          .split(', ')
                           .map<Widget>(
                             (eachServes) => Text(
-                              '$eachServes',
+                              '${eachServes.replaceAll(',', '')}',
                               style: TextStyle(
                                 fontFamily: kBalooTamma2,
                                 fontSize: 18.0,
@@ -287,15 +290,6 @@ class _DownloadedRecipeDetailScreenState
                           )
                           .toList(),
                     ),
-
-                    /*Text(
-                      '${_recipeId.ingredients.split('')}',
-                      style: TextStyle(
-                        fontFamily: kBalooTamma2,
-                        fontSize: 18.0,
-                      ),
-                      textAlign: TextAlign.left,
-                    ),*/
 
                     _recipeId.preparation == null
                         ? Container()
@@ -350,6 +344,7 @@ class _DownloadedRecipeDetailScreenState
       imageUri: v.Value(loadedRecipe.imageUri),
       calories: v.Value(loadedRecipe.calories),
       duration: v.Value(loadedRecipe.duration),
+      dueData: v.Value(DateTime.now()),
       difficulty: v.Value(loadedRecipe.difficulty),
       method: v.Value(loadedRecipe.method),
       preparation: v.Value(loadedRecipe.preparation),

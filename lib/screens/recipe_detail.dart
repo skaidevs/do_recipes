@@ -89,6 +89,9 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
           IconButton(
               icon: Icon(Icons.add_shopping_cart),
               onPressed: () {
+                int _activeServe = _recipeNotifier.activeServe;
+                print('Active Serve $_activeServe');
+
                 //Navigator.of(context).pushNamed(EditRecipe.routeName);
               }),
           IconButton(
@@ -257,60 +260,24 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
     AllRecipeNotifier recipeNotifier,
     RecipeDao dao,
   }) {
+    var _ingredients = loadedRecipe.ingredients.toString();
+
     final recipeDownload = DownloadRecipesCompanion(
       code: v.Value(loadedRecipe.id),
       title: v.Value(loadedRecipe.title),
       imageUri: v.Value(loadedRecipe.imageUrl),
       calories: v.Value(loadedRecipe.calories),
       duration: v.Value(loadedRecipe.duration),
+      dueData: v.Value(DateTime.now()),
       difficulty: v.Value(loadedRecipe.difficulty),
       method: v.Value(loadedRecipe.method),
       preparation: v.Value(loadedRecipe.preparation),
       ingredients: v.Value(
-        loadedRecipe.ingredients.toString(),
+        _ingredients,
       ),
     );
     dao.insertDownloadRecipe(recipeDownload).then((_) {
       kFlutterToast(context: context, msg: 'Add To Recipe Book');
     });
-  }
-
-  StreamBuilder<bool> _streamBuilderAddAndRemove({
-    RecipeDao recipeDao,
-    Data data,
-    AllRecipeNotifier recipeNotifier,
-  }) {
-    return StreamBuilder<bool>(
-        stream: recipeDao.isDownloaded(data.id),
-        builder: (context, AsyncSnapshot snapshot) {
-          if (snapshot.hasData && snapshot.data) {
-            return IconButton(
-              onPressed: () {
-                recipeDao.deleteDownloadRecipe(
-                  data.id,
-                );
-                print('REMOVED ${data.title}');
-                print('Removed downloaded List');
-              },
-              icon: Icon(
-                Icons.file_download,
-                color: Colors.red,
-              ),
-            );
-          }
-
-          return IconButton(
-            onPressed: () async {
-              _insertRecipe(
-                  loadedRecipe: data,
-                  recipeNotifier: recipeNotifier,
-                  dao: recipeDao);
-            },
-            icon: Icon(
-              Icons.file_download,
-              color: Colors.grey,
-            ),
-          );
-        });
   }
 }

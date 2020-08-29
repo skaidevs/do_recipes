@@ -1,12 +1,14 @@
 import 'package:daisyinthekitchen/helpers/ingredient_database.dart';
 import 'package:daisyinthekitchen/helpers/recipe_database.dart';
+import 'package:daisyinthekitchen/providers/all_recipe.dart';
 import 'package:daisyinthekitchen/providers/bottom_navigator.dart';
-import 'package:daisyinthekitchen/screens/admin.dart';
 import 'package:daisyinthekitchen/screens/all_recipe_and_catigories.dart';
 import 'package:daisyinthekitchen/screens/recipe_book.dart';
 import 'package:daisyinthekitchen/screens/shopping_list.dart';
 import 'package:daisyinthekitchen/widgets/commons.dart';
+import 'package:daisyinthekitchen/widgets/loading_info.dart';
 import 'package:daisyinthekitchen/widgets/search.dart';
+import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -21,6 +23,9 @@ class DoRecipeHomePage extends StatefulWidget {
 class _DoRecipeHomePageState extends State<DoRecipeHomePage> {
   List<Map<String, Object>> _pages;
   var _bottomNavigation;
+  bool _isLoading = false;
+
+  bool _isConnectionReady;
 
   BottomNavigationBarItem _buildBottomNavBarItem({
     IconData iconData,
@@ -47,25 +52,122 @@ class _DoRecipeHomePageState extends State<DoRecipeHomePage> {
 
   @override
   void initState() {
-    _pages = [
-      {
-        'page': AllRecipeAndCategories(),
-        'title': 'Daisy In The Kitchen',
-      },
-      {
-        'page': ShoppingList(),
-        'title': 'Shopping List',
-      },
-      {
-        'page': RecipeBook(),
-        'title': 'Recipe Book',
-      },
-      {
-        'page': Admin(),
-        'title': 'Admin',
-      },
-    ];
+    _fetchDataAndCheckConnection();
     super.initState();
+  }
+
+  Future _fetchDataAndCheckConnection() {
+    setState(() {
+      _isLoading = true;
+    });
+    return Future.delayed(
+      Duration(seconds: 3),
+    ).then((_) async {
+      final _notifier = Provider.of<AllRecipeNotifier>(
+        context,
+        listen: false,
+      );
+      await Provider.of<AllRecipeNotifier>(context, listen: false)
+          .initializeAllRecipe()
+          .then((_) {
+        return _checkConnection().then((value) {
+          //print('connection???????? $_isLoading');
+
+          if (value == true) {
+            _pages = [
+              {
+                'page': AllRecipeAndCategories(),
+                'title': 'Do Recipes',
+              },
+              {
+                'page': ShoppingList(),
+                'title': 'Shopping List',
+              },
+              {
+                'page': RecipeBook(),
+                'title': 'Recipe Book',
+              },
+            ];
+
+            setState(() {
+              _isLoading = false;
+              _notifier.isLoading = false;
+            });
+          } else {
+            _pages = [
+              {
+                'page': Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text(
+                        'No Internet Connection!',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontSize: 30.0,
+                            fontStyle: FontStyle.italic,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: kBalooTamma2,
+                            color: Colors.grey),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: IconButton(
+                            icon: Icon(
+                              Icons.refresh,
+                              color: Theme.of(context).primaryColor,
+                              size: 40,
+                            ),
+                            onPressed: () {
+                              _fetchDataAndCheckConnection();
+                            }),
+                      ),
+                      SizedBox(
+                        height: 30,
+                      ),
+                      FlatButton(
+                        color: Theme.of(context).primaryColor,
+                        textColor: Colors.white,
+                        disabledColor: Colors.grey,
+                        disabledTextColor: Colors.black,
+                        padding: EdgeInsets.all(8.0),
+                        splashColor: Theme.of(context).primaryColor,
+                        onPressed: () {
+                          _bottomNavigation.currentIndex = 2;
+                          /*...*/
+                        },
+                        child: Text(
+                          "Go to recipe book",
+                          style: TextStyle(fontSize: 20.0),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                'title': 'Do Recipes',
+              },
+              {
+                'page': ShoppingList(),
+                'title': 'Shopping List',
+              },
+              {
+                'page': RecipeBook(),
+                'title': 'Recipe Book',
+              },
+            ];
+            setState(() {
+              _isLoading = false;
+            });
+          }
+        });
+      });
+    });
+  }
+
+  Future<bool> _checkConnection() async {
+    bool _result = await DataConnectionChecker().hasConnection;
+
+    return _result;
   }
 
   void _showDialog() {
@@ -113,7 +215,7 @@ class _DoRecipeHomePageState extends State<DoRecipeHomePage> {
               onPressed: () {
                 dao.deleteAllDownloadRecipe().then((_) {
                   Navigator.of(context).pop();
-                  kFlutterToast(context: context, msg: 'Recipe Book Cleared');
+                  kFlutterToast(context: context, msg: 'Recipe book cleared');
                 });
               },
             ),
@@ -139,7 +241,7 @@ class _DoRecipeHomePageState extends State<DoRecipeHomePage> {
             style: TextStyle(fontFamily: kBalooTamma2),
           ),
           content: new Text(
-            "Are you sure you want to clear all items from Shopping list?",
+            "Are you sure you want to clear all items from shopping list?",
             style: TextStyle(
               fontFamily: kBalooTamma2,
               fontSize: 18,
@@ -168,7 +270,7 @@ class _DoRecipeHomePageState extends State<DoRecipeHomePage> {
               onPressed: () {
                 dao.deleteAllDownloadIng().then((_) {
                   Navigator.of(context).pop();
-                  kFlutterToast(context: context, msg: 'Shopping list Cleared');
+                  kFlutterToast(context: context, msg: 'Shopping list cleared');
                 });
               },
             ),
@@ -194,61 +296,73 @@ class _DoRecipeHomePageState extends State<DoRecipeHomePage> {
     );
 
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0.0,
-        title: Text(
-          _pages[_bottomNavigation.currentIndex]['title'],
-          style: TextStyle(fontFamily: kBalooTamma2),
-        ),
-        actions: <Widget>[
-          StreamBuilder(
-              stream: daoIng.watchDownloadRecipes(),
-              builder: (context,
-                  AsyncSnapshot<List<DownloadRecipeIngredientData>> snapshot) {
-                final downloadRecipes = snapshot.data ?? List();
-                if (snapshot.data == null) {
-                  return Container();
-                } else if (downloadRecipes.isEmpty) {
-                  return Container();
-                } else {
-                  return _bottomNavigation.currentIndex == 1
-                      ? IconButton(
-                          icon: Icon(Icons.delete),
-                          onPressed: () {
-                            _showIngDialog();
-                          })
-                      : Container();
-                }
-              }),
-          StreamBuilder(
-              stream: dao.watchDownloadRecipes(),
-              builder: (context, AsyncSnapshot<List<DownloadRecipe>> snapshot) {
-                final downloadRecipes = snapshot.data ?? List();
-                if (snapshot.data == null) {
-                  return Container();
-                } else if (downloadRecipes.isEmpty) {
-                  return Container();
-                } else {
-                  return _bottomNavigation.currentIndex == 2
-                      ? IconButton(
-                          icon: Icon(Icons.delete),
-                          onPressed: () {
-                            _showDialog();
-                          })
-                      : Container();
-                }
-              }),
-          IconButton(
-              icon: Icon(Icons.search),
-              onPressed: () {
-                showSearch(
-                  context: context,
-                  delegate: RecipeSearch(),
-                );
-              }),
-        ],
-      ),
-      body: _pages[_bottomNavigation.currentIndex]['page'],
+      appBar: _isLoading
+          ? null
+          : AppBar(
+              elevation: 0.0,
+              title: Text(
+                _pages[_bottomNavigation.currentIndex]['title'],
+                style: TextStyle(fontFamily: kBalooTamma2),
+              ),
+              actions: <Widget>[
+                StreamBuilder(
+                    stream: daoIng.watchDownloadRecipes(),
+                    builder: (context,
+                        AsyncSnapshot<List<DownloadRecipeIngredientData>>
+                            snapshot) {
+                      final downloadRecipes = snapshot.data ?? List();
+                      if (snapshot.data == null) {
+                        return Container();
+                      } else if (downloadRecipes.isEmpty) {
+                        return Container();
+                      } else {
+                        return _bottomNavigation.currentIndex == 1
+                            ? IconButton(
+                                icon: Icon(Icons.delete),
+                                onPressed: () {
+                                  _showIngDialog();
+                                })
+                            : Container();
+                      }
+                    }),
+                StreamBuilder(
+                    stream: dao.watchDownloadRecipes(),
+                    builder: (context,
+                        AsyncSnapshot<List<DownloadRecipe>> snapshot) {
+                      final downloadRecipes = snapshot.data ?? List();
+                      if (snapshot.data == null) {
+                        return Container();
+                      } else if (downloadRecipes.isEmpty) {
+                        return Container();
+                      } else {
+                        return _bottomNavigation.currentIndex == 2
+                            ? IconButton(
+                                icon: Icon(Icons.delete),
+                                onPressed: () {
+                                  _showDialog();
+                                })
+                            : Container();
+                      }
+                    }),
+                _isConnectionReady == true
+                    ? IconButton(
+                        icon: Icon(Icons.search),
+                        onPressed: () {
+                          showSearch(
+                            context: context,
+                            delegate: RecipeSearch(),
+                          );
+                        })
+                    : Container(),
+              ],
+            ),
+      body: _isLoading
+          ? Center(
+              child: Container(
+                child: LoadingInfo(),
+              ),
+            )
+          : _pages[_bottomNavigation.currentIndex]['page'],
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Colors.white,
         items: [

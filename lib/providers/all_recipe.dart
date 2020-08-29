@@ -12,13 +12,10 @@ class AllRecipeNotifier with ChangeNotifier {
   Map<String, List<Data>> _cachedAllRecipe;
 
   int _activeServe = 0;
-
   int get activeServe => _activeServe;
-
   set activeServe(int value) {
     if (value != activeServe) {
       _activeServe = value;
-      print('ACTIVE $_activeServe');
       notifyListeners();
     }
   }
@@ -27,8 +24,6 @@ class AllRecipeNotifier with ChangeNotifier {
 
   List<Data> _allRecipeData = [];
   String error = '';
-  var _eachServes;
-  dynamic get eachServes => _eachServes;
 
   UnmodifiableListView<Data> get allRecipeData =>
       UnmodifiableListView(_allRecipeData);
@@ -36,8 +31,23 @@ class AllRecipeNotifier with ChangeNotifier {
   bool _isLoading = false;
   bool get isLoading => _isLoading;
 
+  set isLoading(bool value) {
+    if (value != isLoading) {
+      _isLoading = value;
+      notifyListeners();
+    }
+  }
+
   Data findAlbumById({String code}) {
     return _allRecipeData.firstWhere((id) => id.id == code);
+  }
+
+  Future initializeAllRecipe() async {
+    return _initializeAllRecipe();
+  }
+
+  Future<List<Data>> updateAllRecipe() async {
+    return _updateAllRecipe();
   }
 
   AllRecipeNotifier() : _cachedAllRecipe = Map() {
@@ -47,8 +57,8 @@ class AllRecipeNotifier with ChangeNotifier {
     });
   }
 
-  Future<void> _initializeAllRecipe() async {
-    _allRecipeData = await _updateAllRecipe();
+  Future _initializeAllRecipe() async {
+    return _allRecipeData = await _updateAllRecipe();
   }
 
   Future<List<Data>> _updateAllRecipe() async {
@@ -77,16 +87,10 @@ class AllRecipeNotifier with ChangeNotifier {
         }
 
         Recipe _recipe = Recipe.fromJson(extractedData);
-        /*_recipe.data.forEach((ingredient) {
-          _serve = ingredient.ingredients;
-          print('RECIPE... ${_serve}');
-        });
-        _eachServes = _serve[_activeServe];*/
         _cachedAllRecipe[_id] = _recipe.data;
         notifyListeners();
       } else {
         error = _allRecipeResponse.body.toString();
-        print('ERROR in All Recipe $error');
         throw RecipeError('Recipe could not be fetched. {{}} $error}');
       }
     }
@@ -95,12 +99,10 @@ class AllRecipeNotifier with ChangeNotifier {
 
   void slideToPrev(Data serve) {
     if (_activeServe > -serve.ingredients.length) {
-      print('slideToPrev $_activeServe');
       if (_activeServe <= 0) {
         return;
       }
       _activeServe--;
-      //_eachServes = _serve[_activeServe];
       notifyListeners();
     } else {
       return;
@@ -110,7 +112,6 @@ class AllRecipeNotifier with ChangeNotifier {
   void slideToNext(Data serve) {
     if (_activeServe < serve.ingredients.length - 1) {
       _activeServe++;
-      //_eachServes = _serve[_activeServe];
       notifyListeners();
     } else {
       return;

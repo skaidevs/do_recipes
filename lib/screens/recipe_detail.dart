@@ -64,7 +64,6 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
                     dao.deleteDownloadRecipe(
                       _recipeId,
                     );
-                    print('REMOVED ${_recipeId}');
 
                     kFlutterToast(
                         context: context, msg: 'Removed from recipe book');
@@ -82,7 +81,6 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
                       loadedRecipe: _loadedRecipe,
                       recipeNotifier: _recipeNotifier,
                       dao: dao);
-                  print('ADDED');
                 },
                 icon: Icon(
                   Icons.library_books,
@@ -102,7 +100,6 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
                     daoIng.deleteDownloadRecipe(
                       _recipeId,
                     );
-                    print('REMOVED InG ${_recipeId}');
 
                     kFlutterToast(
                         context: context, msg: 'Removed from shopping list');
@@ -124,7 +121,6 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
                         dao: daoIng,
                         recipeNotifier: _recipeNotifier,
                         loadedRecipe: _loadedRecipe);
-                    print('ADDED To Shopping List');
                     //Navigator.of(context).pushNamed(EditRecipe.routeName);
                   });
             },
@@ -191,38 +187,47 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
                       child: Column(
                         children: <Widget>[
                           Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
-                              Text(
-                                'Serves ${_recipeNotifier.activeServe + 1}',
-                                style: TextStyle(
-                                  fontFamily: kBalooTamma2,
-                                  fontSize: 18.0,
+                              FittedBox(
+                                child: Text(
+                                  'Serves ${_recipeNotifier.activeServe + 1}',
+                                  style: TextStyle(
+                                    fontFamily: kBalooTamma2,
+                                    fontSize: 18.0,
+                                  ),
                                 ),
                               ),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                  left: 18.0,
-                                ),
-                                child: ServesButton(
-                                  onTap: () {
-                                    _recipeNotifier.slideToPrev(_loadedRecipe);
-                                    setState(() {});
-                                  },
-                                  iconData: Icons.remove,
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                  left: 15.0,
-                                ),
-                                child: ServesButton(
-                                  onTap: () {
-                                    _recipeNotifier.slideToNext(_loadedRecipe);
-                                    setState(() {});
-                                  },
-                                  iconData: Icons.add,
-                                ),
-                              ),
+                              Row(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                      left: 18.0,
+                                    ),
+                                    child: ServesButton(
+                                      onTap: () {
+                                        _recipeNotifier
+                                            .slideToPrev(_loadedRecipe);
+                                        setState(() {});
+                                      },
+                                      iconData: Icons.remove,
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                      left: 15.0,
+                                    ),
+                                    child: ServesButton(
+                                      onTap: () {
+                                        _recipeNotifier
+                                            .slideToNext(_loadedRecipe);
+                                        setState(() {});
+                                      },
+                                      iconData: Icons.add,
+                                    ),
+                                  ),
+                                ],
+                              )
                             ],
                           ),
                         ],

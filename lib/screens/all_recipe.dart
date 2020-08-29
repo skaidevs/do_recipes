@@ -18,15 +18,18 @@ class AllRecipe extends StatelessWidget {
               child: LoadingInfo(),
             );
           }
-          if (notifier.error.isNotEmpty ||
-              notifier.allRecipeData.length == null) {
+          if (notifier.error.isNotEmpty) {
             return Center(
               child: Error(
                 text: 'An Error Occurred!!',
               ),
             );
           }
-
+          if (notifier.allRecipeData == null) {
+            return Empty(
+              text: 'No Recipe to Show',
+            );
+          }
           if (notifier.allRecipeData.isEmpty) {
             return Empty(
               text: 'No Recipe to Show',
@@ -61,6 +64,20 @@ class AllRecipeByCategory extends StatelessWidget {
             if (notifier.isLoading) {
               return Center(
                 child: LoadingInfo(),
+              );
+            }
+
+            if (notifier.error.isNotEmpty) {
+              return Center(
+                child: Error(
+                  text: 'An Error Occurred!!',
+                ),
+              );
+            }
+
+            if (notifier.recipeDataByCategory == null) {
+              return Empty(
+                text: 'No Recipe to Show',
               );
             }
             if (notifier.recipeDataByCategory.isEmpty) {

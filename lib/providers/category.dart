@@ -59,8 +59,6 @@ class CategoryNotifier with ChangeNotifier {
         _cachedCategories[recipes] = _category.category;
       } else {
         error = _categoryResponse.body.toString();
-
-        print('ERROR In Category $error');
         throw RecipeError('Categories could not be fetched. {{}}}');
       }
     }

@@ -1,5 +1,5 @@
+import 'package:daisyinthekitchen/helpers/ingredient_database.dart';
 import 'package:daisyinthekitchen/helpers/recipe_database.dart';
-import 'package:daisyinthekitchen/providers/all_recipe.dart';
 import 'package:daisyinthekitchen/widgets/commons.dart';
 import 'package:daisyinthekitchen/widgets/html_viewer.dart';
 import 'package:daisyinthekitchen/widgets/serves_button.dart';
@@ -35,6 +35,11 @@ class _DownloadedRecipeDetailScreenState
       listen: false,
     );
 
+    final daoIng = Provider.of<RecipeIngredientDao>(
+      context,
+      listen: false,
+    );
+
     final regExp = new RegExp(r'(?:\[)?(\[[^\]]*?\](?:,?))(?:\])?');
     final input = _recipeId.ingredients;
     final _ingredients = regExp
@@ -59,7 +64,6 @@ class _DownloadedRecipeDetailScreenState
                       dao.deleteDownloadRecipe(
                         _recipeId.code,
                       );
-                      print('REMOVED ${_recipeId}');
 
                       kFlutterToast(
                           context: context, msg: 'Removed from Recipe Book');
@@ -77,7 +81,6 @@ class _DownloadedRecipeDetailScreenState
                       loadedRecipe: _recipeId,
                       dao: dao,
                     );
-                    print('ADDED');
                   },
                   icon: Icon(
                     Icons.library_books,
@@ -86,11 +89,45 @@ class _DownloadedRecipeDetailScreenState
                 );
               },
             ),
-            IconButton(
+            StreamBuilder<bool>(
+              stream: daoIng.isDownloaded(_recipeId.code),
+              builder: (context, AsyncSnapshot snapshot) {
+                if (snapshot.hasData && snapshot.data) {
+                  DownloadRecipe _recipe;
+
+                  return IconButton(
+                    onPressed: () {
+                      daoIng.deleteDownloadRecipe(
+                        _recipeId.code,
+                      );
+
+                      kFlutterToast(
+                          context: context, msg: 'Removed from shopping list');
+                    },
+                    icon: Icon(
+                      Icons.add_shopping_cart,
+                      color: kColorGrey,
+                    ),
+                  );
+                }
+
+                return IconButton(
+                    icon: Icon(Icons.add_shopping_cart),
+                    onPressed: () {
+                      // int _activeServe = _recipeNotifier.activeServe;
+                      // print('Active Serve $_activeServe');
+
+                      _insertIngredient(dao: daoIng, loadedRecipe: _recipeId);
+
+                      //Navigator.of(context).pushNamed(EditRecipe.routeName);
+                    });
+              },
+            ),
+            /*IconButton(
                 icon: Icon(Icons.add_shopping_cart),
                 onPressed: () {
                   //Navigator.of(context).pushNamed(EditRecipe.routeName);
-                }),
+                }),*/
             IconButton(
                 icon: Icon(Icons.share),
                 onPressed: () {
@@ -216,21 +253,24 @@ class _DownloadedRecipeDetailScreenState
                           right: 12.0,
                           bottom: 16.0,
                         ),
-                        child: Column(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
-                            Row(
-                              children: <Widget>[
-                                Text(
-                                  'Serves ${_activeServes + 1}',
-                                  style: TextStyle(
-                                    fontFamily: kBalooTamma2,
-                                    fontSize: 18.0,
-                                  ),
+                            FittedBox(
+                              child: Text(
+                                'Serves ${_activeServes + 1}',
+                                style: TextStyle(
+                                  fontFamily: kBalooTamma2,
+                                  fontSize: 18.0,
                                 ),
+                              ),
+                            ),
+                            Row(
+                              children: [
                                 Padding(
                                   padding: const EdgeInsets.only(
-                                    left: 18.0,
-                                  ),
+                                      //left: 18.0,
+                                      ),
                                   child: ServesButton(
                                     onTap: () {
                                       if (_activeServes >
@@ -266,9 +306,9 @@ class _DownloadedRecipeDetailScreenState
                                     },
                                     iconData: Icons.add,
                                   ),
-                                ),
+                                )
                               ],
-                            ),
+                            )
                           ],
                         ),
                       ),
@@ -333,9 +373,24 @@ class _DownloadedRecipeDetailScreenState
         ));
   }
 
+  void _insertIngredient({
+    DownloadRecipe loadedRecipe,
+    RecipeIngredientDao dao,
+  }) {
+    final ingredientDownload = DownloadRecipeIngredientCompanion(
+      code: v.Value(loadedRecipe.code),
+      title: v.Value(loadedRecipe.title),
+      ingredients: v.Value(
+        loadedRecipe.ingredients.toString(),
+      ),
+    );
+    dao.insertIngredient(ingredientDownload).then((_) {
+      kFlutterToast(context: context, msg: 'Added to shopping list');
+    });
+  }
+
   void _insertRecipe({
     DownloadRecipe loadedRecipe,
-    AllRecipeNotifier recipeNotifier,
     RecipeDao dao,
   }) {
     final recipeDownload = DownloadRecipesCompanion(

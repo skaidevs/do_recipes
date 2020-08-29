@@ -16,7 +16,7 @@ class HtmlViewer extends StatelessWidget {
 
         //Optional parameters:
         style: {
-          "html": Style(fontSize: FontSize(28.0), fontFamily: kBalooTamma2
+          "html": Style(fontSize: FontSize(18.0), fontFamily: kBalooTamma2
 
               //backgroundColor: Colors.black12,
 //                        color: Colors.white,
@@ -25,7 +25,8 @@ class HtmlViewer extends StatelessWidget {
             textAlign: TextAlign.center,
           ),
           "li": Style(
-            fontSize: FontSize(28.0),
+            fontFamily: kBalooTamma2,
+            fontSize: FontSize(18.0),
           ),
           "table": Style(
             backgroundColor: Color.fromARGB(0x50, 0xee, 0xee, 0xee),

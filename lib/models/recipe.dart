@@ -98,20 +98,3 @@ class Data with ChangeNotifier {
         ingredients: parsedJson['ingredients'] as List);
   }
 }
-
-// class RecipeIngredients with ChangeNotifier {
-//   final String title;
-//   final List ingredient;
-//   RecipeIngredients({
-//     this.title,
-//     this.ingredient,
-//   });
-//
-//   factory RecipeIngredients.fromJson(Map<String, dynamic> parsedJson) {
-//     var list = parsedJson['ingredient'] as List;
-//     List<Data> recipeData = list.map((i) => Data.fromJson(i)).toList();
-//     return RecipeIngredients(
-//       data: recipeData,
-//     );
-//   }
-// }

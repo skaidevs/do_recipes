@@ -1,47 +1,9 @@
-import 'dart:io';
-
 import 'package:daisyinthekitchen/helpers/ingredient_database.dart';
 import 'package:daisyinthekitchen/providers/all_recipe.dart';
 import 'package:daisyinthekitchen/widgets/commons.dart';
 import 'package:daisyinthekitchen/widgets/empty_and_error_recipe.dart';
 import 'package:flutter/material.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
-
-class CounterStorage {
-  Future<String> get _localPath async {
-    final directory = (await getApplicationDocumentsDirectory()).path;
-    if (await Directory(directory + "/ingredients").exists() != true) {
-      print("Directory not exist");
-      new Directory(directory + "/ingredients").createSync(recursive: true);
-      //do your work
-    } else {
-      print("Directory exist");
-      //do your work
-    }
-    return directory;
-  }
-
-  Future<File> get _localFile async {
-    final path = await _localPath;
-    return File('$path/ingredient/ingredients').create(recursive: true);
-  }
-
-  Future<String> readIngredient() async {
-    try {
-      final file = await _localFile;
-
-      // Read the file
-      String contents = await file.readAsString();
-      print("CONTENT exist..... ${contents}");
-
-      return contents;
-    } catch (e) {
-      // If encountering an error, return 0
-      return 'ERROR';
-    }
-  }
-}
 
 class ShoppingList extends StatefulWidget {
   @override
@@ -71,7 +33,6 @@ class _ShoppingListState extends State<ShoppingList> {
                 itemCount: downloadRecipes.length,
                 itemBuilder: (context, index) {
                   final itemRecipeDownload = downloadRecipes[index];
-
                   final regExp =
                       new RegExp(r'(?:\[)?(\[[^\]]*?\](?:,?))(?:\])?');
                   final input = downloadRecipes[index].ingredients;
@@ -81,8 +42,6 @@ class _ShoppingListState extends State<ShoppingList> {
                       .map((String item) =>
                           item.replaceAll(new RegExp(r'[\[\]]'), ''))
                       .toList();
-
-                  print("Empty ${_ingredients}");
 
                   return Container(
                     child: Card(

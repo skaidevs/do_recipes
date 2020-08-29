@@ -13,6 +13,7 @@ class RecipeByCategoryNotifier with ChangeNotifier {
 
   UnmodifiableListView<Data> get recipeDataByCategory =>
       UnmodifiableListView(_recipeDataByCategory);
+  String error = '';
 
   bool _isLoading = false;
   bool get isLoading => _isLoading;
@@ -40,7 +41,6 @@ class RecipeByCategoryNotifier with ChangeNotifier {
   }
 
   Future<List<Data>> _getRecipeByCategory({String category}) async {
-    print('CATE!!!!! $category');
     if (category == null) {
       return null;
     }
@@ -48,7 +48,6 @@ class RecipeByCategoryNotifier with ChangeNotifier {
       final _recipeByCategoryResponse = await http.get(
         Uri.encodeFull('$baseUrl' + 'recipes?category=$category'),
       );
-      print('Category Url $baseUrl' + 'recipes?category=$category');
 
       if (_recipeByCategoryResponse.statusCode == 200) {
         var extractedData = json.decode(_recipeByCategoryResponse.body);
@@ -56,7 +55,6 @@ class RecipeByCategoryNotifier with ChangeNotifier {
           return null;
         }
         Recipe _recipe = Recipe.fromJson(extractedData);
-        //print('Recipe Cate Data111 ${_recipe.data[0].category}');
         _cachedRecipeByCategory[category] = _recipe.data;
 
         _isLoading = false;
@@ -64,7 +62,7 @@ class RecipeByCategoryNotifier with ChangeNotifier {
       } else {
         _isLoading = false;
         notifyListeners();
-        print('ERROR ${_recipeByCategoryResponse.body.toString()}');
+        error = _recipeByCategoryResponse.body.toString();
         throw RecipeError(
             'Recipe could not be fetched. {{}} ${_recipeByCategoryResponse.body}');
       }

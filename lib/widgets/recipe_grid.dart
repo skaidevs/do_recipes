@@ -11,7 +11,7 @@ class RecipeGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
-      itemCount: notifier.allRecipeData.length,
+      itemCount: notifier.allRecipeData?.length ?? 0,
       itemBuilder: (context, index) => RecipeGridItem(
         id: notifier.allRecipeData[index].id,
         title: notifier.allRecipeData[index].title,
@@ -39,7 +39,7 @@ class SearchRecipeGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
-      itemCount: recipeData.length,
+      itemCount: recipeData?.length ?? 0,
       itemBuilder: (context, index) => RecipeGridItem(
         id: recipeData[index].id,
         title: recipeData[index].title,
@@ -67,7 +67,7 @@ class RecipeGridByCategory extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
-      itemCount: notifier.recipeDataByCategory.length,
+      itemCount: notifier.recipeDataByCategory?.length ?? 0,
       itemBuilder: (context, index) => RecipeGridItem(
         id: notifier.recipeDataByCategory[index].id,
         title: notifier.recipeDataByCategory[index].title,

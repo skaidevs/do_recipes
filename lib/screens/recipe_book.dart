@@ -25,7 +25,6 @@ class _RecipeBookState extends State<RecipeBook> {
         stream: dao.watchDownloadRecipes(),
         builder: (context, AsyncSnapshot<List<DownloadRecipe>> snapshot) {
           final downloadRecipes = snapshot.data ?? List();
-          print("Empty???? ${snapshot.data}");
 
           if (snapshot.data == null) {
             return Container();

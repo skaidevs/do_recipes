@@ -50,12 +50,12 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'Do Recipe',
+        title: 'DO Recipes',
         theme: ThemeData(
           primarySwatch: Colors.teal,
         ),
         home: DoRecipeHomePage(
-          title: 'Do Recipe',
+          title: 'DO Recipes',
         ),
         routes: {
           RecipeDetailScreen.routeName: (context) => RecipeDetailScreen(),

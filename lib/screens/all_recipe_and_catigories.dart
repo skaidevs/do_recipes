@@ -16,7 +16,7 @@ class _AllRecipeAndCategoriesState extends State<AllRecipeAndCategories>
     return TabBar(controller: _tabController, tabs: [
       Tab(
         icon: Icon(Icons.new_releases),
-        text: "All Recipe",
+        text: "All Recipes",
       ),
       Tab(
         icon: Icon(Icons.category),

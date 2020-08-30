@@ -125,11 +125,11 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
                   });
             },
           ),
-          IconButton(
-              icon: Icon(Icons.share),
-              onPressed: () {
-                //Navigator.of(context).pushNamed(EditRecipe.routeName);
-              })
+          // IconButton(
+          //     icon: Icon(Icons.share),
+          //     onPressed: () {
+          //       //Navigator.of(context).pushNamed(EditRecipe.routeName);
+          //     })
         ],
       ),
       body: SingleChildScrollView(

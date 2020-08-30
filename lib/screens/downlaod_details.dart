@@ -128,11 +128,11 @@ class _DownloadedRecipeDetailScreenState
                 onPressed: () {
                   //Navigator.of(context).pushNamed(EditRecipe.routeName);
                 }),*/
-            IconButton(
+            /*IconButton(
                 icon: Icon(Icons.share),
                 onPressed: () {
                   //Navigator.of(context).pushNamed(EditRecipe.routeName);
-                })
+                })*/
           ],
         ),
         body: SingleChildScrollView(
@@ -275,7 +275,6 @@ class _DownloadedRecipeDetailScreenState
                                     onTap: () {
                                       if (_activeServes >
                                           -_ingredients.length) {
-                                        print('slideToPrev $_activeServes');
                                         if (_activeServes <= 0) {
                                           return;
                                         }
@@ -294,8 +293,6 @@ class _DownloadedRecipeDetailScreenState
                                   ),
                                   child: ServesButton(
                                     onTap: () {
-                                      print(
-                                          'slideToNext: ${_ingredients.length}');
                                       if (_activeServes <
                                           _ingredients.length - 1) {
                                         _activeServes++;

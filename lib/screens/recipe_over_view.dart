@@ -25,7 +25,7 @@ class _DoRecipeHomePageState extends State<DoRecipeHomePage> {
   var _bottomNavigation;
   bool _isLoading = false;
 
-  bool _isConnectionReady;
+  bool _isConnectionReady = false;
 
   BottomNavigationBarItem _buildBottomNavBarItem({
     IconData iconData,
@@ -72,12 +72,13 @@ class _DoRecipeHomePageState extends State<DoRecipeHomePage> {
           .then((_) {
         return _checkConnection().then((value) {
           //print('connection???????? $_isLoading');
+          _isConnectionReady = value;
 
-          if (value == true) {
+          if (_isConnectionReady == true) {
             _pages = [
               {
                 'page': AllRecipeAndCategories(),
-                'title': 'Do Recipes',
+                'title': 'DO Recipes',
               },
               {
                 'page': ShoppingList(),
@@ -144,7 +145,7 @@ class _DoRecipeHomePageState extends State<DoRecipeHomePage> {
                     ],
                   ),
                 ),
-                'title': 'Do Recipes',
+                'title': 'DO Recipes',
               },
               {
                 'page': ShoppingList(),

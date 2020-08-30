@@ -180,7 +180,7 @@ class _DownloadedRecipeDetailScreenState
                           children: <Widget>[
                             Padding(
                               padding: const EdgeInsets.only(right: 6),
-                              child: Icon(
+                              child: const Icon(
                                 Icons.access_time,
                                 size: 18,
                                 color: kColorGrey,
@@ -201,7 +201,7 @@ class _DownloadedRecipeDetailScreenState
                           children: <Widget>[
                             Padding(
                               padding: const EdgeInsets.only(right: 6),
-                              child: Icon(
+                              child: const Icon(
                                 Icons.show_chart,
                                 size: 18,
                                 color: kColorGrey,
@@ -220,7 +220,7 @@ class _DownloadedRecipeDetailScreenState
                             ),
                             Padding(
                               padding: const EdgeInsets.only(right: 6),
-                              child: Icon(
+                              child: const Icon(
                                 Icons.grain,
                                 size: 18,
                                 color: kColorGrey,
@@ -318,7 +318,7 @@ class _DownloadedRecipeDetailScreenState
                           .map<Widget>(
                             (eachServes) => Text(
                               '${eachServes.replaceAll(',', '')}',
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontFamily: kBalooTamma2,
                                 fontSize: 18.0,
                               ),

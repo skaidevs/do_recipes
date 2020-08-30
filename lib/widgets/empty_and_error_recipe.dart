@@ -63,7 +63,7 @@ class CheckConnection extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Icon(
+              child: const Icon(
                 Icons.hourglass_empty,
                 size: 50.0,
                 color: Colors.grey,

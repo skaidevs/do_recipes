@@ -26,12 +26,12 @@ class AllRecipe extends StatelessWidget {
             );
           }
           if (notifier.allRecipeData == null) {
-            return Empty(
+            return const Empty(
               text: 'No Recipe to Show',
             );
           }
           if (notifier.allRecipeData.isEmpty) {
-            return Empty(
+            return const Empty(
               text: 'No Recipe to Show',
             );
           } else {

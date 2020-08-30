@@ -23,7 +23,7 @@ class CategoryList extends StatelessWidget {
           children: <Widget>[
             Text(
               title,
-              style: TextStyle(
+              style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 20.0,
                   color: kColorDKGreen,
@@ -37,7 +37,7 @@ class CategoryList extends StatelessWidget {
                 child: FittedBox(
                   child: Text(
                     recipeNum,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 14,
                       color: kColorWhite,
                       fontFamily: kBalooTamma2,
@@ -46,7 +46,7 @@ class CategoryList extends StatelessWidget {
                   ),
                 ),
               ),
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: kColorDKGreen,
                 shape: BoxShape.circle,
               ),

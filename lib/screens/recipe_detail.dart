@@ -143,7 +143,7 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
                 fit: BoxFit.cover,
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 12.0,
             ),
             Center(

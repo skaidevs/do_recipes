@@ -182,11 +182,11 @@ class _DoRecipeHomePageState extends State<DoRecipeHomePage> {
         );
         // return object of type Dialog
         return AlertDialog(
-          title: new Text(
+          title: const Text(
             "Clear recipe book",
             style: TextStyle(fontFamily: kBalooTamma2),
           ),
-          content: new Text(
+          content: const Text(
             "Are you sure you want to clear all items from recipe book?",
             style: TextStyle(
               fontFamily: kBalooTamma2,
@@ -196,7 +196,7 @@ class _DoRecipeHomePageState extends State<DoRecipeHomePage> {
           actions: <Widget>[
             // usually buttons at the bottom of the dialog
             FlatButton(
-              child: new Text(
+              child: const Text(
                 "CANCEL",
                 style: TextStyle(
                   fontFamily: kBalooTamma2,
@@ -207,7 +207,7 @@ class _DoRecipeHomePageState extends State<DoRecipeHomePage> {
               },
             ),
             FlatButton(
-              child: new Text(
+              child: const Text(
                 "CLEAR",
                 style: TextStyle(
                   fontFamily: kBalooTamma2,
@@ -237,11 +237,11 @@ class _DoRecipeHomePageState extends State<DoRecipeHomePage> {
         );
         // return object of type Dialog
         return AlertDialog(
-          title: new Text(
+          title: const Text(
             "Clear shopping list",
             style: TextStyle(fontFamily: kBalooTamma2),
           ),
-          content: new Text(
+          content: const Text(
             "Are you sure you want to clear all items from shopping list?",
             style: TextStyle(
               fontFamily: kBalooTamma2,
@@ -251,7 +251,7 @@ class _DoRecipeHomePageState extends State<DoRecipeHomePage> {
           actions: <Widget>[
             // usually buttons at the bottom of the dialog
             FlatButton(
-              child: new Text(
+              child: const Text(
                 "CANCEL",
                 style: TextStyle(
                   fontFamily: kBalooTamma2,
@@ -262,7 +262,7 @@ class _DoRecipeHomePageState extends State<DoRecipeHomePage> {
               },
             ),
             FlatButton(
-              child: new Text(
+              child: const Text(
                 "CLEAR",
                 style: TextStyle(
                   fontFamily: kBalooTamma2,

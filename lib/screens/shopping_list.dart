@@ -27,7 +27,8 @@ class _ShoppingListState extends State<ShoppingList> {
             if (snapshot.data == null) {
               return Container();
             } else if (downloadRecipes.isEmpty) {
-              return Empty(text: 'You don\'t have any shopping list yet!');
+              return const Empty(
+                  text: 'You don\'t have any shopping list yet!');
             } else {
               return ListView.builder(
                 itemCount: downloadRecipes.length,
@@ -61,7 +62,7 @@ class _ShoppingListState extends State<ShoppingList> {
                               .map<Widget>(
                                 (eachServes) => Text(
                                   '${eachServes.replaceAll(',', '')}',
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontFamily: kBalooTamma2,
                                     fontSize: 18.0,
                                   ),

@@ -18,13 +18,13 @@ class Categories extends StatelessWidget {
           }
           if (notifier.error.isNotEmpty) {
             return Center(
-              child: Error(
+              child: const Error(
                 text: 'An Error Occurred!!',
               ),
             );
           }
           if (notifier.categoryListData.isEmpty) {
-            return Empty(
+            return const Empty(
               text: 'No Category to Show',
             );
           } else {

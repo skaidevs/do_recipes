@@ -50,11 +50,11 @@ class AllRecipeByCategory extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _categoryName = ModalRoute.of(context).settings.arguments as String;
+    final _categoryName = ModalRoute.of(context).settings.arguments as Map;
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          _categoryName,
+          "${_categoryName['name']}",
           style: TextStyle(fontFamily: kBalooTamma2),
         ),
       ),

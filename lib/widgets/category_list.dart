@@ -63,9 +63,13 @@ class CategoryList extends StatelessWidget {
       itemCount: notifier.categoryListData.length,
       itemBuilder: (context, index) => InkWell(
         onTap: () {
-          print('Category ${notifier.categoryListData[index].name}');
+          var _data = {
+            'id': notifier.categoryListData[index].id,
+            'name': notifier.categoryListData[index].name
+          };
+          //print('Category ${notifier.categoryListData[index].name}');
           _selectedCategory(
-            category: notifier.categoryListData[index].name,
+            data: _data,
             context: context,
           );
         },
@@ -83,16 +87,16 @@ class CategoryList extends StatelessWidget {
 
   void _selectedCategory({
     BuildContext context,
-    String category,
+    dynamic data,
   }) {
     final _notifier = Provider.of<RecipeByCategoryNotifier>(
       context,
       listen: false,
     );
-    _notifier.loadRecipeByCategory(category: category);
+    _notifier.loadRecipeByCategory(category: data);
     Navigator.of(context).pushNamed(
       AllRecipeByCategory.routeName,
-      arguments: category,
+      arguments: data,
     );
   }
 }

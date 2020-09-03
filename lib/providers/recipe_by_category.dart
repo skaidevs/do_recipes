@@ -23,7 +23,7 @@ class RecipeByCategoryNotifier with ChangeNotifier {
   }
 
   Future<void> loadRecipeByCategory({
-    String category,
+    dynamic category,
   }) async {
     return await _initializeAndUpdateRecipeByCategory(category: category);
   }
@@ -33,17 +33,20 @@ class RecipeByCategoryNotifier with ChangeNotifier {
   }
 
   Future<List<Data>> _initializeAndUpdateRecipeByCategory(
-      {String category}) async {
+      {dynamic category}) async {
     _isLoading = true;
     notifyListeners();
     _recipeDataByCategory = await _getRecipeByCategory(category: category);
     return _recipeDataByCategory;
   }
 
-  Future<List<Data>> _getRecipeByCategory({String category}) async {
+  Future<List<Data>> _getRecipeByCategory({dynamic category}) async {
     if (category == null) {
       return null;
     }
+
+    category = category['id'];
+
     if (!_cachedRecipeByCategory.containsKey(category)) {
       final _recipeByCategoryResponse = await http.get(
         Uri.encodeFull('$baseUrl' + 'recipes?category=$category'),

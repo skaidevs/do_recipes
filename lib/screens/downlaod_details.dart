@@ -57,7 +57,7 @@ class _DownloadedRecipeDetailScreenState
               stream: dao.isDownloaded(_recipeId.code),
               builder: (context, AsyncSnapshot snapshot) {
                 if (snapshot.hasData && snapshot.data) {
-                  DownloadRecipe _recipe;
+                  //DownloadRecipe _recipe;
 
                   return IconButton(
                     onPressed: () {
@@ -93,7 +93,7 @@ class _DownloadedRecipeDetailScreenState
               stream: daoIng.isDownloaded(_recipeId.code),
               builder: (context, AsyncSnapshot snapshot) {
                 if (snapshot.hasData && snapshot.data) {
-                  DownloadRecipe _recipe;
+                  // DownloadRecipe _recipe;
 
                   return IconButton(
                     onPressed: () {

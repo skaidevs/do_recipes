@@ -16,6 +16,7 @@ class _LoadingInfoState extends State<LoadingInfo>
     super.initState();
     _controller = AnimationController(
       vsync: this,
+      value: 1,
       duration: Duration(seconds: 1),
     );
   }

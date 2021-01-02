@@ -31,7 +31,12 @@ class _ShoppingListState extends State<ShoppingList> {
                   text: 'You don\'t have any shopping list yet!');
             } else {
               return ListView.builder(
+                key: const PageStorageKey<String>('shopping_list_key'),
                 itemCount: downloadRecipes.length,
+                scrollDirection: Axis.vertical,
+                shrinkWrap: true,
+                padding: const EdgeInsets.all(4.0),
+                physics: ClampingScrollPhysics(),
                 itemBuilder: (context, index) {
                   final itemRecipeDownload = downloadRecipes[index];
                   final regExp =
@@ -58,27 +63,26 @@ class _ShoppingListState extends State<ShoppingList> {
                         subtitle: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: _ingredients[_allRecipeNotifier.activeServe]
-                              .split(', ')
-                              .map<Widget>(
-                                (eachServes) => Text(
-                                  '${eachServes.replaceAll(',', '')}',
-                                  style: const TextStyle(
-                                    fontFamily: kBalooTamma2,
-                                    fontSize: 18.0,
-                                  ),
-                                  textAlign: TextAlign.left,
-                                ),
-                              )
-                              .toList(),
+                                  .isEmpty
+                              ? 'N/A'
+                              : _ingredients[_allRecipeNotifier.activeServe]
+                                  .split(', ')
+                                  .map<Widget>(
+                                    (eachServes) => Text(
+                                      '${eachServes.replaceAll(',', '')}',
+                                      style: const TextStyle(
+                                        fontFamily: kBalooTamma2,
+                                        fontSize: 18.0,
+                                      ),
+                                      textAlign: TextAlign.left,
+                                    ),
+                                  )
+                                  .toList(),
                         ),
                       ),
                     ),
                   );
                 },
-                padding: const EdgeInsets.all(4.0),
-                scrollDirection: Axis.vertical,
-                shrinkWrap: true,
-                physics: ClampingScrollPhysics(),
               );
             }
           });

@@ -33,6 +33,7 @@ class _RecipeBookState extends State<RecipeBook> {
                 text: 'You don\'t have any recipes in your recipe book yet!');
           } else {
             return GridView.builder(
+              key: const PageStorageKey<String>('recipe_book_key'),
               itemCount: downloadRecipes.length,
               itemBuilder: (context, index) {
                 final itemRecipeDownload = downloadRecipes[index];

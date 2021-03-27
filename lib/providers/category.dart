@@ -38,7 +38,6 @@ class CategoryNotifier with ChangeNotifier {
       print("SOMETHING IS WRONG In Category. $onError");
       _isLoading = false;
       notifyListeners();
-      return;
     });
     return futureCategories;
   }
@@ -47,7 +46,7 @@ class CategoryNotifier with ChangeNotifier {
     String recipes = 'recipes';
     if (!_cachedCategories.containsKey(recipes)) {
       final _categoryResponse = await http.get(
-        Uri.encodeFull('$baseUrl${'categories'}'),
+        Uri.parse('$baseUrl${'categories'}'),
       );
       if (_categoryResponse.statusCode == 200) {
         var extractedData = json.decode(_categoryResponse.body);

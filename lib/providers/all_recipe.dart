@@ -68,7 +68,6 @@ class AllRecipeNotifier with ChangeNotifier {
       print("SOMETHING IS WRONG IN ALL RECIPE. $onError");
       _isLoading = false;
       notifyListeners();
-      return;
     });
     return futureRecipe;
   }
@@ -78,8 +77,10 @@ class AllRecipeNotifier with ChangeNotifier {
 
     if (!_cachedAllRecipe.containsKey(_id)) {
       final _allRecipeResponse = await http.get(
-        Uri.encodeFull('$baseUrl${'recipes'}'),
+        Uri.parse('$baseUrl${'recipes'}'),
       );
+
+      print(_allRecipeResponse.body);
       if (_allRecipeResponse.statusCode == 200) {
         var extractedData = json.decode(_allRecipeResponse.body);
         if (extractedData == null) {

@@ -1,4 +1,4 @@
-package com.daisyinthekitchen
+package com.dorecipes
 
 import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterActivity

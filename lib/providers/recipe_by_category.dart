@@ -48,9 +48,8 @@ class RecipeByCategoryNotifier with ChangeNotifier {
     category = category['id'];
 
     if (!_cachedRecipeByCategory.containsKey(category)) {
-      final _recipeByCategoryResponse = await http.get(
-        Uri.encodeFull('$baseUrl' + 'recipes?category=$category'),
-      );
+      final _recipeByCategoryResponse =
+          await http.get(Uri.parse('$baseUrl' + 'recipes?category=$category'));
 
       if (_recipeByCategoryResponse.statusCode == 200) {
         var extractedData = json.decode(_recipeByCategoryResponse.body);

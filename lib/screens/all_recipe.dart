@@ -1,9 +1,9 @@
-import 'package:daisyinthekitchen/providers/all_recipe.dart';
-import 'package:daisyinthekitchen/providers/recipe_by_category.dart';
-import 'package:daisyinthekitchen/widgets/commons.dart';
-import 'package:daisyinthekitchen/widgets/empty_and_error_recipe.dart';
-import 'package:daisyinthekitchen/widgets/loading_info.dart';
-import 'package:daisyinthekitchen/widgets/recipe_grid.dart';
+import 'package:dorecipes/providers/all_recipe.dart';
+import 'package:dorecipes/providers/recipe_by_category.dart';
+import 'package:dorecipes/widgets/commons.dart';
+import 'package:dorecipes/widgets/empty_and_error_recipe.dart';
+import 'package:dorecipes/widgets/loading_info.dart';
+import 'package:dorecipes/widgets/recipe_grid.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

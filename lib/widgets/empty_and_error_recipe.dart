@@ -1,5 +1,5 @@
-import 'package:daisyinthekitchen/screens/recipe_over_view.dart';
-import 'package:daisyinthekitchen/widgets/commons.dart';
+import 'package:dorecipes/screens/recipe_over_view.dart';
+import 'package:dorecipes/widgets/commons.dart';
 import 'package:flutter/material.dart';
 
 class Empty extends StatelessWidget {

@@ -1,14 +1,14 @@
-import 'package:daisyinthekitchen/helpers/ingredient_database.dart';
-import 'package:daisyinthekitchen/helpers/recipe_database.dart';
-import 'package:daisyinthekitchen/providers/all_recipe.dart';
-import 'package:daisyinthekitchen/providers/bottom_navigator.dart';
-import 'package:daisyinthekitchen/screens/all_recipe_and_catigories.dart';
-import 'package:daisyinthekitchen/screens/recipe_book.dart';
-import 'package:daisyinthekitchen/screens/shopping_list.dart';
-import 'package:daisyinthekitchen/widgets/commons.dart';
-import 'package:daisyinthekitchen/widgets/loading_info.dart';
-import 'package:daisyinthekitchen/widgets/search.dart';
 import 'package:data_connection_checker/data_connection_checker.dart';
+import 'package:dorecipes/helpers/ingredient_database.dart';
+import 'package:dorecipes/helpers/recipe_database.dart';
+import 'package:dorecipes/providers/all_recipe.dart';
+import 'package:dorecipes/providers/bottom_navigator.dart';
+import 'package:dorecipes/screens/all_recipe_and_catigories.dart';
+import 'package:dorecipes/screens/recipe_book.dart';
+import 'package:dorecipes/screens/shopping_list.dart';
+import 'package:dorecipes/widgets/commons.dart';
+import 'package:dorecipes/widgets/loading_info.dart';
+import 'package:dorecipes/widgets/search.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

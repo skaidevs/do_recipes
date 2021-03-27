@@ -1,8 +1,8 @@
 import 'dart:collection';
 import 'dart:convert';
 
-import 'package:daisyinthekitchen/models/recipe.dart';
-import 'package:daisyinthekitchen/providers/category.dart';
+import 'package:dorecipes/models/recipe.dart';
+import 'package:dorecipes/providers/category.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 

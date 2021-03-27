@@ -1,7 +1,7 @@
-import 'package:daisyinthekitchen/providers/category.dart';
-import 'package:daisyinthekitchen/widgets/category_list.dart';
-import 'package:daisyinthekitchen/widgets/empty_and_error_recipe.dart';
-import 'package:daisyinthekitchen/widgets/loading_info.dart';
+import 'package:dorecipes/providers/category.dart';
+import 'package:dorecipes/widgets/category_list.dart';
+import 'package:dorecipes/widgets/empty_and_error_recipe.dart';
+import 'package:dorecipes/widgets/loading_info.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

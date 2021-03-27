@@ -1,4 +1,4 @@
-import 'package:daisyinthekitchen/widgets/commons.dart';
+import 'package:dorecipes/widgets/commons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_html/style.dart';

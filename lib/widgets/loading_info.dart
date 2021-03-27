@@ -1,4 +1,4 @@
-import 'package:daisyinthekitchen/providers/all_recipe.dart';
+import 'package:dorecipes/providers/all_recipe.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

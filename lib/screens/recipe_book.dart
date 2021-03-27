@@ -1,6 +1,6 @@
-import 'package:daisyinthekitchen/helpers/recipe_database.dart';
-import 'package:daisyinthekitchen/widgets/empty_and_error_recipe.dart';
-import 'package:daisyinthekitchen/widgets/recipe_grid_item.dart';
+import 'package:dorecipes/helpers/recipe_database.dart';
+import 'package:dorecipes/widgets/empty_and_error_recipe.dart';
+import 'package:dorecipes/widgets/recipe_grid_item.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

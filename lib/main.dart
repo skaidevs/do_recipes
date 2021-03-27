@@ -1,17 +1,18 @@
-import 'package:daisyinthekitchen/helpers/ingredient_database.dart';
-import 'package:daisyinthekitchen/helpers/recipe_database.dart';
-import 'package:daisyinthekitchen/providers/all_recipe.dart';
-import 'package:daisyinthekitchen/providers/bottom_navigator.dart';
-import 'package:daisyinthekitchen/providers/category.dart';
-import 'package:daisyinthekitchen/providers/recipe_by_category.dart';
-import 'package:daisyinthekitchen/providers/shopping_list.dart';
-import 'package:daisyinthekitchen/screens/all_recipe.dart';
-import 'package:daisyinthekitchen/screens/amin_edit_recipe.dart';
-import 'package:daisyinthekitchen/screens/downlaod_details.dart';
-import 'package:daisyinthekitchen/screens/recipe_detail.dart';
-import 'package:daisyinthekitchen/screens/recipe_over_view.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import 'helpers/ingredient_database.dart';
+import 'helpers/recipe_database.dart';
+import 'providers/all_recipe.dart';
+import 'providers/bottom_navigator.dart';
+import 'providers/category.dart';
+import 'providers/recipe_by_category.dart';
+import 'providers/shopping_list.dart';
+import 'screens/all_recipe.dart';
+import 'screens/amin_edit_recipe.dart';
+import 'screens/download_details.dart';
+import 'screens/recipe_detail.dart';
+import 'screens/recipe_over_view.dart';
 
 void main() => runApp(MyApp());
 

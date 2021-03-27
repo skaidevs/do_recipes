@@ -1,5 +1,5 @@
-import 'package:daisyinthekitchen/models/recipe.dart';
-import 'package:daisyinthekitchen/widgets/commons.dart';
+import 'package:dorecipes/models/recipe.dart';
+import 'package:dorecipes/widgets/commons.dart';
 import 'package:flutter/material.dart';
 
 class TimeCalDifficulty extends StatelessWidget {

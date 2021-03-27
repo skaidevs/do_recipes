@@ -1,6 +1,6 @@
-import 'package:daisyinthekitchen/screens/all_recipe.dart';
-import 'package:daisyinthekitchen/screens/categories.dart';
-import 'package:daisyinthekitchen/widgets/commons.dart';
+import 'package:dorecipes/screens/all_recipe.dart';
+import 'package:dorecipes/screens/categories.dart';
+import 'package:dorecipes/widgets/commons.dart';
 import 'package:flutter/material.dart';
 
 class AllRecipeAndCategories extends StatefulWidget {

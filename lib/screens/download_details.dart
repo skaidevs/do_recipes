@@ -1,8 +1,8 @@
-import 'package:daisyinthekitchen/helpers/ingredient_database.dart';
-import 'package:daisyinthekitchen/helpers/recipe_database.dart';
-import 'package:daisyinthekitchen/widgets/commons.dart';
-import 'package:daisyinthekitchen/widgets/html_viewer.dart';
-import 'package:daisyinthekitchen/widgets/serves_button.dart';
+import 'package:dorecipes/helpers/ingredient_database.dart';
+import 'package:dorecipes/helpers/recipe_database.dart';
+import 'package:dorecipes/widgets/commons.dart';
+import 'package:dorecipes/widgets/html_viewer.dart';
+import 'package:dorecipes/widgets/serves_button.dart';
 import 'package:flutter/material.dart';
 import 'package:moor/moor.dart' as v;
 import 'package:provider/provider.dart';

@@ -1,4 +1,4 @@
-import 'package:dorecipes/screens/recipe_over_view.dart';
+import 'package:dorecipes/screens/do_recipe_home.dart';
 import 'package:dorecipes/widgets/commons.dart';
 import 'package:flutter/material.dart';
 
@@ -95,10 +95,10 @@ class CheckConnection extends StatelessWidget {
   }
 }
 
-class Error extends StatelessWidget {
+class ErrorPage extends StatelessWidget {
   final String text;
 
-  const Error({Key key, this.text}) : super(key: key);
+  const ErrorPage({Key key, this.text}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Center(

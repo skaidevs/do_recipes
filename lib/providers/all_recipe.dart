@@ -23,7 +23,6 @@ class AllRecipeNotifier with ChangeNotifier {
   int currentRecipeIndex;
 
   List<Data> _allRecipeData = [];
-  String error = '';
 
   UnmodifiableListView<Data> get allRecipeData =>
       UnmodifiableListView(_allRecipeData);
@@ -31,12 +30,11 @@ class AllRecipeNotifier with ChangeNotifier {
   bool _isLoading = false;
   bool get isLoading => _isLoading;
 
-  set isLoading(bool value) {
-    if (value != isLoading) {
-      _isLoading = value;
-      notifyListeners();
-    }
-  }
+  String _recipeError = '';
+  String get recipeError => _recipeError;
+
+  String _internetConnectionError = '';
+  String get internetConnectionError => _internetConnectionError;
 
   Data findAlbumById({String code}) {
     return _allRecipeData.firstWhere((id) => id.id == code);
@@ -57,15 +55,20 @@ class AllRecipeNotifier with ChangeNotifier {
     });
   }
 
-  Future _initializeAllRecipe() async {
+  Future<List<Data>> _initializeAllRecipe() async {
+    _internetConnectionError = '';
+    _recipeError = '';
+    _isLoading = true;
+    notifyListeners();
     return _allRecipeData = await _updateAllRecipe();
   }
 
   Future<List<Data>> _updateAllRecipe() async {
-    _isLoading = true;
-    notifyListeners();
     final futureRecipe = await _getAllRecipe().catchError((onError) {
       print("SOMETHING IS WRONG IN ALL RECIPE. $onError");
+      if (onError.toString().contains('SocketException')) {
+        _internetConnectionError = 'error';
+      }
       _isLoading = false;
       notifyListeners();
     });
@@ -73,14 +76,12 @@ class AllRecipeNotifier with ChangeNotifier {
   }
 
   Future<List<Data>> _getAllRecipe() async {
-    String _id = '_id';
-
+    final _id = '_id';
     if (!_cachedAllRecipe.containsKey(_id)) {
       final _allRecipeResponse = await http.get(
         Uri.parse('$baseUrl${'recipes'}'),
       );
 
-      print(_allRecipeResponse.body);
       if (_allRecipeResponse.statusCode == 200) {
         var extractedData = json.decode(_allRecipeResponse.body);
         if (extractedData == null) {
@@ -88,11 +89,14 @@ class AllRecipeNotifier with ChangeNotifier {
         }
 
         Recipe _recipe = Recipe.fromJson(extractedData);
+        print('DATA: ${_recipe.data[0].title}');
         _cachedAllRecipe[_id] = _recipe.data;
         notifyListeners();
       } else {
-        error = _allRecipeResponse.body.toString();
-        throw RecipeError('Recipe could not be fetched. {{}} $error}');
+        _recipeError = _allRecipeResponse.body.toString();
+        _isLoading = false;
+        notifyListeners();
+        throw RecipeError('Recipe could not be fetched. {{}} $_recipeError}');
       }
     }
     return _cachedAllRecipe[_id];

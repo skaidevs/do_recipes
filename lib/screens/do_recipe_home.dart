@@ -1,16 +1,13 @@
-import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:dorecipes/helpers/ingredient_database.dart';
 import 'package:dorecipes/helpers/recipe_database.dart';
-import 'package:dorecipes/providers/all_recipe.dart';
 import 'package:dorecipes/providers/bottom_navigator.dart';
-import 'package:dorecipes/screens/all_recipe_and_catigories.dart';
+import 'package:dorecipes/screens/all_recipe_and_categories.dart';
 import 'package:dorecipes/screens/recipe_book.dart';
 import 'package:dorecipes/screens/shopping_list.dart';
 import 'package:dorecipes/widgets/commons.dart';
-import 'package:dorecipes/widgets/loading_info.dart';
-import 'package:dorecipes/widgets/search.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 
 class DoRecipeHomePage extends StatefulWidget {
   DoRecipeHomePage({Key key, this.title}) : super(key: key);
@@ -23,23 +20,16 @@ class DoRecipeHomePage extends StatefulWidget {
 class _DoRecipeHomePageState extends State<DoRecipeHomePage> {
   List<Map<String, Object>> _pages;
   var _bottomNavigation;
-  bool _isLoading = false;
-
+  //bool _isLoading = false;
   bool _isConnectionReady = false;
 
-  BottomNavigationBarItem _buildBottomNavBarItem({
+  SalomonBottomBarItem _buildBottomNavBarItem({
     IconData iconData,
     String title,
   }) {
-    return BottomNavigationBarItem(
-      backgroundColor: Theme.of(context).accentColor,
+    return SalomonBottomBarItem(
       icon: Icon(iconData),
-      title: Text(
-        title,
-        style: TextStyle(
-          fontFamily: kBalooTamma2,
-        ),
-      ),
+      title: Text(title),
     );
   }
 
@@ -52,123 +42,25 @@ class _DoRecipeHomePageState extends State<DoRecipeHomePage> {
 
   @override
   void initState() {
-    _fetchDataAndCheckConnection();
+    _initPages();
     super.initState();
   }
 
-  Future _fetchDataAndCheckConnection() {
-    setState(() {
-      _isLoading = true;
-    });
-    return Future.delayed(
-      Duration(seconds: 3),
-    ).then((_) async {
-      final _notifier = Provider.of<AllRecipeNotifier>(
-        context,
-        listen: false,
-      );
-      await Provider.of<AllRecipeNotifier>(context, listen: false)
-          .initializeAllRecipe()
-          .then((_) {
-        return _checkConnection().then((value) {
-          //print('connection???????? $_isLoading');
-          _isConnectionReady = value;
-
-          if (_isConnectionReady == true) {
-            _pages = [
-              {
-                'page': AllRecipeAndCategories(),
-                'title': 'DO Recipes',
-              },
-              {
-                'page': ShoppingList(),
-                'title': 'Shopping List',
-              },
-              {
-                'page': RecipeBook(),
-                'title': 'Recipe Book',
-              },
-            ];
-
-            setState(() {
-              _isLoading = false;
-              _notifier.isLoading = false;
-            });
-          } else {
-            _pages = [
-              {
-                'page': Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Text(
-                        'No Internet Connection!',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontSize: 30.0,
-                            fontStyle: FontStyle.italic,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: kBalooTamma2,
-                            color: Colors.grey),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: IconButton(
-                            icon: Icon(
-                              Icons.refresh,
-                              color: Theme.of(context).primaryColor,
-                              size: 40,
-                            ),
-                            onPressed: () {
-                              _fetchDataAndCheckConnection();
-                            }),
-                      ),
-                      SizedBox(
-                        height: 30,
-                      ),
-                      FlatButton(
-                        color: Theme.of(context).primaryColor,
-                        textColor: Colors.white,
-                        disabledColor: Colors.grey,
-                        disabledTextColor: Colors.black,
-                        padding: EdgeInsets.all(8.0),
-                        splashColor: Theme.of(context).primaryColor,
-                        onPressed: () {
-                          _bottomNavigation.currentIndex = 2;
-                          /*...*/
-                        },
-                        child: Text(
-                          "Go to recipe book",
-                          style: TextStyle(fontSize: 20.0),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                'title': 'DO Recipes',
-              },
-              {
-                'page': ShoppingList(),
-                'title': 'Shopping List',
-              },
-              {
-                'page': RecipeBook(),
-                'title': 'Recipe Book',
-              },
-            ];
-            setState(() {
-              _isLoading = false;
-            });
-          }
-        });
-      });
-    });
-  }
-
-  Future<bool> _checkConnection() async {
-    bool _result = await DataConnectionChecker().hasConnection;
-
-    return _result;
+  Future<void> _initPages() async {
+    _pages = [
+      {
+        'page': AllRecipeAndCategories(),
+        'title': 'DO Recipes',
+      },
+      {
+        'page': ShoppingList(),
+        'title': 'Shopping List',
+      },
+      {
+        'page': RecipeBook(),
+        'title': 'Recipe Book',
+      },
+    ];
   }
 
   void _showDialog() {
@@ -195,7 +87,7 @@ class _DoRecipeHomePageState extends State<DoRecipeHomePage> {
           ),
           actions: <Widget>[
             // usually buttons at the bottom of the dialog
-            FlatButton(
+            TextButton(
               child: const Text(
                 "CANCEL",
                 style: TextStyle(
@@ -206,7 +98,7 @@ class _DoRecipeHomePageState extends State<DoRecipeHomePage> {
                 Navigator.of(context).pop();
               },
             ),
-            FlatButton(
+            TextButton(
               child: const Text(
                 "CLEAR",
                 style: TextStyle(
@@ -250,7 +142,7 @@ class _DoRecipeHomePageState extends State<DoRecipeHomePage> {
           ),
           actions: <Widget>[
             // usually buttons at the bottom of the dialog
-            FlatButton(
+            TextButton(
               child: const Text(
                 "CANCEL",
                 style: TextStyle(
@@ -261,7 +153,7 @@ class _DoRecipeHomePageState extends State<DoRecipeHomePage> {
                 Navigator.of(context).pop();
               },
             ),
-            FlatButton(
+            TextButton(
               child: const Text(
                 "CLEAR",
                 style: TextStyle(
@@ -297,7 +189,7 @@ class _DoRecipeHomePageState extends State<DoRecipeHomePage> {
     );
 
     return Scaffold(
-      appBar: _isLoading
+      /*appBar: _isLoading
           ? null
           : AppBar(
               elevation: 0.0,
@@ -311,7 +203,7 @@ class _DoRecipeHomePageState extends State<DoRecipeHomePage> {
                     builder: (context,
                         AsyncSnapshot<List<DownloadRecipeIngredientData>>
                             snapshot) {
-                      final downloadRecipes = snapshot.data ?? List();
+                      final downloadRecipes = snapshot.data ?? [];
                       if (snapshot.data == null) {
                         return Container();
                       } else if (downloadRecipes.isEmpty) {
@@ -330,7 +222,7 @@ class _DoRecipeHomePageState extends State<DoRecipeHomePage> {
                     stream: dao.watchDownloadRecipes(),
                     builder: (context,
                         AsyncSnapshot<List<DownloadRecipe>> snapshot) {
-                      final downloadRecipes = snapshot.data ?? List();
+                      final downloadRecipes = snapshot.data ?? [];
                       if (snapshot.data == null) {
                         return Container();
                       } else if (downloadRecipes.isEmpty) {
@@ -356,38 +248,36 @@ class _DoRecipeHomePageState extends State<DoRecipeHomePage> {
                         })
                     : Container(),
               ],
+            ),*/
+      body: _pages[_bottomNavigation.currentIndex]['page'],
+      bottomNavigationBar: Container(
+        color: kColorWhite,
+        child: SalomonBottomBar(
+          margin: EdgeInsets.all(
+            10.0,
+          ),
+          unselectedItemColor: kColorGrey,
+
+          //backgroundColor: Colors.white,
+          items: [
+            _buildBottomNavBarItem(
+              iconData: Icons.restaurant,
+              title: 'Browse Recipe',
             ),
-      body: _isLoading
-          ? Center(
-              child: Container(
-                child: LoadingInfo(),
-              ),
-            )
-          : _pages[_bottomNavigation.currentIndex]['page'],
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.white,
-        items: [
-          _buildBottomNavBarItem(
-            iconData: Icons.restaurant,
-            title: 'Browse Recipe',
-          ),
-          _buildBottomNavBarItem(
-            iconData: Icons.shopping_cart,
-            title: 'Shopping List',
-          ),
-          _buildBottomNavBarItem(
-            iconData: Icons.collections_bookmark,
-            title: 'Recipe Book',
-          ),
-          /* _buildBottomNavBarItem(
-            iconData: Icons.add_box,
-            title: 'Admin',
-          ),*/
-        ],
-        currentIndex: _bottomNavigation.currentIndex,
-        onTap: (index) {
-          _bottomNavigation.currentIndex = index;
-        },
+            _buildBottomNavBarItem(
+              iconData: Icons.shopping_cart,
+              title: 'Shopping List',
+            ),
+            _buildBottomNavBarItem(
+              iconData: Icons.collections_bookmark,
+              title: 'Recipe Book',
+            ),
+          ],
+          currentIndex: _bottomNavigation.currentIndex,
+          onTap: (index) {
+            _bottomNavigation.currentIndex = index;
+          },
+        ),
       ),
     );
   }

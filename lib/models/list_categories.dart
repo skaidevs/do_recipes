@@ -23,7 +23,7 @@ class CategoryList with ChangeNotifier {
   CategoryList({this.category});
 
   factory CategoryList.fromJson(List<dynamic> parsedJson) {
-    List<Category> category = List<Category>();
+    List<Category> category = [];
     category = parsedJson.map((i) => Category.fromJson(i)).toList();
 
     return new CategoryList(

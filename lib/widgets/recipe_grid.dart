@@ -1,22 +1,24 @@
 import 'package:dorecipes/models/recipe.dart';
 import 'package:dorecipes/providers/all_recipe.dart';
 import 'package:dorecipes/providers/recipe_by_category.dart';
+import 'package:dorecipes/widgets/recipe_category_card.dart';
 import 'package:dorecipes/widgets/recipe_grid_item.dart';
 import 'package:flutter/material.dart';
 
-class RecipeGrid extends StatelessWidget {
+class USERecipeGrid extends StatelessWidget {
   final AllRecipeNotifier notifier;
-  const RecipeGrid({Key key, this.notifier}) : super(key: key);
+  const USERecipeGrid({Key key, this.notifier}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    var _recipe = notifier?.allRecipeData;
     return GridView.builder(
-      itemCount: notifier.allRecipeData?.length ?? 0,
+      itemCount: _recipe.length ?? 0,
       itemBuilder: (context, index) => RecipeGridItem(
-        id: notifier.allRecipeData[index].id,
-        title: notifier.allRecipeData[index].title,
-        duration: notifier.allRecipeData[index].duration,
-        imageUrl: notifier.allRecipeData[index].imageUrl,
+        id: _recipe[index].id,
+        title: _recipe[index].title,
+        duration: _recipe[index].duration,
+        imageUrl: _recipe[index].imageUrl,
       ),
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
@@ -25,6 +27,32 @@ class RecipeGrid extends StatelessWidget {
         mainAxisSpacing: 6,
       ),
       padding: const EdgeInsets.all(4.0),
+      scrollDirection: Axis.vertical,
+      shrinkWrap: true,
+      physics: ClampingScrollPhysics(),
+    );
+  }
+}
+
+class RecipeGrid extends StatelessWidget {
+  final AllRecipeNotifier notifier;
+  const RecipeGrid({Key key, this.notifier}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    var _recipe = notifier?.allRecipeData;
+    return GridView.builder(
+      itemCount: 8,
+      itemBuilder: (context, index) => CategoryItem(),
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        childAspectRatio: 3 / 4,
+        crossAxisSpacing: 3,
+        mainAxisSpacing: 4,
+      ),
+      padding: const EdgeInsets.all(
+        2.0,
+      ),
       scrollDirection: Axis.vertical,
       shrinkWrap: true,
       physics: ClampingScrollPhysics(),

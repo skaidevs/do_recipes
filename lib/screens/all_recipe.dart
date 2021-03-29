@@ -11,9 +11,8 @@ class AllRecipe extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Consumer<AllRecipeNotifier>(
-        builder: (context, notifier, _) {
-          if (notifier.isLoading) {
+      child: Consumer<AllRecipeNotifier>(builder: (context, notifier, _) {
+        /*if (notifier.isLoading) {
             return Center(
               child: LoadingInfo(),
             );
@@ -34,13 +33,13 @@ class AllRecipe extends StatelessWidget {
             return const Empty(
               text: 'No Recipe to Show',
             );
-          } else {
-            return RecipeGrid(
-              notifier: notifier,
-            );
-          }
-        },
-      ),
+          } else {*/
+        return RecipeGrid(
+          notifier: notifier,
+        );
+      }
+          /*  },*/
+          ),
     );
   }
 }
@@ -69,7 +68,7 @@ class AllRecipeByCategory extends StatelessWidget {
 
             if (notifier.error.isNotEmpty) {
               return Center(
-                child: Error(
+                child: ErrorPage(
                   text: 'An Error Occurred!!',
                 ),
               );

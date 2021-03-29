@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 const Color kColorDKGreen = Color(0xFF029D75);
+const Color kColorTeal = Colors.teal;
 const Color kColorGrey = Colors.grey;
 const Color kColorWhite = Colors.white;
 const String kBalooTamma2 = 'BalooTamma2';

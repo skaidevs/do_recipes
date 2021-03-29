@@ -2,9 +2,12 @@ import 'dart:collection';
 import 'dart:convert';
 
 import 'package:dorecipes/models/recipe.dart';
+import 'package:dorecipes/providers/all_recipe.dart';
 import 'package:dorecipes/providers/category.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
+
+import 'all_recipe.dart';
 
 class RecipeByCategoryNotifier with ChangeNotifier {
   Map<String, List<Data>> _cachedRecipeByCategory;

@@ -18,7 +18,7 @@ class Categories extends StatelessWidget {
           }
           if (notifier.error.isNotEmpty) {
             return Center(
-              child: const Error(
+              child: const ErrorPage(
                 text: 'An Error Occurred!!',
               ),
             );

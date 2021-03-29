@@ -37,9 +37,27 @@ class _LoadingInfoState extends State<LoadingInfo>
             curve: Curves.easeIn,
           ),
         ),
-        child: Icon(
-          Icons.local_activity,
-          size: 30.0,
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SizedBox(
+                child: CircularProgressIndicator(),
+                width: 60,
+                height: 60,
+              ),
+              Padding(
+                padding: EdgeInsets.only(top: 16),
+                child: Text(
+                  'Awaiting result...',
+                  style: TextStyle(
+                    fontSize: 18.0,
+                  ),
+                ),
+              )
+            ],
+          ),
         ),
       );
     });

@@ -3,14 +3,16 @@ import 'dart:convert';
 
 import 'package:dorecipes/models/list_categories.dart' as cati;
 import 'package:dorecipes/models/list_categories.dart';
+import 'package:dorecipes/providers/all_recipe.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
-
-const baseUrl = 'https://recipes.trapcode.io/app/';
 
 class CategoryNotifier with ChangeNotifier {
   Map<String, List<cati.Category>> _cachedCategories;
   String error = '';
+
+  bool _isCategoryLoaded = false;
+  bool get isCategoryLoaded => _isCategoryLoaded;
 
   List<cati.Category> _categoryList = [];
 
@@ -54,11 +56,11 @@ class CategoryNotifier with ChangeNotifier {
           return null;
         }
         CategoryList _category = CategoryList.fromJson(extractedData);
-
         _cachedCategories[recipes] = _category.category;
+        _isCategoryLoaded = true;
       } else {
         error = _categoryResponse.body.toString();
-        throw RecipeError('Categories could not be fetched. {{}}}');
+        throw RecipeError('Categories could not be fetched. {{}}');
       }
     }
     return _cachedCategories[recipes];

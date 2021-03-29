@@ -9,10 +9,9 @@ import 'providers/category.dart';
 import 'providers/recipe_by_category.dart';
 import 'providers/shopping_list.dart';
 import 'screens/all_recipe.dart';
-import 'screens/amin_edit_recipe.dart';
+import 'screens/do_recipe_home.dart';
 import 'screens/download_details.dart';
 import 'screens/recipe_detail.dart';
-import 'screens/recipe_over_view.dart';
 
 void main() => runApp(MyApp());
 
@@ -54,18 +53,60 @@ class MyApp extends StatelessWidget {
         title: 'DO Recipes',
         theme: ThemeData(
           primarySwatch: Colors.teal,
+          backgroundColor: Colors.white,
+          scaffoldBackgroundColor: Colors.white,
         ),
-        home: DoRecipeHomePage(
-          title: 'DO Recipes',
-        ),
+        home: DoRecipeHomePage(),
         routes: {
           RecipeDetailScreen.routeName: (context) => RecipeDetailScreen(),
           DownloadedRecipeDetailScreen.routeName: (context) =>
               DownloadedRecipeDetailScreen(),
           AllRecipeByCategory.routeName: (context) => AllRecipeByCategory(),
-          EditRecipe.routeName: (context) => EditRecipe(),
         },
       ),
     );
   }
+
+  Widget _buildCustomWidget({
+    String text,
+    Color color,
+    bool isLoadingInit,
+  }) =>
+      isLoadingInit
+          ? Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    child: CircularProgressIndicator(),
+                    width: 60,
+                    height: 60,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(top: 16),
+                    child: Text(text),
+                  )
+                ],
+              ),
+            )
+          : Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.error_outline,
+                    color: color,
+                    size: 60,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      top: 16,
+                    ),
+                    child: Text(text),
+                  )
+                ],
+              ),
+            );
 }

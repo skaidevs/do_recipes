@@ -22,7 +22,7 @@ class _ShoppingListState extends State<ShoppingList> {
           stream: dao.watchDownloadRecipes(),
           builder: (context,
               AsyncSnapshot<List<DownloadRecipeIngredientData>> snapshot) {
-            final downloadRecipes = snapshot.data ?? List();
+            final downloadRecipes = snapshot.data ?? [];
 
             if (snapshot.data == null) {
               return Container();

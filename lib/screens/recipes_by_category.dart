@@ -1,50 +1,13 @@
-import 'package:dorecipes/providers/all_recipe.dart';
 import 'package:dorecipes/providers/recipe_by_category.dart';
 import 'package:dorecipes/widgets/commons.dart';
 import 'package:dorecipes/widgets/empty_and_error_recipe.dart';
+import 'package:dorecipes/widgets/internet_error.dart';
 import 'package:dorecipes/widgets/loading_info.dart';
 import 'package:dorecipes/widgets/recipe_grid.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class AllRecipe extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: Consumer<AllRecipeNotifier>(builder: (context, notifier, _) {
-        /*if (notifier.isLoading) {
-            return Center(
-              child: LoadingInfo(),
-            );
-          }
-          if (notifier.error.isNotEmpty) {
-            return Center(
-              child: Error(
-                text: 'An Error Occurred!!',
-              ),
-            );
-          }
-          if (notifier.allRecipeData == null) {
-            return const Empty(
-              text: 'No Recipe to Show',
-            );
-          }
-          if (notifier.allRecipeData.isEmpty) {
-            return const Empty(
-              text: 'No Recipe to Show',
-            );
-          } else {*/
-        return RecipeGrid(
-          notifier: notifier,
-        );
-      }
-          /*  },*/
-          ),
-    );
-  }
-}
-
-class AllRecipeByCategory extends StatelessWidget {
+class RecipesByCategory extends StatelessWidget {
   static const routeName = '/all_recipe_byCategory';
 
   @override
@@ -54,12 +17,39 @@ class AllRecipeByCategory extends StatelessWidget {
       appBar: AppBar(
         title: Text(
           "${_categoryName['name']}",
-          style: TextStyle(fontFamily: kBalooTamma2),
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            color: kColorTeal,
+          ),
         ),
       ),
       body: Container(
         child: Consumer<RecipeByCategoryNotifier>(
           builder: (context, notifier, _) {
+            Widget child;
+            // print('Cat Data ${notifier.recipeDataByCategory.length}');
+            if (notifier.isLoading) {
+              child = LoadingInfo();
+            } else if (notifier.error.isNotEmpty) {
+              child = ErrorPage(
+                text: 'An Error Occurred!!',
+              );
+            } else if (notifier.internetMessage.isNotEmpty) {
+              child = InternetError();
+            } else if (notifier.recipeByCategoryList.isNotEmpty) {
+              child = CategoryGrid(
+                notifier: notifier,
+              );
+            } else if (notifier.recipeByCategoryList.isEmpty) {
+              child = Empty(
+                text: 'No Recipe to Show',
+              );
+            }
+            return child;
+
+            /*
+
+
             if (notifier.isLoading) {
               return Center(
                 child: LoadingInfo(),
@@ -87,7 +77,7 @@ class AllRecipeByCategory extends StatelessWidget {
               return RecipeGridByCategory(
                 notifier: notifier,
               );
-            }
+            }*/
           },
         ),
       ),

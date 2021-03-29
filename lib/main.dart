@@ -1,3 +1,4 @@
+import 'package:dorecipes/screens/categories.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -8,10 +9,10 @@ import 'providers/bottom_navigator.dart';
 import 'providers/category.dart';
 import 'providers/recipe_by_category.dart';
 import 'providers/shopping_list.dart';
-import 'screens/all_recipe.dart';
 import 'screens/do_recipe_home.dart';
 import 'screens/download_details.dart';
 import 'screens/recipe_detail.dart';
+import 'screens/recipes_by_category.dart';
 
 void main() => runApp(MyApp());
 
@@ -55,13 +56,21 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.teal,
           backgroundColor: Colors.white,
           scaffoldBackgroundColor: Colors.white,
+          appBarTheme: AppBarTheme(
+            backgroundColor: Colors.white,
+            elevation: 0.0,
+            iconTheme: IconThemeData(
+              color: Colors.teal,
+            ),
+          ),
         ),
         home: DoRecipeHomePage(),
         routes: {
           RecipeDetailScreen.routeName: (context) => RecipeDetailScreen(),
           DownloadedRecipeDetailScreen.routeName: (context) =>
               DownloadedRecipeDetailScreen(),
-          AllRecipeByCategory.routeName: (context) => AllRecipeByCategory(),
+          RecipesByCategory.routeName: (context) => RecipesByCategory(),
+          Categories.routeName: (context) => Categories(),
         },
       ),
     );

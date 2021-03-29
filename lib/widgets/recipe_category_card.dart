@@ -1,3 +1,4 @@
+import 'package:dorecipes/helpers/scroll_behavior.dart';
 import 'package:dorecipes/providers/category.dart';
 import 'package:dorecipes/widgets/commons.dart';
 import 'package:flutter/material.dart';
@@ -12,35 +13,38 @@ class RecipeCategoryCard extends StatelessWidget {
     );
     return SizedBox(
       height: 56.0,
-      child: ListView.builder(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 10.0,
-        ),
-        physics: ClampingScrollPhysics(),
-        shrinkWrap: true,
-        scrollDirection: Axis.horizontal,
-        itemCount: categoryData.categoryListData.length,
-        itemBuilder: (BuildContext context, int index) => Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-          child: Card(
-            color: Theme.of(context).accentColor,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(
-                30.0,
+      child: ScrollConfiguration(
+        behavior: ScrollConfigBehavior(),
+        child: ListView.builder(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 10.0,
+          ),
+          physics: ClampingScrollPhysics(),
+          shrinkWrap: true,
+          scrollDirection: Axis.horizontal,
+          itemCount: categoryData.categoryListData.length,
+          itemBuilder: (BuildContext context, int index) => Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: Card(
+              color: Theme.of(context).accentColor,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(
+                  30.0,
+                ),
               ),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 18.0,
-              ),
-              child: Center(
-                child: Text(
-                  '${categoryData.categoryListData[index].name}',
-                  //overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: kColorWhite,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 18.0,
+                ),
+                child: Center(
+                  child: Text(
+                    '${categoryData.categoryListData[index].name}',
+                    //overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: kColorWhite,
+                    ),
                   ),
                 ),
               ),
@@ -52,7 +56,7 @@ class RecipeCategoryCard extends StatelessWidget {
   }
 }
 
-class CategoryItem extends StatelessWidget {
+class GridItemCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //final product = Provider.of<Product>(context, listen: false);

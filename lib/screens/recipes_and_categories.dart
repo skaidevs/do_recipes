@@ -2,6 +2,7 @@ import 'package:dorecipes/helpers/ingredient_database.dart';
 import 'package:dorecipes/helpers/recipe_database.dart';
 import 'package:dorecipes/providers/all_recipe.dart';
 import 'package:dorecipes/providers/category.dart';
+import 'package:dorecipes/screens/categories.dart';
 import 'package:dorecipes/widgets/commons.dart';
 import 'package:dorecipes/widgets/empty_and_error_recipe.dart';
 import 'package:dorecipes/widgets/header_card.dart';
@@ -13,25 +14,7 @@ import 'package:dorecipes/widgets/search.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class AllRecipeAndCategories extends StatefulWidget {
-  @override
-  _AllRecipeAndCategoriesState createState() => _AllRecipeAndCategoriesState();
-}
-
-class _AllRecipeAndCategoriesState extends State<AllRecipeAndCategories> {
-  @override
-  void initState() {
-    //_fetchCategories();
-    super.initState();
-  }
-
-  /*Future _fetchCategories() {
-    final categoryNotifier =
-        Provider.of<CategoryNotifier>(context, listen: false);
-    return Future.delayed(Duration.zero)
-        .then((_) => categoryNotifier.fetchCategories());
-  }*/
-
+class RecipesAndCategories extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final dao = Provider.of<RecipeDao>(
@@ -51,8 +34,6 @@ class _AllRecipeAndCategoriesState extends State<AllRecipeAndCategories> {
         ),
       )*/
       appBar: AppBar(
-        elevation: 0.0,
-        backgroundColor: kColorWhite,
         title: Text(
           'DO RECIPES',
           style: TextStyle(
@@ -154,11 +135,13 @@ class _AllRecipeAndCategoriesState extends State<AllRecipeAndCategories> {
                                   height: 18.0,
                                 ),
                                 if (categoryNotifier.isCategoryLoaded)
-                                  _viewAllCategory()
+                                  _viewAllCategory(context)
                                 else
                                   Container(),
                                 _buildCategoryText(
-                                    categoryText: 'All Recipes', viewAll: ''),
+                                  categoryText: 'All Recipes',
+                                  viewAll: '',
+                                ),
                                 const SizedBox(
                                   height: 8.0,
                                 ),
@@ -172,9 +155,16 @@ class _AllRecipeAndCategoriesState extends State<AllRecipeAndCategories> {
     );
   }
 
-  Widget _viewAllCategory() => Column(
+  Widget _viewAllCategory(BuildContext context) => Column(
         children: [
-          _buildCategoryText(categoryText: 'Categories', viewAll: 'View All'),
+          _buildCategoryText(
+              categoryText: 'Categories',
+              viewAll: 'View All',
+              onPressed: () {
+                Navigator.of(context).pushNamed(
+                  Categories.routeName,
+                );
+              }),
           const SizedBox(
             height: 8.0,
           ),
@@ -188,6 +178,7 @@ class _AllRecipeAndCategoriesState extends State<AllRecipeAndCategories> {
   Widget _buildCategoryText({
     String categoryText,
     String viewAll,
+    Function onPressed,
   }) =>
       Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -201,7 +192,7 @@ class _AllRecipeAndCategoriesState extends State<AllRecipeAndCategories> {
             ),
           ),
           TextButton(
-            onPressed: () {},
+            onPressed: onPressed,
             child: Text(
               viewAll,
               style: TextStyle(

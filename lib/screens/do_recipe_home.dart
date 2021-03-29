@@ -1,8 +1,8 @@
 import 'package:dorecipes/helpers/ingredient_database.dart';
 import 'package:dorecipes/helpers/recipe_database.dart';
 import 'package:dorecipes/providers/bottom_navigator.dart';
-import 'package:dorecipes/screens/all_recipe_and_categories.dart';
 import 'package:dorecipes/screens/recipe_book.dart';
+import 'package:dorecipes/screens/recipes_and_categories.dart';
 import 'package:dorecipes/screens/shopping_list.dart';
 import 'package:dorecipes/widgets/commons.dart';
 import 'package:flutter/material.dart';
@@ -49,7 +49,7 @@ class _DoRecipeHomePageState extends State<DoRecipeHomePage> {
   Future<void> _initPages() async {
     _pages = [
       {
-        'page': AllRecipeAndCategories(),
+        'page': RecipesAndCategories(),
         'title': 'DO Recipes',
       },
       {

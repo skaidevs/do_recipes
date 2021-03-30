@@ -1,7 +1,10 @@
 import 'package:dorecipes/models/recipe.dart';
+import 'package:dorecipes/providers/all_recipe.dart';
+import 'package:dorecipes/screens/recipe_detail.dart';
 import 'package:dorecipes/widgets/commons.dart';
 import 'package:dorecipes/widgets/recipe_grid_item.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class RecipeGrid extends StatelessWidget {
   final List<Data> data;
@@ -11,8 +14,13 @@ class RecipeGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
-      itemCount: 8 /*data.length*/,
-      itemBuilder: (context, index) => GridItemCard(),
+      itemCount: data.length,
+      itemBuilder: (context, index) {
+        final _data = data[index];
+        return GridItemCard(
+          data: _data,
+        );
+      },
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
         childAspectRatio: 3 / 4,
@@ -58,16 +66,23 @@ class SearchRecipeGrid extends StatelessWidget {
 }
 
 class GridItemCard extends StatelessWidget {
+  final Data data;
+
+  const GridItemCard({Key key, this.data}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    //final product = Provider.of<Product>(context, listen: false);
     return Container(
-      /* height: 120.0,
-      width: 100.0,*/
       child: GestureDetector(
         onTap: () {
-          /*Navigator.of(context)
-              .pushNamed(ProductDetailScreen.routeName, arguments: product.id);*/
+          Provider.of<AllRecipeNotifier>(
+            context,
+            listen: false,
+          ).activeServe = 0;
+          Navigator.of(context).pushNamed(
+            RecipeDetailScreen.routeName,
+            arguments: data.id,
+          );
         },
         child: Card(
           shape: RoundedRectangleBorder(
@@ -80,11 +95,12 @@ class GridItemCard extends StatelessWidget {
                 borderRadius: BorderRadius.all(
                   Radius.circular(12.0),
                 ),
-                child: Image.asset(
-                  'assets/images/pancake.jpeg',
+                child: Image.network(
+                  addHttps(data.imageUrl),
                   height: double.infinity,
                   width: double.infinity,
                   fit: BoxFit.cover,
+                  scale: 1.0,
                 ),
               ),
               Positioned(
@@ -93,7 +109,7 @@ class GridItemCard extends StatelessWidget {
                 left: 8.0,
                 child: Container(
                   padding: EdgeInsets.all(
-                    6.0,
+                    8.0,
                   ),
                   decoration: BoxDecoration(
                     color: Colors.black54,
@@ -115,11 +131,11 @@ class GridItemCard extends StatelessWidget {
                     child: Column(
                       children: [
                         Align(
-                          alignment: Alignment.bottomLeft,
+                          alignment: Alignment.topLeft,
                           child: RichText(
                             text: TextSpan(children: [
                               TextSpan(
-                                text: 'Anything can be here \n',
+                                text: data.title,
                                 style: const TextStyle(
                                   fontSize: 18.0,
                                   fontWeight: FontWeight.w500,
@@ -135,42 +151,51 @@ class GridItemCard extends StatelessWidget {
                             ]),
                           ),
                         ),
+                        SizedBox(
+                          height: 10.0,
+                        ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Flexible(
+                            Expanded(
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
+                                //mainAxisAlignment: MainAxisAlignment.center,
+                                //crossAxisAlignment: CrossAxisAlignment.center,
                                 children: <Widget>[
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                      right: 6.0,
-                                    ),
-                                    child: Icon(
-                                      Icons.access_time,
-                                      size: 20,
-                                      color: kColorGrey,
-                                    ),
+                                  Icon(
+                                    Icons.access_time,
+                                    size: 22,
+                                    color: kColorGrey,
                                   ),
-                                  Flexible(
-                                    child: Text(
-                                      'minutes',
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(
-                                        fontFamily: kBalooTamma2,
-                                        color: kColorGrey,
-                                        fontSize: 16.0,
+                                  Expanded(
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                        top: 4.0,
+                                        left: 2.0,
+                                      ),
+                                      child: Text(
+                                        data.duration,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(
+                                          fontFamily: kBalooTamma2,
+                                          color: kColorGrey,
+                                          fontSize: 16.0,
+                                        ),
                                       ),
                                     ),
                                   ),
                                 ],
                               ),
                             ),
-                            Flexible(
+                            InkWell(
+                              borderRadius: BorderRadius.circular(
+                                10.0,
+                              ),
+                              onTap: () {},
                               child: Icon(
-                                Icons.bookmark_outline_outlined,
+                                Icons.bookmark_outlined,
                                 size: 22,
-                                color: kColorGrey,
+                                color: kColorTeal,
                               ),
                             ),
                           ],
@@ -186,4 +211,13 @@ class GridItemCard extends StatelessWidget {
       ),
     );
   }
+}
+
+String addHttps(String imageUri) {
+  String _imageUri = imageUri;
+  if (_imageUri.contains('http:')) {
+    final String imageUriSubstring = _imageUri.substring(4);
+    _imageUri = 'https$imageUriSubstring';
+  }
+  return _imageUri;
 }

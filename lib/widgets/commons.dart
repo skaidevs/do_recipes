@@ -13,11 +13,9 @@ Text kRecipeTexts({
   return Text(
     text,
     style: TextStyle(
-      //color: kColorDKGreen,
-      fontSize: 24.0,
-      fontFamily: kBalooTamma2,
       fontWeight: FontWeight.bold,
-      //fontStyle: FontStyle.italic,
+      color: kColorTeal,
+      fontSize: 30.0,
     ),
   );
 }

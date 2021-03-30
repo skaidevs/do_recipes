@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:dorecipes/models/recipe.dart';
 import 'package:dorecipes/providers/category.dart';
@@ -9,6 +10,7 @@ const baseUrl = 'https://recipes.trapcode.io/app/';
 
 class AllRecipeNotifier with ChangeNotifier {
   Map<String, List<Data>> _cachedAllRecipe;
+  Random random = Random();
 
   int _activeServe = 0;
   int get activeServe => _activeServe;
@@ -47,6 +49,8 @@ class AllRecipeNotifier with ChangeNotifier {
   Future<List<Data>> updateAllRecipe() async {
     return _updateAllRecipe();
   }
+
+  Data getRandomTodaysMenu() {}
 
   AllRecipeNotifier() : _cachedAllRecipe = Map() {
     _initializeAllRecipe().then((_) async {

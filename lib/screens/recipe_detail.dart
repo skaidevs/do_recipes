@@ -4,6 +4,7 @@ import 'package:dorecipes/models/recipe.dart';
 import 'package:dorecipes/providers/all_recipe.dart';
 import 'package:dorecipes/widgets/commons.dart';
 import 'package:dorecipes/widgets/html_viewer.dart';
+import 'package:dorecipes/widgets/recipe_grid.dart';
 import 'package:dorecipes/widgets/serves_button.dart';
 import 'package:dorecipes/widgets/time_cal_difficulty.dart';
 import 'package:flutter/material.dart';
@@ -49,7 +50,7 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
     );
 
     return Scaffold(
-      appBar: AppBar(
+      /*appBar: AppBar(
         elevation: 0.0,
         //title: Text(_pages[_bottomNavigation.currentIndex]['title']),
         actions: <Widget>[
@@ -131,80 +132,224 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
           //       //Navigator.of(context).pushNamed(EditRecipe.routeName);
           //     })
         ],
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            Container(
-              height: 300.0,
-              width: double.infinity,
-              child: Image.network(
-                _loadedRecipe.imageUrl,
-                fit: BoxFit.cover,
-              ),
+      ),*/
+      body: CustomScrollView(
+        slivers: <Widget>[
+          SliverAppBar(
+            iconTheme: IconThemeData(
+              color: Theme.of(context).accentColor, //change your color here
             ),
-            const SizedBox(
-              height: 12.0,
-            ),
-            Center(
-              child: Padding(
-                padding: const EdgeInsets.only(
-                  left: 12.0,
-                  right: 12.0,
-                ),
-                child: Text(
-                  '${_loadedRecipe.title}',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 28.0,
-                    fontFamily: kBalooTamma2,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(14.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  TimeCalDifficulty(loadedRecipe: _loadedRecipe),
+            actions: <Widget>[
+              StreamBuilder<bool>(
+                stream: dao.isDownloaded(_loadedRecipe.id),
+                builder: (context, AsyncSnapshot snapshot) {
+                  if (snapshot.hasData && snapshot.data) {
+                    //DownloadRecipe _recipe;
 
-                  Padding(
-                    padding: const EdgeInsets.only(
-                      top: 10,
-                      bottom: 12.0,
+                    return IconButton(
+                      onPressed: () {
+                        dao.deleteDownloadRecipe(
+                          _recipeId,
+                        );
+
+                        kFlutterToast(
+                            context: context, msg: 'Removed from recipe book');
+                      },
+                      icon: Icon(
+                        Icons.library_books,
+                        color: kColorGrey,
+                      ),
+                    );
+                  }
+
+                  return IconButton(
+                    onPressed: () async {
+                      _insertRecipe(
+                          loadedRecipe: _loadedRecipe,
+                          recipeNotifier: _recipeNotifier,
+                          dao: dao);
+                    },
+                    icon: Icon(
+                      Icons.library_books,
+                      //color: Colors.grey,
                     ),
-                    child: kRecipeTexts(text: 'Ingredients'),
+                  );
+                },
+              ),
+              StreamBuilder<bool>(
+                stream: daoIng.isDownloaded(_loadedRecipe.id),
+                builder: (context, AsyncSnapshot snapshot) {
+                  if (snapshot.hasData && snapshot.data) {
+                    //DownloadRecipe _recipe;
+
+                    return IconButton(
+                      onPressed: () {
+                        daoIng.deleteDownloadRecipe(
+                          _recipeId,
+                        );
+
+                        kFlutterToast(
+                            context: context,
+                            msg: 'Removed from shopping list');
+                      },
+                      icon: Icon(
+                        Icons.add_shopping_cart,
+                        color: kColorGrey,
+                      ),
+                    );
+                  }
+
+                  return IconButton(
+                      icon: Icon(Icons.add_shopping_cart),
+                      onPressed: () {
+                        // int _activeServe = _recipeNotifier.activeServe;
+                        // print('Active Serve $_activeServe');
+
+                        _insertIngredient(
+                            dao: daoIng,
+                            recipeNotifier: _recipeNotifier,
+                            loadedRecipe: _loadedRecipe);
+                        //Navigator.of(context).pushNamed(EditRecipe.routeName);
+                      });
+                },
+              ),
+              // IconButton(
+              //     icon: Icon(Icons.share),
+              //     onPressed: () {
+              //       //Navigator.of(context).pushNamed(EditRecipe.routeName);
+              //     })
+            ],
+            expandedHeight: 360.0,
+            floating: false,
+            //pinned: true,
+            elevation: 0.0,
+            backgroundColor: Colors.transparent,
+            collapsedHeight: 130.0,
+            flexibleSpace: Container(
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  //scale: 1.0,
+                  image: NetworkImage(
+                    addHttps(_loadedRecipe.imageUrl),
                   ),
-                  //Ingredient
-                  Container(
+                  fit: BoxFit.cover,
+                ),
+              ),
+              child: FlexibleSpaceBar(
+                centerTitle: true,
+                title: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10.0,
+                  ),
+                  child: Container(
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: Colors.black.withOpacity(
+                        0.7,
+                      ) /*kColorTeal.withOpacity(
+                        0.1,
+                      )*/
+                      ,
+                      borderRadius: const BorderRadius.only(
+                        bottomRight: Radius.circular(
+                          2.0,
+                        ),
+                        topRight: Radius.circular(
+                          70.0,
+                        ),
+                      ),
+                    ),
                     child: Padding(
                       padding: const EdgeInsets.only(
-                        right: 12.0,
-                        bottom: 16.0,
+                        bottom: 12.0,
+                        left: 12.0,
+                        right: 20.0,
+                        top: 12.0,
+                      ),
+                      child: Text(
+                        _loadedRecipe.title,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: kColorWhite,
+                          fontSize: 24.0,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+          SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (context, index) => SingleChildScrollView(
+                child: Column(
+                  children: <Widget>[
+                    /*Container(
+                      height: 300.0,
+                      width: double.infinity,
+                      child: Image.network(
+                        addHttps(_loadedRecipe.imageUrl),
+                        fit: BoxFit.cover,
+                      ),
+                    ),*/
+                    const SizedBox(
+                      height: 12.0,
+                    ),
+                    /*Center(
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                          left: 12.0,
+                          right: 12.0,
+                        ),
+                        child: Text(
+                          '${_loadedRecipe.title}',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 28.0,
+                            fontFamily: kBalooTamma2,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),*/
+                    Padding(
+                      padding: const EdgeInsets.all(
+                        16.0,
                       ),
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              FittedBox(
-                                child: Text(
-                                  'Serves ${_recipeNotifier.activeServe + 1}',
-                                  style: TextStyle(
-                                    fontFamily: kBalooTamma2,
-                                    fontSize: 18.0,
+                          TimeCalDifficulty(loadedRecipe: _loadedRecipe),
+                          const SizedBox(
+                            height: 18,
+                          ),
+
+                          kRecipeTexts(text: 'Ingredients'),
+                          //Ingredient
+                          const SizedBox(
+                            height: 6.0,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8.0,
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                FittedBox(
+                                  child: Text(
+                                    'Serves ${_recipeNotifier.activeServe + 1}',
+                                    style: TextStyle(
+                                      fontSize: 22.0,
+                                      fontWeight: FontWeight.w700,
+                                      // color: Theme.of(context).accentColor,
+                                    ),
                                   ),
                                 ),
-                              ),
-                              Row(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                      left: 18.0,
-                                    ),
-                                    child: ServesButton(
+                                Row(
+                                  children: [
+                                    ServesButton(
                                       onTap: () {
                                         _recipeNotifier
                                             .slideToPrev(_loadedRecipe);
@@ -212,12 +357,10 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
                                       },
                                       iconData: Icons.remove,
                                     ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                      left: 15.0,
+                                    const SizedBox(
+                                      width: 16.0,
                                     ),
-                                    child: ServesButton(
+                                    ServesButton(
                                       onTap: () {
                                         _recipeNotifier
                                             .slideToNext(_loadedRecipe);
@@ -225,72 +368,79 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
                                       },
                                       iconData: Icons.add,
                                     ),
+                                  ],
+                                )
+                              ],
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 8.0,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8.0,
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: _loadedRecipe
+                                  .ingredients[_recipeNotifier.activeServe]
+                                  .map<Widget>(
+                                    (eachServes) => Text(
+                                      '$eachServes',
+                                      style: TextStyle(
+                                        fontSize: 20.0,
+                                      ),
+                                      textAlign: TextAlign.left,
+                                    ),
+                                  )
+                                  .toList(),
+                            ),
+                          ),
+
+                          _loadedRecipe.preparation == null
+                              ? Container()
+                              : Padding(
+                                  padding: const EdgeInsets.only(
+                                    top: 16,
+                                    bottom: 6.0,
                                   ),
-                                ],
-                              )
-                            ],
+                                  child: kRecipeTexts(text: 'Preparation'),
+                                ),
+                          _loadedRecipe.preparation == null
+                              ? Container()
+                              : Padding(
+                                  padding: const EdgeInsets.only(
+                                    bottom: 10.0,
+                                  ),
+                                  child: Text(
+                                    _loadedRecipe.preparation,
+                                    style: TextStyle(
+                                      fontFamily: kBalooTamma2,
+                                      fontSize: 20.0,
+                                    ),
+                                  ),
+                                ),
+
+                          Padding(
+                            padding: const EdgeInsets.only(
+                              top: 6.0,
+                            ),
+                            child: kRecipeTexts(text: 'Method'),
+                          ),
+
+                          HtmlViewer(
+                            data: _loadedRecipe.method,
                           ),
                         ],
                       ),
                     ),
-                  ),
-
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children:
-                        _loadedRecipe.ingredients[_recipeNotifier.activeServe]
-                            .map<Widget>(
-                              (eachServes) => Text(
-                                '$eachServes',
-                                style: TextStyle(
-                                  fontFamily: kBalooTamma2,
-                                  fontSize: 18.0,
-                                ),
-                                textAlign: TextAlign.left,
-                              ),
-                            )
-                            .toList(),
-                  ),
-
-                  _loadedRecipe.preparation == null
-                      ? Container()
-                      : Padding(
-                          padding: const EdgeInsets.only(
-                            top: 16,
-                            bottom: 6.0,
-                          ),
-                          child: kRecipeTexts(text: 'Preparation'),
-                        ),
-                  _loadedRecipe.preparation == null
-                      ? Container()
-                      : Padding(
-                          padding: const EdgeInsets.only(
-                            bottom: 10.0,
-                          ),
-                          child: Text(
-                            _loadedRecipe.preparation,
-                            style: TextStyle(
-                              fontFamily: kBalooTamma2,
-                              fontSize: 18.0,
-                            ),
-                          ),
-                        ),
-
-                  Padding(
-                    padding: const EdgeInsets.only(
-                      top: 6.0,
-                    ),
-                    child: kRecipeTexts(text: 'Method'),
-                  ),
-
-                  HtmlViewer(
-                    data: _loadedRecipe.method,
-                  ),
-                ],
+                  ],
+                ),
               ),
+              childCount: 1,
             ),
-          ],
-        ),
+          )
+        ],
       ),
     );
   }

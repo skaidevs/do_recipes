@@ -1,9 +1,18 @@
 import 'package:dorecipes/helpers/recipe_database.dart';
+import 'package:dorecipes/models/recipe.dart';
+import 'package:dorecipes/providers/all_recipe.dart';
+import 'package:dorecipes/screens/recipe_detail.dart';
 import 'package:dorecipes/widgets/commons.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'recipe_grid.dart';
+
 class HeaderCard extends StatelessWidget {
+  final Data recipeData;
+
+  const HeaderCard({Key key, this.recipeData}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     Widget _headerTodayTitle() => Text(
@@ -15,7 +24,7 @@ class HeaderCard extends StatelessWidget {
           ),
         );
     Widget _title() => Text(
-          "Bread and Cookie Pancake",
+          recipeData.title,
           style: TextStyle(
             fontSize: 28.0,
             fontWeight: FontWeight.bold,
@@ -39,7 +48,7 @@ class HeaderCard extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  'Minutes',
+                  recipeData.duration,
                   style: TextStyle(
                     fontFamily: kBalooTamma2,
                     color: kColorGrey,
@@ -63,7 +72,7 @@ class HeaderCard extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  'Cals',
+                  '${recipeData.calories} Cals',
                   style: TextStyle(
                     fontFamily: kBalooTamma2,
                     color: kColorGrey,
@@ -114,39 +123,52 @@ class HeaderCard extends StatelessWidget {
                 16.0,
               ),
             ),
-            child: Stack(children: <Widget>[
-              Row(
-                children: <Widget>[
-                  Expanded(child: Text(''), flex: 9),
-                  Expanded(
-                    child: ClipRRect(
-                      borderRadius: new BorderRadius.circular(
-                        16.0,
+            child: GestureDetector(
+              onTap: () {
+                Provider.of<AllRecipeNotifier>(
+                  context,
+                  listen: false,
+                ).activeServe = 0;
+                Navigator.of(context).pushNamed(
+                  RecipeDetailScreen.routeName,
+                  arguments: recipeData.id,
+                );
+              },
+              child: Stack(children: <Widget>[
+                Row(
+                  children: <Widget>[
+                    Expanded(child: Text(''), flex: 9),
+                    Expanded(
+                      child: ClipRRect(
+                        borderRadius: new BorderRadius.circular(
+                          16.0,
+                        ),
+                        child: Image.network(
+                          addHttps(recipeData.imageUrl),
+                          //scale: 1.0,
+                        ),
                       ),
-                      child: Image.asset(
-                        'assets/images/pancake.jpeg',
-                      ),
+                      flex: 8,
                     ),
-                    flex: 8,
-                  ),
-                  Expanded(child: Text(''), flex: 0)
-                ],
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  _headerTodayTitle(),
-                  const SizedBox(
-                    height: 28.0,
-                  ),
-                  _title(),
-                  const SizedBox(
-                    height: 14.0,
-                  ),
-                  _timeCal(),
-                ],
-              ),
-            ]),
+                    Expanded(child: Text(''), flex: 0)
+                  ],
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    _headerTodayTitle(),
+                    const SizedBox(
+                      height: 28.0,
+                    ),
+                    _title(),
+                    const SizedBox(
+                      height: 14.0,
+                    ),
+                    _timeCal(),
+                  ],
+                ),
+              ]),
+            ),
           ),
         ),
       ],

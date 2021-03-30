@@ -48,28 +48,36 @@ class ServesButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      highlightColor: Colors.white,
-      splashColor: Colors.white,
+      borderRadius: BorderRadius.all(
+        Radius.circular(
+          50.0,
+        ),
+      ),
       onTap: onTap,
       child: Container(
-        width: 60,
+        width: 90.0,
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(
+            10.0,
+          ),
           child: Center(
             child: Icon(
               iconData,
-              size: 20,
-              color: kColorDKGreen,
+              size: 24,
+              color: kColorTeal,
             ),
           ),
         ),
         decoration: BoxDecoration(
-          border: Border.all(
-            color: Theme.of(context).primaryColor,
+          color: Theme.of(context).accentColor.withOpacity(0.1),
+          /*border: Border.all(
+            color: Theme.of(context).accentColor.withOpacity(0.1),
             width: 1,
-          ),
+          ),*/
           borderRadius: BorderRadius.all(
-            Radius.circular(10),
+            Radius.circular(
+              50.0,
+            ),
           ),
         ),
       ),

@@ -1,4 +1,5 @@
 import 'package:dorecipes/screens/categories.dart';
+import 'package:dorecipes/widgets/commons.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -56,6 +57,7 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.teal,
           backgroundColor: Colors.white,
           scaffoldBackgroundColor: Colors.white,
+          fontFamily: kBalooTamma2,
           appBarTheme: AppBarTheme(
             backgroundColor: Colors.white,
             elevation: 0.0,

@@ -14,55 +14,6 @@ class Categories extends StatefulWidget {
 }
 
 class _CategoriesState extends State<Categories> {
-  Card _buildCategoryContainer({String title, String recipeNum}) {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.only(
-          left: 10.0,
-          right: 10.0,
-          top: 20.0,
-          bottom: 20.0,
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Text(
-              title,
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 20.0,
-                color: kColorDKGreen,
-                fontFamily: kBalooTamma2,
-              ),
-              //textAlign: TextAlign.start,
-            ),
-            Container(
-              //width: 30,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: FittedBox(
-                  child: Text(
-                    recipeNum,
-                    style: const TextStyle(
-                      fontSize: 14,
-                      color: kColorWhite,
-                      fontFamily: kBalooTamma2,
-                      //fontWeight: FontWeight.w100,
-                    ),
-                  ),
-                ),
-              ),
-              decoration: const BoxDecoration(
-                color: kColorDKGreen,
-                shape: BoxShape.circle,
-              ),
-            )
-          ],
-        ),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -83,6 +34,7 @@ class _CategoriesState extends State<Categories> {
               10.0,
             ),
             shrinkWrap: true,
+            physics: NeverScrollableScrollPhysics(),
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
               childAspectRatio: 4 / 2.6,

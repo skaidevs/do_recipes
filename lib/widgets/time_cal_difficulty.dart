@@ -14,68 +14,70 @@ class TimeCalDifficulty extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      //crossAxisAlignment: CrossAxisAlignment.end,
+      // mainAxisSize: MainAxisSize.max,
       children: <Widget>[
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.only(right: 6),
-              child: Icon(
+        FittedBox(
+          child: Column(
+            //mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Icon(
                 Icons.access_time,
-                size: 18,
-                color: kColorGrey,
+                size: 40,
+                color: Theme.of(context).accentColor,
               ),
-            ),
-            Text(
-              '${_loadedRecipe.duration}',
-              style: TextStyle(
-                fontFamily: kBalooTamma2,
-                color: kColorGrey,
-                fontSize: 14.0,
+              Text(
+                _loadedRecipe.duration,
+                style: TextStyle(
+                  fontFamily: kBalooTamma2,
+                  color: kColorGrey,
+                  fontSize: 16.0,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.only(right: 6),
-              child: Icon(
+        FittedBox(
+          child: Column(
+            //mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Icon(
                 Icons.show_chart,
-                size: 18,
-                color: kColorGrey,
+                size: 40,
+                color: Theme.of(context).accentColor,
               ),
-            ),
-            Text(
-              '${_loadedRecipe.calories} Cals',
-              style: TextStyle(
-                fontFamily: kBalooTamma2,
-                color: kColorGrey,
-                fontSize: 14.0,
+              Text(
+                '${_loadedRecipe.calories} Cals',
+                style: TextStyle(
+                  fontFamily: kBalooTamma2,
+                  color: kColorGrey,
+                  fontSize: 16.0,
+                ),
               ),
-            ),
-            SizedBox(
-              width: 10.0,
-            ),
-            Padding(
-              padding: const EdgeInsets.only(right: 6),
-              child: Icon(
+            ],
+          ),
+        ),
+        FittedBox(
+          child: Column(
+            //mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Icon(
                 Icons.grain,
-                size: 18,
-                color: kColorGrey,
+                size: 40,
+                color: Theme.of(context).accentColor,
               ),
-            ),
-            Text(
-              '${capitalize(_loadedRecipe.difficulty)} Difficulty',
-              style: TextStyle(
-                fontFamily: kBalooTamma2,
-                color: kColorGrey,
-                fontSize: 14.0,
+              Text(
+                '${capitalize(_loadedRecipe.difficulty)}',
+                style: TextStyle(
+                  fontFamily: kBalooTamma2,
+                  color: kColorGrey,
+                  fontSize: 16.0,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ],
     );

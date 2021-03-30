@@ -1,4 +1,3 @@
-import 'dart:collection';
 import 'dart:convert';
 
 import 'package:dorecipes/models/recipe.dart';
@@ -24,8 +23,9 @@ class AllRecipeNotifier with ChangeNotifier {
 
   List<Data> _allRecipeData = [];
 
-  UnmodifiableListView<Data> get allRecipeData =>
-      UnmodifiableListView(_allRecipeData);
+  List<Data> get allRecipeData {
+    return [..._allRecipeData];
+  }
 
   bool _isLoading = false;
   bool get isLoading => _isLoading;

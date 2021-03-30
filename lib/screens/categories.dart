@@ -99,7 +99,10 @@ class _CategoriesState extends State<Categories> {
   Widget _buildItem(Category category) => Container(
         child: GestureDetector(
           onTap: () {
-            Map _data = {'id': category.id, 'name': category.name};
+            Map _data = {
+              'id': category.id,
+              'name': category.name,
+            };
             _selectedCategory(data: _data);
           },
           child: Card(

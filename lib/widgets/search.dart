@@ -54,7 +54,7 @@ class RecipeSearch extends SearchDelegate<Data> {
             children: results
                 .map<Widget>(
                   (recipe) => RecipeGrid(
-                    notifier: notifier,
+                    data: notifier.allRecipeData,
                   ),
                 )
                 .toList(),

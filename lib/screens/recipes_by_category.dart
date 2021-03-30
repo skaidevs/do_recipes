@@ -37,8 +37,8 @@ class RecipesByCategory extends StatelessWidget {
             } else if (notifier.internetMessage.isNotEmpty) {
               child = InternetError();
             } else if (notifier.recipeByCategoryList.isNotEmpty) {
-              child = CategoryGrid(
-                notifier: notifier,
+              child = RecipeGrid(
+                data: notifier.recipeByCategoryList,
               );
             } else if (notifier.recipeByCategoryList.isEmpty) {
               child = Empty(
@@ -46,38 +46,6 @@ class RecipesByCategory extends StatelessWidget {
               );
             }
             return child;
-
-            /*
-
-
-            if (notifier.isLoading) {
-              return Center(
-                child: LoadingInfo(),
-              );
-            }
-
-            if (notifier.error.isNotEmpty) {
-              return Center(
-                child: ErrorPage(
-                  text: 'An Error Occurred!!',
-                ),
-              );
-            }
-
-            if (notifier.recipeDataByCategory == null) {
-              return Empty(
-                text: 'No Recipe to Show',
-              );
-            }
-            if (notifier.recipeDataByCategory.isEmpty) {
-              return Empty(
-                text: 'No Recipe to Show',
-              );
-            } else {
-              return RecipeGridByCategory(
-                notifier: notifier,
-              );
-            }*/
           },
         ),
       ),

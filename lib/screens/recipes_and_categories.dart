@@ -1,14 +1,17 @@
 import 'package:dorecipes/helpers/ingredient_database.dart';
 import 'package:dorecipes/helpers/recipe_database.dart';
+import 'package:dorecipes/helpers/scroll_behavior.dart';
+import 'package:dorecipes/models/list_categories.dart';
 import 'package:dorecipes/providers/all_recipe.dart';
 import 'package:dorecipes/providers/category.dart';
+import 'package:dorecipes/providers/recipe_by_category.dart';
 import 'package:dorecipes/screens/categories.dart';
+import 'package:dorecipes/screens/recipes_by_category.dart';
 import 'package:dorecipes/widgets/commons.dart';
 import 'package:dorecipes/widgets/empty_and_error_recipe.dart';
 import 'package:dorecipes/widgets/header_card.dart';
 import 'package:dorecipes/widgets/internet_error.dart';
 import 'package:dorecipes/widgets/loading_info.dart';
-import 'package:dorecipes/widgets/recipe_category_card.dart';
 import 'package:dorecipes/widgets/recipe_grid.dart';
 import 'package:dorecipes/widgets/search.dart';
 import 'package:flutter/material.dart';
@@ -135,7 +138,8 @@ class RecipesAndCategories extends StatelessWidget {
                                   height: 18.0,
                                 ),
                                 if (categoryNotifier.isCategoryLoaded)
-                                  _viewAllCategory(context)
+                                  _viewAllCategory(context,
+                                      categoryNotifier.categoryListData)
                                 else
                                   Container(),
                                 _buildCategoryText(
@@ -146,7 +150,7 @@ class RecipesAndCategories extends StatelessWidget {
                                   height: 8.0,
                                 ),
                                 RecipeGrid(
-                                  notifier: allRecipeNotifier,
+                                  data: allRecipeNotifier.allRecipeData,
                                 ),
                               ],
                             ),
@@ -155,7 +159,8 @@ class RecipesAndCategories extends StatelessWidget {
     );
   }
 
-  Widget _viewAllCategory(BuildContext context) => Column(
+  Widget _viewAllCategory(BuildContext context, List<Category> categoryData) =>
+      Column(
         children: [
           _buildCategoryText(
               categoryText: 'Categories',
@@ -168,7 +173,7 @@ class RecipesAndCategories extends StatelessWidget {
           const SizedBox(
             height: 8.0,
           ),
-          RecipeCategoryCard(),
+          _buildHorizontalCategories(categoryData: categoryData),
           const SizedBox(
             height: 12.0,
           ),
@@ -203,4 +208,78 @@ class RecipesAndCategories extends StatelessWidget {
           ),
         ],
       );
+
+  Widget _buildHorizontalCategories({
+    List<Category> categoryData,
+  }) =>
+      SizedBox(
+        height: 56.0,
+        child: ScrollConfiguration(
+          behavior: ScrollConfigBehavior(),
+          child: ListView.builder(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 10.0,
+            ),
+            physics: ClampingScrollPhysics(),
+            shrinkWrap: true,
+            scrollDirection: Axis.horizontal,
+            itemCount: categoryData.length,
+            itemBuilder: (BuildContext context, int index) => Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: Card(
+                color: Theme.of(context).accentColor,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(
+                    30.0,
+                  ),
+                ),
+                child: InkWell(
+                  borderRadius: BorderRadius.circular(
+                    30.0,
+                  ),
+                  onTap: () {
+                    print('pressdd');
+                    Map _data = {
+                      'id': categoryData[index].id,
+                      'name': categoryData[index].name,
+                    };
+                    _selectedCategory(
+                      data: _data,
+                      context: context,
+                    );
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 18.0,
+                    ),
+                    child: Center(
+                      child: Text(
+                        '${categoryData[index].name}',
+                        //overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: kColorWhite,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      );
+
+  void _selectedCategory({Map data, BuildContext context}) {
+    final _notifier = Provider.of<RecipeByCategoryNotifier>(
+      context,
+      listen: false,
+    );
+    _notifier.loadRecipeByCategory(categoryId: data['id']);
+    Navigator.of(context).pushNamed(
+      RecipesByCategory.routeName,
+      arguments: data,
+    );
+  }
 }

@@ -1,6 +1,4 @@
-import 'package:dorecipes/helpers/recipe_database.dart';
 import 'package:dorecipes/providers/all_recipe.dart';
-import 'package:dorecipes/screens/download_details.dart';
 import 'package:dorecipes/screens/recipe_detail.dart';
 import 'package:dorecipes/widgets/commons.dart';
 import 'package:flutter/material.dart';
@@ -86,6 +84,7 @@ class RecipeGridItem extends StatelessWidget {
   }
 }
 
+/*
 class DownloadedRecipeGridItem extends StatelessWidget {
   final DownloadRecipe downloadRecipe;
 
@@ -154,3 +153,4 @@ class DownloadedRecipeGridItem extends StatelessWidget {
     );
   }
 }
+*/

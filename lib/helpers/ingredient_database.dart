@@ -1,3 +1,4 @@
+/*
 import 'dart:io';
 
 import 'package:moor/ffi.dart';
@@ -84,3 +85,4 @@ class RecipeIngredientDao extends DatabaseAccessor<AppDatabaseIngredient>
         .map((downloadList) => downloadList.length >= 1);
   }
 }
+*/

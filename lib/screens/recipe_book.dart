@@ -1,6 +1,5 @@
-import 'package:dorecipes/helpers/recipe_database.dart';
-import 'package:dorecipes/widgets/empty_and_error_recipe.dart';
-import 'package:dorecipes/widgets/recipe_grid_item.dart';
+import 'package:dorecipes/providers/offline_recipes.dart';
+import 'package:dorecipes/widgets/recipe_grid.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -12,13 +11,31 @@ class RecipeBook extends StatefulWidget {
 class _RecipeBookState extends State<RecipeBook> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-        child: _buildDownloadRecipe(
-      context,
-    ));
+    return FutureBuilder(
+      future: Provider.of<OfflineNotifier>(
+        context,
+        listen: false,
+      ).fetchAndSetRecipe(),
+      builder: (context, snapshot) =>
+          snapshot.connectionState == ConnectionState.waiting
+              ? Center(
+                  child: CircularProgressIndicator(),
+                )
+              : Consumer<OfflineNotifier>(
+                  child: Center(
+                    child: const Text('You got Nothing !'),
+                  ),
+                  builder: (context, notifier, child) =>
+                      notifier.recipeList.length <= 0
+                          ? child
+                          : RecipeGrid(
+                              data: notifier.recipeList,
+                            ),
+                ),
+    );
   }
 
-  StreamBuilder<List<DownloadRecipe>> _buildDownloadRecipe(
+  /* StreamBuilder<List<DownloadRecipe>> _buildDownloadRecipe(
       BuildContext context) {
     final dao = Provider.of<RecipeDao>(context, listen: false);
     return StreamBuilder(
@@ -52,14 +69,14 @@ class _RecipeBookState extends State<RecipeBook> {
             );
           }
         });
-  }
+  }*/
 
-  Widget _buildListItem(
+  /*Widget _buildListItem(
     DownloadRecipe downloadRecipe,
     AppDatabase database,
   ) {
     return DownloadedRecipeGridItem(
       downloadRecipe: downloadRecipe,
     );
-  }
+  }*/
 }

@@ -1,10 +1,10 @@
+import 'package:dorecipes/providers/offline_recipes.dart';
 import 'package:dorecipes/screens/categories.dart';
+import 'package:dorecipes/screens/recipe_book.dart';
 import 'package:dorecipes/widgets/commons.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'helpers/ingredient_database.dart';
-import 'helpers/recipe_database.dart';
 import 'providers/all_recipe.dart';
 import 'providers/bottom_navigator.dart';
 import 'providers/category.dart';
@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
           create: (_) => BottomNavigation(),
           child: DoRecipeHomePage(),
         ),
-        Provider<RecipeDao>(
+        /*Provider<RecipeDao>(
           create: (_) => AppDatabase().recipeDao,
           child: DoRecipeHomePage(),
           dispose: (context, db) => db.db.close(),
@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
           create: (_) => AppDatabaseIngredient().recipeIngredientDao,
           child: DoRecipeHomePage(),
           dispose: (context, db) => db.db.close(),
-        ),
+        ),*/
         ChangeNotifierProvider<AllRecipeNotifier>(
           create: (context) => AllRecipeNotifier(),
         ),
@@ -48,6 +48,10 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider<ShoppingListNotifier>(
           create: (context) => ShoppingListNotifier(),
+        ),
+        ChangeNotifierProvider<OfflineNotifier>(
+          create: (_) => OfflineNotifier(),
+          child: RecipeBook(),
         ),
       ],
       child: MaterialApp(

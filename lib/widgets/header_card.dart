@@ -1,5 +1,4 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:dorecipes/helpers/recipe_database.dart';
 import 'package:dorecipes/models/recipe.dart';
 import 'package:dorecipes/providers/all_recipe.dart';
 import 'package:dorecipes/screens/recipe_detail.dart';
@@ -84,30 +83,19 @@ class HeaderCard extends StatelessWidget {
             )
           ],
         );
-    return Stack(
-      children: [
-        /*ClipRRect(
-          borderRadius: new BorderRadius.circular(40.0),
-          child: Image.asset(
-            'assets/images/pancake.jpeg',
-            height: 80,
-            width: 80,
+    return Container(
+      // height: MediaQuery.of(context).size.height * 0.36,
+      padding: EdgeInsets.all(
+        20.0,
+      ),
+      decoration: BoxDecoration(
+        boxShadow: [
+          BoxShadow(
+            blurRadius: 1.0,
+            color: Colors.grey.shade400,
           ),
-        ),*/
-        Consumer<RecipeDao>(
-          builder: (context, notifier, _) => Container(
-            // height: MediaQuery.of(context).size.height * 0.36,
-            padding: EdgeInsets.all(
-              20.0,
-            ),
-            decoration: BoxDecoration(
-              boxShadow: [
-                BoxShadow(
-                  blurRadius: 1.0,
-                  color: Colors.grey.shade400,
-                ),
-              ],
-              /*gradient: LinearGradient(
+        ],
+        /*gradient: LinearGradient(
                 begin: Alignment.topRight,
                 end: Alignment.bottomLeft,
                 // stops: [0.9, 0.7, 0.5, 0.1],
@@ -118,74 +106,70 @@ class HeaderCard extends StatelessWidget {
                   Colors.teal[200],
                 ],
               ),*/
-              /* color: Theme.of(context).accentColor,*/
-              color: kColorWhite,
-              borderRadius: BorderRadius.circular(
-                16.0,
-              ),
-            ),
-            child: GestureDetector(
-              onTap: () {
-                Provider.of<AllRecipeNotifier>(
-                  context,
-                  listen: false,
-                ).activeServe = 0;
-                Navigator.of(context).pushNamed(
-                  RecipeDetailScreen.routeName,
-                  arguments: recipeData.id,
-                );
-              },
-              child: Stack(children: <Widget>[
-                Row(
-                  children: <Widget>[
-                    Expanded(child: Text(''), flex: 9),
-                    Expanded(
-                      child: ClipRRect(
-                        borderRadius: new BorderRadius.circular(
-                          16.0,
-                        ),
-                        child: CachedNetworkImage(
-                          imageUrl: addHttps(recipeData.imageUrl),
-                          /*height: double.infinity,
+        /* color: Theme.of(context).accentColor,*/
+        color: kColorWhite,
+        borderRadius: BorderRadius.circular(
+          16.0,
+        ),
+      ),
+      child: GestureDetector(
+        onTap: () {
+          Provider.of<AllRecipeNotifier>(
+            context,
+            listen: false,
+          ).activeServe = 0;
+          Navigator.of(context).pushNamed(
+            RecipeDetailScreen.routeName,
+            arguments: recipeData.id,
+          );
+        },
+        child: Stack(children: <Widget>[
+          Row(
+            children: <Widget>[
+              Expanded(child: Text(''), flex: 9),
+              Expanded(
+                child: ClipRRect(
+                  borderRadius: new BorderRadius.circular(
+                    16.0,
+                  ),
+                  child: CachedNetworkImage(
+                    imageUrl: addHttps(recipeData.imageUrl),
+                    /*height: double.infinity,
                           width: double.infinity,*/
-                          fit: BoxFit.cover,
-                          placeholder: (context, url) => Container(
-                            color: kColorTeal.withOpacity(
-                              0.1,
-                            ),
-                          ),
-                          errorWidget: (context, url, error) =>
-                              Icon(Icons.error),
-                        ) /*Image.network(
+                    fit: BoxFit.cover,
+                    placeholder: (context, url) => Container(
+                      color: kColorTeal.withOpacity(
+                        0.1,
+                      ),
+                    ),
+                    errorWidget: (context, url, error) => Icon(Icons.error),
+                  ) /*Image.network(
                           addHttps(recipeData.imageUrl),
                           //scale: 1.0,
                         )*/
-                        ,
-                      ),
-                      flex: 8,
-                    ),
-                    Expanded(child: Text(''), flex: 0)
-                  ],
+                  ,
                 ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    _headerTodayTitle(),
-                    const SizedBox(
-                      height: 28.0,
-                    ),
-                    _title(),
-                    const SizedBox(
-                      height: 14.0,
-                    ),
-                    _timeCal(),
-                  ],
-                ),
-              ]),
-            ),
+                flex: 8,
+              ),
+              Expanded(child: Text(''), flex: 0)
+            ],
           ),
-        ),
-      ],
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              _headerTodayTitle(),
+              const SizedBox(
+                height: 28.0,
+              ),
+              _title(),
+              const SizedBox(
+                height: 14.0,
+              ),
+              _timeCal(),
+            ],
+          ),
+        ]),
+      ),
     );
   }
 }

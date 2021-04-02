@@ -1,6 +1,4 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:dorecipes/helpers/ingredient_database.dart';
-import 'package:dorecipes/helpers/recipe_database.dart';
 import 'package:dorecipes/models/recipe.dart';
 import 'package:dorecipes/providers/all_recipe.dart';
 import 'package:dorecipes/widgets/commons.dart';
@@ -9,7 +7,6 @@ import 'package:dorecipes/widgets/recipe_grid.dart';
 import 'package:dorecipes/widgets/serves_button.dart';
 import 'package:dorecipes/widgets/time_cal_difficulty.dart';
 import 'package:flutter/material.dart';
-import 'package:moor/moor.dart' as v;
 import 'package:provider/provider.dart';
 
 class RecipeDetailScreen extends StatefulWidget {
@@ -21,7 +18,9 @@ class RecipeDetailScreen extends StatefulWidget {
 
 class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
   void fitchActiveServe() {
-    Future.delayed(Duration(seconds: 0)).then((_) async {
+    Future.delayed(
+      Duration.zero,
+    ).then((_) async {
       Provider.of<AllRecipeNotifier>(context).activeServe = 0;
     });
   }
@@ -41,99 +40,16 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
       listen: false,
     );
     Data _loadedRecipe = _recipeNotifier.findAlbumById(code: _recipeId);
-    final dao = Provider.of<RecipeDao>(
+    /* final dao = Provider.of<dynamic>(
       context,
       listen: false,
-    );
-    final daoIng = Provider.of<RecipeIngredientDao>(
+    );*/
+    /*final daoIng = Provider.of<RecipeIngredientDao>(
       context,
       listen: false,
-    );
+    );*/
 
     return Scaffold(
-      /*appBar: AppBar(
-        elevation: 0.0,
-        //title: Text(_pages[_bottomNavigation.currentIndex]['title']),
-        actions: <Widget>[
-          StreamBuilder<bool>(
-            stream: dao.isDownloaded(_loadedRecipe.id),
-            builder: (context, AsyncSnapshot snapshot) {
-              if (snapshot.hasData && snapshot.data) {
-                //DownloadRecipe _recipe;
-
-                return IconButton(
-                  onPressed: () {
-                    dao.deleteDownloadRecipe(
-                      _recipeId,
-                    );
-
-                    kFlutterToast(
-                        context: context, msg: 'Removed from recipe book');
-                  },
-                  icon: Icon(
-                    Icons.library_books,
-                    color: kColorGrey,
-                  ),
-                );
-              }
-
-              return IconButton(
-                onPressed: () async {
-                  _insertRecipe(
-                      loadedRecipe: _loadedRecipe,
-                      recipeNotifier: _recipeNotifier,
-                      dao: dao);
-                },
-                icon: Icon(
-                  Icons.library_books,
-                  //color: Colors.grey,
-                ),
-              );
-            },
-          ),
-          StreamBuilder<bool>(
-            stream: daoIng.isDownloaded(_loadedRecipe.id),
-            builder: (context, AsyncSnapshot snapshot) {
-              if (snapshot.hasData && snapshot.data) {
-                //DownloadRecipe _recipe;
-
-                return IconButton(
-                  onPressed: () {
-                    daoIng.deleteDownloadRecipe(
-                      _recipeId,
-                    );
-
-                    kFlutterToast(
-                        context: context, msg: 'Removed from shopping list');
-                  },
-                  icon: Icon(
-                    Icons.add_shopping_cart,
-                    color: kColorGrey,
-                  ),
-                );
-              }
-
-              return IconButton(
-                  icon: Icon(Icons.add_shopping_cart),
-                  onPressed: () {
-                    // int _activeServe = _recipeNotifier.activeServe;
-                    // print('Active Serve $_activeServe');
-
-                    _insertIngredient(
-                        dao: daoIng,
-                        recipeNotifier: _recipeNotifier,
-                        loadedRecipe: _loadedRecipe);
-                    //Navigator.of(context).pushNamed(EditRecipe.routeName);
-                  });
-            },
-          ),
-          // IconButton(
-          //     icon: Icon(Icons.share),
-          //     onPressed: () {
-          //       //Navigator.of(context).pushNamed(EditRecipe.routeName);
-          //     })
-        ],
-      ),*/
       body: CustomScrollView(
         slivers: <Widget>[
           SliverAppBar(
@@ -141,84 +57,68 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
               color: Theme.of(context).accentColor, //change your color here
             ),
             actions: <Widget>[
-              StreamBuilder<bool>(
-                stream: dao.isDownloaded(_loadedRecipe.id),
-                builder: (context, AsyncSnapshot snapshot) {
-                  if (snapshot.hasData && snapshot.data) {
-                    //DownloadRecipe _recipe;
-
-                    return IconButton(
-                      onPressed: () {
-                        dao.deleteDownloadRecipe(
-                          _recipeId,
-                        );
-
-                        kFlutterToast(
-                            context: context, msg: 'Removed from recipe book');
-                      },
-                      icon: Icon(
-                        Icons.library_books,
-                        color: kColorGrey,
-                      ),
-                    );
-                  }
-
-                  return IconButton(
-                    onPressed: () async {
-                      _insertRecipe(
-                          loadedRecipe: _loadedRecipe,
-                          recipeNotifier: _recipeNotifier,
-                          dao: dao);
-                    },
-                    icon: Icon(
-                      Icons.library_books,
-                      //color: Colors.grey,
-                    ),
-                  );
-                },
-              ),
-              StreamBuilder<bool>(
+              /*StreamBuilder<bool>(
+                  stream: dao.isDownloaded(_loadedRecipe.id),
+                  builder: (context, AsyncSnapshot snapshot) =>
+                      snapshot.hasData && snapshot.data
+                          ? IconButton(
+                              onPressed: () {
+                                dao.deleteDownloadRecipe(
+                                  _recipeId,
+                                );
+                                kFlutterToast(
+                                    context: context,
+                                    msg: 'Removed from recipe book');
+                              },
+                              icon: Icon(
+                                Icons.library_books,
+                                color: kColorGrey,
+                              ),
+                            )
+                          : IconButton(
+                              onPressed: () async {
+                                */ /* _insertRecipe(
+                                    loadedRecipe: _loadedRecipe,
+                                    recipeNotifier: _recipeNotifier,
+                                    dao: dao);*/ /*
+                              },
+                              icon: Icon(
+                                Icons.library_books,
+                                //color: Colors.grey,
+                              ),
+                            )),*/
+              /*StreamBuilder<bool>(
                 stream: daoIng.isDownloaded(_loadedRecipe.id),
-                builder: (context, AsyncSnapshot snapshot) {
-                  if (snapshot.hasData && snapshot.data) {
-                    //DownloadRecipe _recipe;
+                builder: (context, AsyncSnapshot snapshot) =>
+                    snapshot.hasData && snapshot.data
+                        ? IconButton(
+                            onPressed: () {
+                              daoIng.deleteDownloadRecipe(
+                                _recipeId,
+                              );
 
-                    return IconButton(
-                      onPressed: () {
-                        daoIng.deleteDownloadRecipe(
-                          _recipeId,
-                        );
+                              kFlutterToast(
+                                  context: context,
+                                  msg: 'Removed from shopping list');
+                            },
+                            icon: Icon(
+                              Icons.add_shopping_cart,
+                              color: kColorGrey,
+                            ),
+                          )
+                        : IconButton(
+                            icon: Icon(Icons.add_shopping_cart),
+                            onPressed: () {
+                              // int _activeServe = _recipeNotifier.activeServe;
+                              // print('Active Serve $_activeServe');
 
-                        kFlutterToast(
-                            context: context,
-                            msg: 'Removed from shopping list');
-                      },
-                      icon: Icon(
-                        Icons.add_shopping_cart,
-                        color: kColorGrey,
-                      ),
-                    );
-                  }
-
-                  return IconButton(
-                      icon: Icon(Icons.add_shopping_cart),
-                      onPressed: () {
-                        // int _activeServe = _recipeNotifier.activeServe;
-                        // print('Active Serve $_activeServe');
-
-                        _insertIngredient(
-                            dao: daoIng,
-                            recipeNotifier: _recipeNotifier,
-                            loadedRecipe: _loadedRecipe);
-                        //Navigator.of(context).pushNamed(EditRecipe.routeName);
-                      });
-                },
-              ),
-              // IconButton(
-              //     icon: Icon(Icons.share),
-              //     onPressed: () {
-              //       //Navigator.of(context).pushNamed(EditRecipe.routeName);
-              //     })
+                              */ /*_insertIngredient(
+                                  dao: daoIng,
+                                  recipeNotifier: _recipeNotifier,
+                                  loadedRecipe: _loadedRecipe);*/ /*
+                              //Navigator.of(context).pushNamed(EditRecipe.routeName);
+                            }),
+              ),*/
             ],
             expandedHeight: 360.0,
             floating: false,
@@ -475,7 +375,7 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
     );
   }
 
-  void _insertIngredient({
+  /*void _insertIngredient({
     Data loadedRecipe,
     AllRecipeNotifier recipeNotifier,
     RecipeIngredientDao dao,
@@ -490,9 +390,9 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
     dao.insertIngredient(ingredientDownload).then((_) {
       kFlutterToast(context: context, msg: 'Added to shopping list');
     });
-  }
+  }*/
 
-  void _insertRecipe({
+  /*void _insertRecipe({
     Data loadedRecipe,
     AllRecipeNotifier recipeNotifier,
     RecipeDao dao,
@@ -516,5 +416,5 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
     dao.insertDownloadRecipe(recipeDownload).then((_) {
       kFlutterToast(context: context, msg: 'Added to recipe book');
     });
-  }
+  }*/
 }

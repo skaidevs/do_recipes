@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:dorecipes/helpers/recipe_database.dart';
 import 'package:dorecipes/models/recipe.dart';
 import 'package:dorecipes/providers/all_recipe.dart';
 import 'package:dorecipes/screens/recipe_detail.dart';
@@ -206,7 +207,12 @@ class GridItemCard extends StatelessWidget {
                             borderRadius: BorderRadius.circular(
                               10.0,
                             ),
-                            onTap: () {},
+                            onTap: () {
+                              print('Saved Recipe');
+                              DBHelper.insertRecipe(
+                                data: data,
+                              );
+                            },
                             child: Icon(
                               Icons.bookmark_outlined,
                               size: 22,

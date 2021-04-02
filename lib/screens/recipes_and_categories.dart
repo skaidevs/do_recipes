@@ -1,7 +1,5 @@
 import 'dart:math';
 
-import 'package:dorecipes/helpers/ingredient_database.dart';
-import 'package:dorecipes/helpers/recipe_database.dart';
 import 'package:dorecipes/helpers/scroll_behavior.dart';
 import 'package:dorecipes/models/list_categories.dart';
 import 'package:dorecipes/providers/all_recipe.dart';
@@ -23,14 +21,14 @@ class RecipesAndCategories extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Random random = new Random();
-    final dao = Provider.of<RecipeDao>(
+    /*final dao = Provider.of<dynamic>(
       context,
       listen: false,
-    );
-    final daoIng = Provider.of<RecipeIngredientDao>(
+    );*/
+    /*final daoIng = Provider.of<RecipeIngredientDao>(
       context,
       listen: false,
-    );
+    );*/
 
     return Scaffold(
       body: NestedScrollView(
@@ -137,8 +135,6 @@ class RecipesAndCategories extends StatelessWidget {
                               child: SingleChildScrollView(
                                 padding: const EdgeInsets.only(
                                   top: 20.0,
-                                  right: 10.0,
-                                  left: 10.0,
                                 ),
                                 child: Column(
                                   mainAxisSize: MainAxisSize.min,

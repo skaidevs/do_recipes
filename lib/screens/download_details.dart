@@ -1,11 +1,4 @@
-import 'package:dorecipes/helpers/ingredient_database.dart';
-import 'package:dorecipes/helpers/recipe_database.dart';
-import 'package:dorecipes/widgets/commons.dart';
-import 'package:dorecipes/widgets/html_viewer.dart';
-import 'package:dorecipes/widgets/serves_button.dart';
 import 'package:flutter/material.dart';
-import 'package:moor/moor.dart' as v;
-import 'package:provider/provider.dart';
 
 class DownloadedRecipeDetailScreen extends StatefulWidget {
   static const routeName = '/downloaded_recipe_detail';
@@ -29,7 +22,7 @@ class _DownloadedRecipeDetailScreenState
 
   @override
   Widget build(BuildContext context) {
-    DownloadRecipe _recipeId = ModalRoute.of(context).settings.arguments;
+    /*DownloadRecipe _recipeId = ModalRoute.of(context).settings.arguments;
     final dao = Provider.of<RecipeDao>(
       context,
       listen: false,
@@ -46,14 +39,14 @@ class _DownloadedRecipeDetailScreenState
         .allMatches(input)
         .map((m) => m.group(1))
         .map((String item) => item.replaceAll(new RegExp(r'[\[\]]'), ''))
-        .toList();
+        .toList();*/
 
     return Scaffold(
-        appBar: AppBar(
-          elevation: 0.0,
-          //title: Text(_pages[_bottomNavigation.currentIndex]['title']),
-          actions: <Widget>[
-            StreamBuilder<bool>(
+      appBar: AppBar(
+        elevation: 0.0,
+        //title: Text(_pages[_bottomNavigation.currentIndex]['title']),
+        actions: <Widget>[
+          /* StreamBuilder<bool>(
               stream: dao.isDownloaded(_recipeId.code),
               builder: (context, AsyncSnapshot snapshot) {
                 if (snapshot.hasData && snapshot.data) {
@@ -88,8 +81,8 @@ class _DownloadedRecipeDetailScreenState
                   ),
                 );
               },
-            ),
-            StreamBuilder<bool>(
+            ),*/
+          /*StreamBuilder<bool>(
               stream: daoIng.isDownloaded(_recipeId.code),
               builder: (context, AsyncSnapshot snapshot) {
                 if (snapshot.hasData && snapshot.data) {
@@ -97,10 +90,10 @@ class _DownloadedRecipeDetailScreenState
 
                   return IconButton(
                     onPressed: () {
-                      daoIng.deleteDownloadRecipe(
+                      */ /*daoIng.deleteDownloadRecipe(
                         _recipeId.code,
                       );
-
+*/ /*
                       kFlutterToast(
                           context: context, msg: 'Removed from shopping list');
                     },
@@ -117,25 +110,26 @@ class _DownloadedRecipeDetailScreenState
                       // int _activeServe = _recipeNotifier.activeServe;
                       // print('Active Serve $_activeServe');
 
-                      _insertIngredient(dao: daoIng, loadedRecipe: _recipeId);
+                     // _insertIngredient(dao: daoIng, loadedRecipe: _recipeId);
 
                       //Navigator.of(context).pushNamed(EditRecipe.routeName);
                     });
               },
-            ),
-            /*IconButton(
+            ),*/
+          /*IconButton(
                 icon: Icon(Icons.add_shopping_cart),
                 onPressed: () {
                   //Navigator.of(context).pushNamed(EditRecipe.routeName);
                 }),*/
-            /*IconButton(
+          /*IconButton(
                 icon: Icon(Icons.share),
                 onPressed: () {
                   //Navigator.of(context).pushNamed(EditRecipe.routeName);
                 })*/
-          ],
-        ),
-        body: SingleChildScrollView(
+        ],
+      ),
+      body:
+          Container(), /*SingleChildScrollView(
           child: Column(
             children: <Widget>[
               Container(
@@ -367,10 +361,11 @@ class _DownloadedRecipeDetailScreenState
               ),
             ],
           ),
-        ));
+        )*/
+    );
   }
 
-  void _insertIngredient({
+  /*void _insertIngredient({
     DownloadRecipe loadedRecipe,
     RecipeIngredientDao dao,
   }) {
@@ -407,5 +402,5 @@ class _DownloadedRecipeDetailScreenState
     dao.insertDownloadRecipe(recipeDownload).then((_) {
       kFlutterToast(context: context, msg: 'Add To Recipe Book');
     });
-  }
+  }*/
 }

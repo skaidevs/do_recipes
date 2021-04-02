@@ -1,9 +1,4 @@
-import 'package:dorecipes/helpers/ingredient_database.dart';
-import 'package:dorecipes/providers/all_recipe.dart';
-import 'package:dorecipes/widgets/commons.dart';
-import 'package:dorecipes/widgets/empty_and_error_recipe.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class ShoppingList extends StatefulWidget {
   @override
@@ -13,7 +8,7 @@ class ShoppingList extends StatefulWidget {
 class _ShoppingListState extends State<ShoppingList> {
   @override
   Widget build(BuildContext context) {
-    StreamBuilder<List<DownloadRecipeIngredientData>> _buildDownloadRecipe(
+    /*StreamBuilder<List<DownloadRecipeIngredientData>> _buildDownloadRecipe(
         BuildContext context) {
       final dao = Provider.of<RecipeIngredientDao>(context, listen: false);
       final _allRecipeNotifier =
@@ -86,12 +81,10 @@ class _ShoppingListState extends State<ShoppingList> {
               );
             }
           });
-    }
+    }*/
 
     return Container(
-      child: _buildDownloadRecipe(
-        context,
-      ),
+      child: Text('shopping List'),
     );
   }
 }

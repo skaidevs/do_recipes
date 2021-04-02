@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 
 class Recipe with ChangeNotifier {
@@ -66,6 +68,7 @@ class Data with ChangeNotifier {
   final String method;
   final String preparation;
   final List ingredients;
+  final bool isIngredientSaved;
 
   Data({
     this.id,
@@ -80,21 +83,57 @@ class Data with ChangeNotifier {
     this.method,
     this.preparation,
     this.ingredients,
+    this.isIngredientSaved = false,
   });
 
   factory Data.fromJson(Map<dynamic, dynamic> parsedJson) {
     return Data(
-        id: parsedJson['_id'] as String,
-        publishedAt: parsedJson['publishedAt'] as String,
-        title: parsedJson['title'] as String,
-        image: parsedJson['image'] as String,
-        category: parsedJson['category'] as String,
-        calories: parsedJson['calories'] as String,
-        duration: parsedJson['duration'] as String,
-        difficulty: parsedJson['difficulty'] as String,
-        imageUrl: parsedJson['imageUrl'] as String,
-        method: parsedJson['method'] as String,
-        preparation: parsedJson['preparation'] as String,
-        ingredients: parsedJson['ingredients'] as List);
+      id: parsedJson['id'] as String,
+      publishedAt: parsedJson['publishedAt'] as String,
+      title: parsedJson['title'] as String,
+      image: parsedJson['image'] as String,
+      category: parsedJson['category'] as String,
+      calories: parsedJson['calories'] as String,
+      duration: parsedJson['duration'] as String,
+      difficulty: parsedJson['difficulty'] as String,
+      imageUrl: parsedJson['imageUrl'] as String,
+      method: parsedJson['method'] as String,
+      preparation: parsedJson['preparation'] as String,
+      ingredients: parsedJson['ingredients'] as List,
+      /*isIngredientSaved: false,
+      isRecipeSaved: false,*/
+    );
+  }
+  Data.fromDb(Map<String, dynamic> parsedDb)
+      : id = parsedDb['id'],
+        publishedAt = parsedDb['publishedAt'],
+        title = parsedDb['title'],
+        image = parsedDb['image'],
+        category = parsedDb['category'],
+        calories = parsedDb['calories'],
+        duration = parsedDb['duration'],
+        difficulty = parsedDb['difficulty'],
+        imageUrl = parsedDb['imageUrl'],
+        method = parsedDb['method'],
+        preparation = parsedDb['preparation'],
+        ingredients = jsonDecode(parsedDb['ingredients']),
+        isIngredientSaved = parsedDb['isIngredientSaved'];
+
+  Map<String, dynamic> toMapForDb() {
+    return <String, dynamic>{
+      'id': id,
+      'publishedAt': publishedAt,
+      'title': title,
+      'image': image,
+      'category': category,
+      'calories': calories,
+      'difficulty': difficulty,
+      'duration': duration,
+      'imageUrl': imageUrl,
+      'isIngredientSaved': isIngredientSaved ? 1 : 0,
+      'method': method,
+      'preparation': preparation,
+      'ingredients': jsonEncode(ingredients),
+    };
   }
 }

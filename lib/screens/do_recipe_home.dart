@@ -1,5 +1,3 @@
-import 'package:dorecipes/helpers/ingredient_database.dart';
-import 'package:dorecipes/helpers/recipe_database.dart';
 import 'package:dorecipes/providers/bottom_navigator.dart';
 import 'package:dorecipes/screens/recipe_book.dart';
 import 'package:dorecipes/screens/recipes_and_categories.dart';
@@ -68,7 +66,7 @@ class _DoRecipeHomePageState extends State<DoRecipeHomePage> {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        final dao = Provider.of<RecipeDao>(
+        final dao = Provider.of<dynamic>(
           context,
           listen: false,
         );
@@ -123,10 +121,10 @@ class _DoRecipeHomePageState extends State<DoRecipeHomePage> {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        final dao = Provider.of<RecipeIngredientDao>(
+        /* final dao = Provider.of<RecipeIngredientDao>(
           context,
           listen: false,
-        );
+        );*/
         // return object of type Dialog
         return AlertDialog(
           title: const Text(
@@ -161,10 +159,10 @@ class _DoRecipeHomePageState extends State<DoRecipeHomePage> {
                 ),
               ),
               onPressed: () {
-                dao.deleteAllDownloadIng().then((_) {
+                /*dao.deleteAllDownloadIng().then((_) {
                   Navigator.of(context).pop();
                   kFlutterToast(context: context, msg: 'Shopping list cleared');
-                });
+                });*/
               },
             ),
           ],
@@ -179,14 +177,14 @@ class _DoRecipeHomePageState extends State<DoRecipeHomePage> {
       context,
     );
 
-    final dao = Provider.of<RecipeDao>(
+    /*final dao = Provider.of<dynamic>(
       context,
       listen: false,
-    );
-    final daoIng = Provider.of<RecipeIngredientDao>(
+    );*/
+    /* final daoIng = Provider.of<RecipeIngredientDao>(
       context,
       listen: false,
-    );
+    );*/
 
     return Scaffold(
       /*appBar: _isLoading

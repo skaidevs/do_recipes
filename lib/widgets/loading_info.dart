@@ -50,9 +50,9 @@ class _LoadingInfoState extends State<LoadingInfo>
               Padding(
                 padding: EdgeInsets.only(top: 16),
                 child: Text(
-                  'Awaiting result...',
+                  'Loading...',
                   style: TextStyle(
-                    fontSize: 18.0,
+                    fontSize: 20.0,
                   ),
                 ),
               )

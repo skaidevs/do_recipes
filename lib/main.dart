@@ -65,6 +65,13 @@ class MyApp extends StatelessWidget {
               color: Colors.teal,
             ),
           ),
+          pageTransitionsTheme: PageTransitionsTheme(
+            builders: {
+              TargetPlatform.android:
+                  CupertinoPageTransitionsBuilder() /*CustomPageTransitionBuilder()*/,
+              TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+            },
+          ),
         ),
         home: DoRecipeHomePage(),
         routes: {

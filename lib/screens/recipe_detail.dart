@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dorecipes/helpers/ingredient_database.dart';
 import 'package:dorecipes/helpers/recipe_database.dart';
 import 'package:dorecipes/models/recipe.dart';
@@ -221,63 +222,66 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
             ],
             expandedHeight: 360.0,
             floating: false,
-            //pinned: true,
+            pinned: true,
             elevation: 0.0,
             backgroundColor: Colors.transparent,
             collapsedHeight: 130.0,
-            flexibleSpace: Container(
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  //scale: 1.0,
-                  image: NetworkImage(
-                    addHttps(_loadedRecipe.imageUrl),
+            flexibleSpace: CachedNetworkImage(
+              imageUrl: addHttps(_loadedRecipe.imageUrl),
+              imageBuilder: (context, imageProvider) => Container(
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    //scale: 1.0,
+                    image: imageProvider,
+                    fit: BoxFit.cover,
                   ),
-                  fit: BoxFit.cover,
                 ),
-              ),
-              child: FlexibleSpaceBar(
-                centerTitle: true,
-                title: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 10.0,
-                  ),
-                  child: Container(
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      color: Colors.black.withOpacity(
-                        0.7,
-                      ) /*kColorTeal.withOpacity(
+                child: FlexibleSpaceBar(
+                  centerTitle: true,
+                  title: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10.0,
+                    ),
+                    child: Container(
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        color: Colors.black.withOpacity(
+                          0.7,
+                        ) /*kColorTeal.withOpacity(
                         0.1,
                       )*/
-                      ,
-                      borderRadius: const BorderRadius.only(
-                        bottomRight: Radius.circular(
-                          2.0,
-                        ),
-                        topRight: Radius.circular(
-                          70.0,
+                        ,
+                        borderRadius: const BorderRadius.only(
+                          bottomRight: Radius.circular(
+                            2.0,
+                          ),
+                          topRight: Radius.circular(
+                            70.0,
+                          ),
                         ),
                       ),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                        bottom: 12.0,
-                        left: 12.0,
-                        right: 20.0,
-                        top: 12.0,
-                      ),
-                      child: Text(
-                        _loadedRecipe.title,
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: kColorWhite,
-                          fontSize: 24.0,
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                          bottom: 12.0,
+                          left: 12.0,
+                          right: 20.0,
+                          top: 12.0,
+                        ),
+                        child: Text(
+                          _loadedRecipe.title,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: kColorWhite,
+                            fontSize: 24.0,
+                          ),
                         ),
                       ),
                     ),
                   ),
                 ),
               ),
+              placeholder: (context, url) => CircularProgressIndicator(),
+              errorWidget: (context, url, error) => Icon(Icons.error),
             ),
           ),
           SliverList(
@@ -342,6 +346,7 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
                                     'Serves ${_recipeNotifier.activeServe + 1}',
                                     style: TextStyle(
                                       fontSize: 22.0,
+                                      color: kColorTeal,
                                       fontWeight: FontWeight.w700,
                                       // color: Theme.of(context).accentColor,
                                     ),
@@ -412,11 +417,36 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
                                   padding: const EdgeInsets.only(
                                     bottom: 10.0,
                                   ),
-                                  child: Text(
-                                    _loadedRecipe.preparation,
-                                    style: TextStyle(
-                                      fontFamily: kBalooTamma2,
-                                      fontSize: 20.0,
+                                  child: Container(
+                                    width: double.infinity,
+                                    decoration: BoxDecoration(
+                                      color: kColorTeal.withOpacity(
+                                        0.1,
+                                      ),
+                                      /*boxShadow: [
+                                        BoxShadow(
+                                          blurRadius: 1.0,
+                                          color: kColorTeal.withOpacity(
+                                            0.1,
+                                          ),
+                                        ),
+                                      ],*/
+                                      borderRadius: BorderRadius.circular(
+                                        8.0,
+                                      ),
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(
+                                        12.0,
+                                      ),
+                                      child: Text(
+                                        _loadedRecipe.preparation,
+                                        style: TextStyle(
+                                          //fontWeight: FontWeight.bold,
+                                          fontSize: 20.0,
+                                          color: kColorTeal,
+                                        ),
+                                      ),
                                     ),
                                   ),
                                 ),

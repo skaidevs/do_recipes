@@ -14,7 +14,6 @@ Text kRecipeTexts({
     text,
     style: TextStyle(
       fontWeight: FontWeight.bold,
-      color: kColorTeal,
       fontSize: 30.0,
     ),
   );

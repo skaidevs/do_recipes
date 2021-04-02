@@ -24,9 +24,12 @@ class TimeCalDifficulty extends StatelessWidget {
             //mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Icon(
-                Icons.access_time,
+                Icons.access_time_rounded,
                 size: 40,
                 color: Theme.of(context).accentColor,
+              ),
+              const SizedBox(
+                height: 6.0,
               ),
               Text(
                 _loadedRecipe.duration,
@@ -44,9 +47,12 @@ class TimeCalDifficulty extends StatelessWidget {
             //mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Icon(
-                Icons.show_chart,
+                Icons.local_fire_department_rounded,
                 size: 40,
                 color: Theme.of(context).accentColor,
+              ),
+              const SizedBox(
+                height: 6.0,
               ),
               Text(
                 '${_loadedRecipe.calories} Cals',
@@ -63,10 +69,26 @@ class TimeCalDifficulty extends StatelessWidget {
           child: Column(
             //mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Icon(
-                Icons.grain,
-                size: 40,
-                color: Theme.of(context).accentColor,
+              if (_loadedRecipe.difficulty == 'easy')
+                Icon(
+                  Icons.filter_1_rounded,
+                  size: 40,
+                  color: Theme.of(context).accentColor,
+                )
+              else if (_loadedRecipe.difficulty == 'medium')
+                Icon(
+                  Icons.filter_2_rounded,
+                  size: 40,
+                  color: Theme.of(context).accentColor,
+                )
+              else if (_loadedRecipe.difficulty == 'hard')
+                Icon(
+                  Icons.filter_3_rounded,
+                  size: 40,
+                  color: Theme.of(context).accentColor,
+                ),
+              const SizedBox(
+                height: 6.0,
               ),
               Text(
                 '${capitalize(_loadedRecipe.difficulty)}',

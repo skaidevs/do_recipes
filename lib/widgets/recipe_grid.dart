@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dorecipes/models/recipe.dart';
 import 'package:dorecipes/providers/all_recipe.dart';
 import 'package:dorecipes/screens/recipe_detail.dart';
@@ -72,8 +73,15 @@ class GridItemCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: GestureDetector(
+    return Card(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12.0),
+      ),
+      margin: EdgeInsets.all(8.0),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(
+          12.0,
+        ),
         onTap: () {
           Provider.of<AllRecipeNotifier>(
             context,
@@ -84,129 +92,135 @@ class GridItemCard extends StatelessWidget {
             arguments: data.id,
           );
         },
-        child: Card(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12.0),
-          ),
-          margin: EdgeInsets.all(8.0),
-          child: Stack(
-            children: <Widget>[
-              ClipRRect(
-                borderRadius: BorderRadius.all(
-                  Radius.circular(12.0),
-                ),
-                child: Image.network(
-                  addHttps(data.imageUrl),
-                  height: double.infinity,
-                  width: double.infinity,
-                  fit: BoxFit.cover,
-                  scale: 1.0,
-                ),
+        child: Stack(
+          children: <Widget>[
+            ClipRRect(
+              borderRadius: BorderRadius.all(
+                Radius.circular(12.0),
               ),
-              Positioned(
-                bottom: 10.0,
-                right: 8.0,
-                left: 8.0,
-                child: Container(
-                  padding: EdgeInsets.all(
+              child: CachedNetworkImage(
+                imageUrl: addHttps(data.imageUrl),
+                height: double.infinity,
+                width: double.infinity,
+                fit: BoxFit.cover,
+                placeholder: (context, url) => Container(
+                  color: kColorTeal.withOpacity(
+                    0.1,
+                  ),
+                ),
+                errorWidget: (context, url, error) => Icon(Icons.error),
+              ) /*Image.network(
+                addHttps(data.imageUrl),
+                height: double.infinity,
+                width: double.infinity,
+                fit: BoxFit.cover,
+                scale: 1.0,
+              )*/
+              ,
+            ),
+            Positioned(
+              bottom: 10.0,
+              right: 8.0,
+              left: 8.0,
+              child: Container(
+                padding: EdgeInsets.all(
+                  8.0,
+                ),
+                decoration: BoxDecoration(
+                  color: Colors.black54,
+                  boxShadow: [
+                    BoxShadow(
+                      blurRadius: 1.0,
+                      color: Colors.black38,
+                    ),
+                  ],
+                  borderRadius: BorderRadius.circular(
                     8.0,
                   ),
-                  decoration: BoxDecoration(
-                    color: Colors.black54,
-                    boxShadow: [
-                      BoxShadow(
-                        blurRadius: 1.0,
-                        color: Colors.black38,
-                      ),
-                    ],
-                    borderRadius: BorderRadius.circular(
-                      8.0,
-                    ),
+                ),
+                //width: 320.0,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 6.0,
                   ),
-                  //width: 320.0,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 6.0,
-                    ),
-                    child: Column(
-                      children: [
-                        Align(
-                          alignment: Alignment.topLeft,
-                          child: RichText(
-                            text: TextSpan(children: [
-                              TextSpan(
-                                text: data.title,
-                                style: const TextStyle(
-                                  fontSize: 18.0,
-                                  fontWeight: FontWeight.w500,
-                                ),
+                  child: Column(
+                    children: [
+                      Align(
+                        alignment: Alignment.topLeft,
+                        child: RichText(
+                          text: TextSpan(children: [
+                            TextSpan(
+                              text: data.title,
+                              style: const TextStyle(
+                                fontSize: 18.0,
+                                fontWeight: FontWeight.w500,
                               ),
-                              /*TextSpan(
-                                text: 'anything can be here',
-                                style: TextStyle(
-                                  fontSize: 22,
-                                  fontWeight: FontWeight.bold,
+                            ),
+                            /*TextSpan(
+                              text: 'anything can be here',
+                              style: TextStyle(
+                                fontSize: 22,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),*/
+                          ]),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10.0,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            child: Row(
+                              //mainAxisAlignment: MainAxisAlignment.center,
+                              //crossAxisAlignment: CrossAxisAlignment.center,
+                              children: <Widget>[
+                                Icon(
+                                  Icons.access_time,
+                                  size: 22,
+                                  color: kColorGrey,
                                 ),
-                              ),*/
-                            ]),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 10.0,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Expanded(
-                              child: Row(
-                                //mainAxisAlignment: MainAxisAlignment.center,
-                                //crossAxisAlignment: CrossAxisAlignment.center,
-                                children: <Widget>[
-                                  Icon(
-                                    Icons.access_time,
-                                    size: 22,
-                                    color: kColorGrey,
-                                  ),
-                                  Expanded(
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(
-                                        top: 4.0,
-                                        left: 2.0,
-                                      ),
-                                      child: Text(
-                                        data.duration,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: TextStyle(
-                                          fontFamily: kBalooTamma2,
-                                          color: kColorGrey,
-                                          fontSize: 16.0,
-                                        ),
+                                Expanded(
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                      top: 4.0,
+                                      left: 2.0,
+                                    ),
+                                    child: Text(
+                                      data.duration,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                        fontFamily: kBalooTamma2,
+                                        color: kColorGrey,
+                                        fontSize: 16.0,
                                       ),
                                     ),
                                   ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
-                            InkWell(
-                              borderRadius: BorderRadius.circular(
-                                10.0,
-                              ),
-                              onTap: () {},
-                              child: Icon(
-                                Icons.bookmark_outlined,
-                                size: 22,
-                                color: kColorTeal,
-                              ),
+                          ),
+                          InkWell(
+                            borderRadius: BorderRadius.circular(
+                              10.0,
                             ),
-                          ],
-                        ),
-                      ],
-                    ),
+                            onTap: () {},
+                            child: Icon(
+                              Icons.bookmark_outlined,
+                              size: 22,
+                              color: kColorTeal,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dorecipes/helpers/recipe_database.dart';
 import 'package:dorecipes/models/recipe.dart';
 import 'package:dorecipes/providers/all_recipe.dart';
@@ -143,10 +144,23 @@ class HeaderCard extends StatelessWidget {
                         borderRadius: new BorderRadius.circular(
                           16.0,
                         ),
-                        child: Image.network(
+                        child: CachedNetworkImage(
+                          imageUrl: addHttps(recipeData.imageUrl),
+                          /*height: double.infinity,
+                          width: double.infinity,*/
+                          fit: BoxFit.cover,
+                          placeholder: (context, url) => Container(
+                            color: kColorTeal.withOpacity(
+                              0.1,
+                            ),
+                          ),
+                          errorWidget: (context, url, error) =>
+                              Icon(Icons.error),
+                        ) /*Image.network(
                           addHttps(recipeData.imageUrl),
                           //scale: 1.0,
-                        ),
+                        )*/
+                        ,
                       ),
                       flex: 8,
                     ),

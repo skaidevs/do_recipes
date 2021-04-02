@@ -21,7 +21,7 @@ class RecipeGridItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return InkWell(
       onTap: () {
         //print('Clicked Downloaded Details ${}');
 
@@ -37,10 +37,15 @@ class RecipeGridItem extends StatelessWidget {
           2.0,
         ),
         child: GridTile(
-          child: Image.network(
+          child: FadeInImage.memoryNetwork(
+            image: imageUrl,
+            fit: BoxFit.cover,
+          )
+          /*Image.network(
             imageUrl,
             fit: BoxFit.cover,
-          ),
+          )*/
+          ,
           footer: GridTileBar(
             subtitle: Text(
               title,

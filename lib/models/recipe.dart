@@ -68,7 +68,7 @@ class Data with ChangeNotifier {
   final String method;
   final String preparation;
   final List ingredients;
-  final bool isIngredientSaved;
+  //final bool isIngredientSaved;
 
   Data({
     this.id,
@@ -83,12 +83,12 @@ class Data with ChangeNotifier {
     this.method,
     this.preparation,
     this.ingredients,
-    this.isIngredientSaved = false,
+    //this.isIngredientSaved = false,
   });
 
   factory Data.fromJson(Map<dynamic, dynamic> parsedJson) {
     return Data(
-      id: parsedJson['id'] as String,
+      id: parsedJson['_id'] as String,
       publishedAt: parsedJson['publishedAt'] as String,
       title: parsedJson['title'] as String,
       image: parsedJson['image'] as String,
@@ -100,12 +100,13 @@ class Data with ChangeNotifier {
       method: parsedJson['method'] as String,
       preparation: parsedJson['preparation'] as String,
       ingredients: parsedJson['ingredients'] as List,
+
       /*isIngredientSaved: false,
       isRecipeSaved: false,*/
     );
   }
   Data.fromDb(Map<String, dynamic> parsedDb)
-      : id = parsedDb['id'],
+      : id = parsedDb['_id'],
         publishedAt = parsedDb['publishedAt'],
         title = parsedDb['title'],
         image = parsedDb['image'],
@@ -116,12 +117,14 @@ class Data with ChangeNotifier {
         imageUrl = parsedDb['imageUrl'],
         method = parsedDb['method'],
         preparation = parsedDb['preparation'],
-        ingredients = jsonDecode(parsedDb['ingredients']),
-        isIngredientSaved = parsedDb['isIngredientSaved'];
+        ingredients = jsonDecode(parsedDb[
+            'ingredients']) /*,
+        isIngredientSaved = parsedDb['isIngredientSaved']*/
+  ;
 
   Map<String, dynamic> toMapForDb() {
     return <String, dynamic>{
-      'id': id,
+      '_id': id,
       'publishedAt': publishedAt,
       'title': title,
       'image': image,
@@ -130,7 +133,7 @@ class Data with ChangeNotifier {
       'difficulty': difficulty,
       'duration': duration,
       'imageUrl': imageUrl,
-      'isIngredientSaved': isIngredientSaved ? 1 : 0,
+      // 'isIngredientSaved': isIngredientSaved == false ? 0 : 1,
       'method': method,
       'preparation': preparation,
       'ingredients': jsonEncode(ingredients),

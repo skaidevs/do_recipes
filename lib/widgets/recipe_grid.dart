@@ -88,6 +88,7 @@ class GridItemCard extends StatelessWidget {
             context,
             listen: false,
           ).activeServe = 0;
+          print('Card tapped ${data.id}');
           Navigator.of(context).pushNamed(
             RecipeDetailScreen.routeName,
             arguments: data.id,

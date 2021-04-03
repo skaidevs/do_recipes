@@ -13,29 +13,25 @@ class OfflineNotifier with ChangeNotifier {
     return [..._ingredientList];
   }
 
-  Future<void> fetchAndSetRecipe() async {
-    final _dataList = await DBHelper.fetchRecipeData();
-
-    _recipeList = _dataList
-        .map(
-          (item) => Data.fromDb(item),
-        )
-        .toList();
-
-    print("Fetching offline recipe list ${_dataList.length}");
-
+  Future<List<Data>> fetchAndSetRecipe() async {
+    List<Data> _dataList = await DBHelper.fetchRecipeData();
+    _recipeList = _dataList;
+    print("Fetching offline recipe list 2 ${_recipeList.length}");
     notifyListeners();
+    return _recipeList;
   }
 
-  Future<List<Data>> fetchAndSetIngredients() async {
+  Future<void> fetchAndSetIngredients() async {
     final _dataList = await DBHelper.fetchIngredientData();
     if (_dataList.length > 0) {
-      print("Fetching offline recipe list ${_dataList.length}");
+      // print("Fetching offline recipe list 1 ${_dataList[0].values}");
       _recipeList = _dataList
           .map(
             (item) => Data.fromDb(item),
           )
           .toList();
+      print("Fetching offline recipe list 2 ${_recipeList.length}");
+
       notifyListeners();
       return _recipeList;
     }

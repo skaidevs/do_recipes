@@ -8,7 +8,7 @@ class DBHelper {
     return sql.openDatabase(
       path.join(_dbPath, 'do_recipe.db'),
       onCreate: (db, version) => db.execute(
-        'CREATE TABLE do_recipe(id TEXT PRIMARY KEY, title TEXT, image TEXT, imageUrl TEXT, publishedAt TEXT, category TEXT, calories TEXT, duration TEXT, difficulty TEXT, method TEXT, preparation TEXT, ingredients BLOB, isIngredientSaved INTEGER)',
+        'CREATE TABLE do_recipe(_id TEXT PRIMARY KEY, title TEXT, image TEXT, imageUrl TEXT, publishedAt TEXT, category TEXT, calories TEXT, duration TEXT, difficulty TEXT, method TEXT, preparation TEXT, ingredients BLOB, isIngredientSaved INTEGER)',
       ),
       version: 1,
     );
@@ -31,15 +31,15 @@ class DBHelper {
       category: data.category,
       difficulty: data.difficulty,
       duration: data.duration,
-      //isIngredientSaved: true,
+      // isIngredientSaved: data.isIngredientSaved,
     );
 
-    print('Inserting ${recipe.title}');
-    print('Inserting ${recipe.isIngredientSaved}');
+    //print('Inserting ${data.toMapForDb().entries}');
+    //print('Inserting ${recipe.isIngredientSaved}');
 
     db.insert(
       'do_recipe',
-      recipe.toMapForDb(),
+      data.toMapForDb(),
       conflictAlgorithm: sql.ConflictAlgorithm.replace,
     );
   }
@@ -58,11 +58,26 @@ class DBHelper {
     return db.query(table);
   }*/
 
-  static Future<List<Map<String, dynamic>>> fetchRecipeData() async {
+  static Future<List<Data>> fetchRecipeData() async {
     final db = await DBHelper.database();
-    print("Fetching offline ");
+    final maps = await db.query(
+      'do_recipe',
+    );
+    if (maps.length > 0) {
+      final mappedData = maps
+          .map(
+            (item) => Data.fromDb(
+              item,
+            ),
+          )
+          .toList();
 
-    return db.query('do_recipe');
+      print("Fetching offline ${mappedData.first}");
+
+      return mappedData;
+    }
+
+    return null;
   }
 
   static Future<List<Map<String, dynamic>>> fetchIngredientData() async {
@@ -70,6 +85,11 @@ class DBHelper {
 
     return db.query('do_recipe');
   }
+  /*static Future<List<Map<String, dynamic>>> fetchIngredientData() async {
+    final db = await DBHelper.database();
+
+    return db.query('do_recipe');
+  }*/
 }
 /*Future<NewsItem> fetchNewsItem(int id) async {
   final maps = await db.query(

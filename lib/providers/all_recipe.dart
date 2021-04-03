@@ -91,9 +91,10 @@ class AllRecipeNotifier with ChangeNotifier {
         if (extractedData == null) {
           return null;
         }
+        //print('DATA: ${extractedData.toString()}');
 
         Recipe _recipe = Recipe.fromJson(extractedData);
-        print('DATA: ${_recipe.data[0].title}');
+        print('DATA: ${_recipe.data[0].id}');
         _cachedAllRecipe[_id] = _recipe.data;
         notifyListeners();
       } else {

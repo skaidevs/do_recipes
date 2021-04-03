@@ -1,4 +1,5 @@
 import 'package:dorecipes/providers/offline_recipes.dart';
+import 'package:dorecipes/widgets/loading_info.dart';
 import 'package:dorecipes/widgets/recipe_grid.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -18,9 +19,7 @@ class _RecipeBookState extends State<RecipeBook> {
       ).fetchAndSetRecipe(),
       builder: (context, snapshot) =>
           snapshot.connectionState == ConnectionState.waiting
-              ? Center(
-                  child: CircularProgressIndicator(),
-                )
+              ? LoadingInfo()
               : Consumer<OfflineNotifier>(
                   child: Center(
                     child: const Text('You got Nothing !'),

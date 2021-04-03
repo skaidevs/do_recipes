@@ -29,8 +29,8 @@ class RecipeGrid extends StatelessWidget {
         crossAxisSpacing: 3,
         mainAxisSpacing: 4,
       ),
-      padding: const EdgeInsets.all(
-        2.0,
+      padding: const EdgeInsets.symmetric(
+        horizontal: 4.0,
       ),
       scrollDirection: Axis.vertical,
       shrinkWrap: true,

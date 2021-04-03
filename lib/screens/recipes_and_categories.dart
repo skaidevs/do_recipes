@@ -159,8 +159,11 @@ class RecipesAndCategories extends StatelessWidget {
                                     const SizedBox(
                                       height: 8.0,
                                     ),
-                                    RecipeGrid(
-                                      data: allRecipeNotifier.allRecipeData,
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: RecipeGrid(
+                                        data: allRecipeNotifier.allRecipeData,
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -328,28 +331,33 @@ class RecipesAndCategories extends StatelessWidget {
     String viewAll,
     Function onPressed,
   }) =>
-      Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            categoryText,
-            style: TextStyle(
-              fontSize: 22.0,
-              fontWeight: FontWeight.w500,
-              color: Colors.black54,
-            ),
-          ),
-          TextButton(
-            onPressed: onPressed,
-            child: Text(
-              viewAll,
+      Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 12.0,
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              categoryText,
               style: TextStyle(
-                fontSize: 16.0,
-                color: kColorTeal,
+                fontSize: 22.0,
+                fontWeight: FontWeight.w500,
+                color: Colors.black54,
               ),
             ),
-          ),
-        ],
+            TextButton(
+              onPressed: onPressed,
+              child: Text(
+                viewAll,
+                style: TextStyle(
+                  fontSize: 16.0,
+                  color: kColorTeal,
+                ),
+              ),
+            ),
+          ],
+        ),
       );
 
   Widget _buildHorizontalCategories({

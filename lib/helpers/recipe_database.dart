@@ -58,26 +58,9 @@ class DBHelper {
     return db.query(table);
   }*/
 
-  static Future<List<Data>> fetchRecipeData() async {
+  static Future<List<Map<String, dynamic>>> fetchRecipeData() async {
     final db = await DBHelper.database();
-    final maps = await db.query(
-      'do_recipe',
-    );
-    if (maps.length > 0) {
-      final mappedData = maps
-          .map(
-            (item) => Data.fromDb(
-              item,
-            ),
-          )
-          .toList();
-
-      print("Fetching offline ${mappedData.first}");
-
-      return mappedData;
-    }
-
-    return null;
+    return db.query('do_recipe');
   }
 
   static Future<List<Map<String, dynamic>>> fetchIngredientData() async {

@@ -28,7 +28,7 @@ class DBHelper {
     /*Data recipe = Data(
       id: data.id,
       image: data.image,
-      imageUrl: data.imageUrl,
+      imageUrl: File(data.imageUrl).path,
       ingredients: data.ingredients,
       method: data.method,
       preparation: data.preparation,
@@ -38,10 +38,9 @@ class DBHelper {
       category: data.category,
       difficulty: data.difficulty,
       duration: data.duration,
-      // isIngredientSaved: data.isIngredientSaved,
-    );*/
-    //print('Inserting ${data.toMapForDb().entries}');
-    //print('Inserting ${recipe.isIngredientSaved}');
+    );
+    print('Inserting ${data.imageUrl}');
+    print('Inserting... ${recipe.imageUrl}');*/
     db.insert(
       'do_recipe',
       data.toMapForDb(),

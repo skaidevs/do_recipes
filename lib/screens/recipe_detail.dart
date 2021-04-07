@@ -4,6 +4,7 @@ import 'package:dorecipes/models/recipe.dart';
 import 'package:dorecipes/providers/all_recipe.dart';
 import 'package:dorecipes/widgets/commons.dart';
 import 'package:dorecipes/widgets/html_viewer.dart';
+import 'package:dorecipes/widgets/recipe_grid_item.dart';
 import 'package:dorecipes/widgets/serves_button.dart';
 import 'package:dorecipes/widgets/time_cal_difficulty.dart';
 import 'package:flutter/material.dart';
@@ -34,21 +35,12 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final _recipeId = ModalRoute.of(context).settings.arguments as String;
+    final _loadedRecipe = ModalRoute.of(context).settings.arguments as Data;
     final _recipeNotifier = Provider.of<AllRecipeNotifier>(
       context,
       listen: false,
     );
-    Data _loadedRecipe = _recipeNotifier.findAlbumById(code: _recipeId);
-    /* final dao = Provider.of<dynamic>(
-      context,
-      listen: false,
-    );*/
-    /*final daoIng = Provider.of<RecipeIngredientDao>(
-      context,
-      listen: false,
-    );*/
-
+    print('IMAGE URL IS.......${_loadedRecipe?.imageUrl}');
     return Scaffold(
       body: CustomScrollView(
         slivers: <Widget>[
@@ -120,6 +112,7 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
                             }),
               ),*/
 
+              RecipeBookmarkWidget(_loadedRecipe),
               IconButton(
                 onPressed: () {
                   print('Saved Ingredient');
@@ -142,7 +135,22 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
             elevation: 0.0,
             backgroundColor: Colors.transparent,
             collapsedHeight: 130.0,
-            flexibleSpace: CachedNetworkImage(
+            flexibleSpace:
+                /*isOffline
+                ? FlexibleSpaceBar(
+                    centerTitle: true,
+                    title: Text("Collapsing Toolbar",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16.0,
+                        )),
+                    background: Image.file(
+                      File(_loadedRecipe.imageUrl),
+                      fit: BoxFit.cover,
+                    ),
+                  )
+                :*/
+                CachedNetworkImage(
               imageUrl: _loadedRecipe.imageUrl,
               imageBuilder: (context, imageProvider) => Container(
                 decoration: BoxDecoration(
@@ -197,7 +205,9 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
                 ),
               ),
               placeholder: (context, url) => CircularProgressIndicator(),
-              errorWidget: (context, url, error) => Icon(Icons.error),
+              errorWidget: (context, url, error) => Center(
+                child: Icon(Icons.error),
+              ),
             ),
           ),
           SliverList(

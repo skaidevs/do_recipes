@@ -122,7 +122,7 @@ class HeaderCard extends StatelessWidget {
             ).activeServe = 0;
             Navigator.of(context).pushNamed(
               RecipeDetailScreen.routeName,
-              arguments: recipeData.id,
+              arguments: recipeData,
             );
           },
           child: Stack(children: <Widget>[

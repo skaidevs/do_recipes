@@ -41,7 +41,7 @@ class AllRecipeNotifier with ChangeNotifier {
   String _internetConnectionError = '';
   String get internetConnectionError => _internetConnectionError;
 
-  Data findAlbumById({String code}) {
+  Data findRecipeById({String code}) {
     return _allRecipeData.firstWhere((id) => id.id == code);
   }
 

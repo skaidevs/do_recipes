@@ -156,14 +156,11 @@ class RecipesAndCategories extends StatelessWidget {
                                       categoryText: 'All Recipes',
                                       viewAll: '',
                                     ),
-                                    const SizedBox(
+                                    /*const SizedBox(
                                       height: 8.0,
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: RecipeGrid(
-                                        data: allRecipeNotifier.allRecipeData,
-                                      ),
+                                    ),*/
+                                    RecipeGrid(
+                                      data: allRecipeNotifier.allRecipeData,
                                     ),
                                   ],
                                 ),

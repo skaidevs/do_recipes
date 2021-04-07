@@ -1,6 +1,8 @@
 import 'package:dorecipes/helpers/recipe_database.dart';
 import 'package:dorecipes/models/recipe.dart';
+import 'package:dorecipes/widgets/commons.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/widgets.dart';
 
 class OfflineNotifier with ChangeNotifier {
   List<Data> _recipeList = [];
@@ -23,45 +25,10 @@ class OfflineNotifier with ChangeNotifier {
     return _recipeList.firstWhere((id) => id.id == code, orElse: () => null);
   }
 
-  Future<void> insertInToDataBase(Data data) async {
-    final _id = findRecipeById(code: data.id)?.id;
-    if (_id != null && _id == data.id) {
-      print('Its favourite and removing it $data');
-      deleteRecipeFromDb(recipeId: data.id);
-    } else {
-      print('Nothing found so inserting  $data');
-      insertRecipeInToDb(recipeData: data);
-    }
-  }
-
-  void _me(String id) {
-    for (Data dataRecipe in _recipeList) {
-      if (dataRecipe?.id == id) {
-        //info?.progress = task.progress;
-        notifyListeners();
-        print('bindIsolate $id');
-      }
-    }
-  }
-
   OfflineNotifier() {
     print('Init recipe offline');
     fetchAndSetRecipe();
   }
-  /*OfflineNotifier() {
-    print('Init recipe offline');
-    fetchAndSetRecipe();
-    _initializeIngredients();
-  }
-
-  Future _initializeRecipe() {
-    print('Init recipe');
-    fetchAndSetRecipe();
-  }
-
-  Future _initializeIngredients() {
-    return fetchAndSetIngredients();
-  }*/
 
   Future<void> fetchAndSetRecipe() async {
     final _dataList = await DBHelper.fetchRecipeData();
@@ -76,6 +43,22 @@ class OfflineNotifier with ChangeNotifier {
       return _recipeList;
     }
     return null;
+  }
+
+  Future<void> insertInToDataBase(
+    Data data,
+    BuildContext context,
+  ) async {
+    final _id = findRecipeById(code: data.id)?.id;
+    if (_id != null && _id == data.id) {
+      //print('Its favourite and removing it $data');
+      deleteRecipeFromDb(recipeId: data.id);
+      await kFlutterToast(context: context, msg: 'Removed from recipe book.');
+    } else {
+      //print('Nothing found so inserting  $data');
+      insertRecipeInToDb(recipeData: data);
+      await kFlutterToast(context: context, msg: 'Added to recipe book.');
+    }
   }
 
   Future deleteRecipeFromDb({String recipeId}) {

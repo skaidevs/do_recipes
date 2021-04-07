@@ -295,13 +295,13 @@ class _FavIconWidgetState extends State<FavIconWidget> {
               return const Icon(Icons.error,
                   color: Colors.red); //just in case the db return an error
             return IconButton(
-                icon: snapshot.data
-                    ? const Icon(Icons.favorite, color: Colors.white)
-                    : Icon(Icons.favorite, color: Colors.teal),
-                onPressed: () async {
-                  await notifier.insertInToDataBase(widget?.data);
-                  setState(() {});
-                });
+              icon: snapshot.data
+                  ? const Icon(Icons.favorite, color: Colors.white)
+                  : Icon(Icons.favorite, color: Colors.teal),
+              onPressed: () => notifier.insertInToDataBase(widget?.data).then(
+                    (_) => setState(() {}),
+                  ),
+            );
           }),
     );
   }

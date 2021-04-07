@@ -25,7 +25,6 @@ class OfflineNotifier with ChangeNotifier {
 
   Future<void> insertInToDataBase(Data data) async {
     final _id = findRecipeById(code: data.id)?.id;
-
     if (_id != null && _id == data.id) {
       print('Its favourite and removing it $data');
       deleteRecipeFromDb(recipeId: data.id);
@@ -86,10 +85,10 @@ class OfflineNotifier with ChangeNotifier {
     return DBHelper.deleteRecipe(recipeId);
   }
 
-  Future insertRecipeInToDb({Data recipeData}) {
+  Future insertRecipeInToDb({Data recipeData}) async {
     print("recipe inserting.... ${recipeData.id}");
-    return DBHelper.insertRecipe(data: recipeData)
-        .then((value) => fetchAndSetRecipe());
+    await DBHelper.insertRecipe(data: recipeData)
+        .then((_) => fetchAndSetRecipe());
   }
 
   //final _dataList = await DBHelper.fetchRecipeData();

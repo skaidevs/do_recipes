@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dorecipes/helpers/recipe_database.dart';
 import 'package:dorecipes/models/recipe.dart';
 import 'package:dorecipes/providers/all_recipe.dart';
+import 'package:dorecipes/providers/offline_recipes.dart';
 import 'package:dorecipes/screens/recipe_detail.dart';
 import 'package:dorecipes/widgets/commons.dart';
 import 'package:dorecipes/widgets/recipe_grid_item.dart';
@@ -10,8 +11,9 @@ import 'package:provider/provider.dart';
 
 class RecipeGrid extends StatelessWidget {
   final List<Data> data;
+  final String currentScreen;
 
-  const RecipeGrid({Key key, this.data}) : super(key: key);
+  const RecipeGrid({Key key, this.data, this.currentScreen}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,6 +23,7 @@ class RecipeGrid extends StatelessWidget {
         final _data = data[index];
         return GridItemCard(
           data: _data,
+          currentScreen: currentScreen,
         );
       },
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -29,9 +32,9 @@ class RecipeGrid extends StatelessWidget {
         crossAxisSpacing: 3,
         mainAxisSpacing: 4,
       ),
-      padding: const EdgeInsets.symmetric(
+      /*padding: const EdgeInsets.symmetric(
         horizontal: 4.0,
-      ),
+      ),*/
       scrollDirection: Axis.vertical,
       shrinkWrap: true,
       physics: ClampingScrollPhysics(),
@@ -69,11 +72,15 @@ class SearchRecipeGrid extends StatelessWidget {
 
 class GridItemCard extends StatelessWidget {
   final Data data;
+  final String currentScreen;
 
-  const GridItemCard({Key key, this.data}) : super(key: key);
+  const GridItemCard({Key key, this.data, this.currentScreen})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final notifier = Provider.of<OfflineNotifier>(context, listen: false);
+
     return Card(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12.0),
@@ -89,6 +96,11 @@ class GridItemCard extends StatelessWidget {
             listen: false,
           ).activeServe = 0;
           print('Card tapped ${data.id}');
+
+          Map _data = {
+            'id': data.id,
+            'isOffline': true,
+          };
           Navigator.of(context).pushNamed(
             RecipeDetailScreen.routeName,
             arguments: data.id,
@@ -101,7 +113,7 @@ class GridItemCard extends StatelessWidget {
                 Radius.circular(12.0),
               ),
               child: CachedNetworkImage(
-                imageUrl: addHttps(data.imageUrl),
+                imageUrl: data.imageUrl,
                 height: double.infinity,
                 width: double.infinity,
                 fit: BoxFit.cover,
@@ -204,22 +216,38 @@ class GridItemCard extends StatelessWidget {
                               ],
                             ),
                           ),
-                          InkWell(
-                            borderRadius: BorderRadius.circular(
-                              10.0,
-                            ),
-                            onTap: () {
-                              print('Saved Recipe');
-                              DBHelper.insertRecipe(
-                                data: data,
-                              );
-                            },
-                            child: Icon(
-                              Icons.bookmark_outlined,
-                              size: 22,
-                              color: kColorTeal,
-                            ),
-                          ),
+                          Consumer2<OfflineNotifier, AllRecipeNotifier>(
+                              builder: (context, notifier, recipeNotifier, _) {
+                            return currentScreen == 'recipe_book'
+                                ? InkWell(
+                                    borderRadius: BorderRadius.circular(
+                                      10.0,
+                                    ),
+                                    onTap: () async {
+                                      if (notifier.recipeList.contains(data)) {
+                                        print(
+                                            'Delete Recipe from DB ${data.id}');
+                                        notifier.deleteRecipeFromDb(
+                                            recipeId: data.id);
+                                      }
+                                    },
+                                    child: Icon(
+                                      Icons.bookmark_outlined,
+                                      size: 22,
+                                      color: kColorTeal,
+                                    ),
+                                  )
+                                : InkWell(
+                                    borderRadius: BorderRadius.circular(
+                                      10.0,
+                                    ),
+                                    /*onTap: () async {
+                                      await notifier.insertInToDataBase(
+                                          data: data);
+                                    }*/
+                                    child: FavIconWidget(data),
+                                  );
+                          }),
                         ],
                       ),
                     ],
@@ -234,11 +262,47 @@ class GridItemCard extends StatelessWidget {
   }
 }
 
-String addHttps(String imageUri) {
-  String _imageUri = imageUri;
-  if (_imageUri.contains('http:')) {
-    final String imageUriSubstring = _imageUri.substring(4);
-    _imageUri = 'https$imageUriSubstring';
+class FavIconWidget extends StatefulWidget {
+  final Data data;
+
+  FavIconWidget(this.data);
+
+  @override
+  _FavIconWidgetState createState() => _FavIconWidgetState();
+}
+
+class _FavIconWidgetState extends State<FavIconWidget> {
+  Future<bool> get isFav async {
+    final rowsPresent = await DBHelper.queryForFav(widget?.data?.id);
+    if (rowsPresent > 0) {
+      //print('Its favourite and removing it');
+      return false;
+    } else {
+      // print('Nothing found so inserting you dodo');
+      return true;
+    }
   }
-  return _imageUri;
+
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<OfflineNotifier>(
+      builder: (context, notifier, _) => FutureBuilder<bool>(
+          future: isFav,
+          initialData:
+              false, // you can define an initial value while the db returns the real value
+          builder: (context, snapshot) {
+            if (snapshot.hasError)
+              return const Icon(Icons.error,
+                  color: Colors.red); //just in case the db return an error
+            return IconButton(
+                icon: snapshot.data
+                    ? const Icon(Icons.favorite, color: Colors.white)
+                    : Icon(Icons.favorite, color: Colors.teal),
+                onPressed: () async {
+                  await notifier.insertInToDataBase(widget?.data);
+                  setState(() {});
+                });
+          }),
+    );
+  }
 }

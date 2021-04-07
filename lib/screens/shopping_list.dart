@@ -1,4 +1,7 @@
+import 'package:dorecipes/providers/offline_recipes.dart';
+import 'package:dorecipes/widgets/loading_info.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ShoppingList extends StatefulWidget {
   @override
@@ -83,8 +86,30 @@ class _ShoppingListState extends State<ShoppingList> {
           });
     }*/
 
-    return Container(
-      child: Text('shopping List'),
+    return FutureBuilder(
+      future: Provider.of<OfflineNotifier>(
+        context,
+        listen: false,
+      ).fetchAndSetIngredients(),
+      builder: (context, snapshot) =>
+          snapshot.connectionState == ConnectionState.waiting
+              ? LoadingInfo()
+              : Consumer<OfflineNotifier>(
+                  child: Center(
+                    child: const Text('You got Nothing ingredients!'),
+                  ),
+                  builder: (context, notifier, child) =>
+                      notifier.ingredientList.length <= 0
+                          ? child
+                          : Container(
+                              child: Text(
+                                notifier.ingredientList[0].title,
+                                style: TextStyle(
+                                  fontSize: 60.0,
+                                ),
+                              ),
+                            ),
+                ),
     );
   }
 }

@@ -87,6 +87,15 @@ class Data with ChangeNotifier {
   });
 
   factory Data.fromJson(Map<dynamic, dynamic> parsedJson) {
+    String addHttps(String imageUri) {
+      String _imageUri = imageUri;
+      if (_imageUri.contains('http:')) {
+        final String imageUriSubstring = _imageUri.substring(4);
+        _imageUri = 'https$imageUriSubstring';
+      }
+      return _imageUri;
+    }
+
     return Data(
       id: parsedJson['_id'] as String,
       publishedAt: parsedJson['publishedAt'] as String,
@@ -96,7 +105,7 @@ class Data with ChangeNotifier {
       calories: parsedJson['calories'] as String,
       duration: parsedJson['duration'] as String,
       difficulty: parsedJson['difficulty'] as String,
-      imageUrl: parsedJson['imageUrl'] as String,
+      imageUrl: addHttps(parsedJson['imageUrl']),
       method: parsedJson['method'] as String,
       preparation: parsedJson['preparation'] as String,
       ingredients: parsedJson['ingredients'] as List,
@@ -136,6 +145,14 @@ class Data with ChangeNotifier {
       // 'isIngredientSaved': isIngredientSaved == false ? 0 : 1,
       'method': method,
       'preparation': preparation,
+      'ingredients': jsonEncode(ingredients),
+    };
+  }
+
+  Map<String, dynamic> toMapForDbIng() {
+    return <String, dynamic>{
+      '_id': id,
+      'title': title,
       'ingredients': jsonEncode(ingredients),
     };
   }

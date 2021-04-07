@@ -21,6 +21,9 @@ class AllRecipeNotifier with ChangeNotifier {
     }
   }
 
+  bool _isOffline = false;
+  bool get isOffline => _isOffline;
+
   int currentRecipeIndex;
 
   List<Data> _allRecipeData = [];

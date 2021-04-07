@@ -40,11 +40,18 @@ class _DoRecipeHomePageState extends State<DoRecipeHomePage> {
 
   @override
   void initState() {
+    print('IS INIT');
+
     _initPages();
     super.initState();
   }
 
   Future<void> _initPages() async {
+    /*Future.delayed(Duration.zero).then((_) async {
+      await Provider.of<OfflineNotifier>(context, listen: false)
+          .fetchAndSetRecipe();
+    });*/
+
     _pages = [
       {
         'page': RecipesAndCategories(),

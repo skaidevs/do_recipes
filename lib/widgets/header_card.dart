@@ -6,8 +6,6 @@ import 'package:dorecipes/widgets/commons.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'recipe_grid.dart';
-
 class HeaderCard extends StatelessWidget {
   final Data recipeData;
 
@@ -137,7 +135,7 @@ class HeaderCard extends StatelessWidget {
                       16.0,
                     ),
                     child: CachedNetworkImage(
-                      imageUrl: addHttps(recipeData.imageUrl),
+                      imageUrl: recipeData.imageUrl,
                       /*height: double.infinity,
                             width: double.infinity,*/
                       fit: BoxFit.cover,

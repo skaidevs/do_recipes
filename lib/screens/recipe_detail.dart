@@ -1,9 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:dorecipes/helpers/recipe_database.dart';
 import 'package:dorecipes/models/recipe.dart';
 import 'package:dorecipes/providers/all_recipe.dart';
 import 'package:dorecipes/widgets/commons.dart';
 import 'package:dorecipes/widgets/html_viewer.dart';
-import 'package:dorecipes/widgets/recipe_grid.dart';
 import 'package:dorecipes/widgets/serves_button.dart';
 import 'package:dorecipes/widgets/time_cal_difficulty.dart';
 import 'package:flutter/material.dart';
@@ -119,6 +119,22 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
                               //Navigator.of(context).pushNamed(EditRecipe.routeName);
                             }),
               ),*/
+
+              IconButton(
+                onPressed: () {
+                  print('Saved Ingredient');
+
+                  DBHelper.insertIngredients(
+                    data: _loadedRecipe,
+                  );
+                  kFlutterToast(
+                      context: context, msg: 'Removed from shopping list');
+                },
+                icon: Icon(
+                  Icons.add_shopping_cart,
+                  color: kColorTeal,
+                ),
+              ),
             ],
             expandedHeight: 360.0,
             floating: false,
@@ -127,7 +143,7 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
             backgroundColor: Colors.transparent,
             collapsedHeight: 130.0,
             flexibleSpace: CachedNetworkImage(
-              imageUrl: addHttps(_loadedRecipe.imageUrl),
+              imageUrl: _loadedRecipe.imageUrl,
               imageBuilder: (context, imageProvider) => Container(
                 decoration: BoxDecoration(
                   image: DecorationImage(

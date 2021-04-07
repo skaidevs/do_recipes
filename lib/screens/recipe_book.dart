@@ -29,6 +29,7 @@ class _RecipeBookState extends State<RecipeBook> {
                           ? child
                           : RecipeGrid(
                               data: notifier.recipeList,
+                              currentScreen: 'recipe_book',
                             ),
                 ),
     );

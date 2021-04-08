@@ -2,6 +2,7 @@ import 'package:dorecipes/models/recipe.dart';
 import 'package:dorecipes/providers/all_recipe.dart';
 import 'package:dorecipes/providers/offline_recipes.dart';
 import 'package:dorecipes/widgets/commons.dart';
+import 'package:dorecipes/widgets/empty_and_error_recipe.dart';
 import 'package:dorecipes/widgets/loading_info.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -14,81 +15,6 @@ class ShoppingList extends StatefulWidget {
 class _ShoppingListState extends State<ShoppingList> {
   @override
   Widget build(BuildContext context) {
-    /*StreamBuilder<List<DownloadRecipeIngredientData>> _buildDownloadRecipe(
-        BuildContext context) {
-      final dao = Provider.of<RecipeIngredientDao>(context, listen: false);
-      final _allRecipeNotifier =
-          Provider.of<AllRecipeNotifier>(context, listen: false);
-      return StreamBuilder(
-          stream: dao.watchDownloadRecipes(),
-          builder: (context,
-              AsyncSnapshot<List<DownloadRecipeIngredientData>> snapshot) {
-            final downloadRecipes = snapshot.data ?? [];
-
-            if (snapshot.data == null) {
-              return Container();
-            } else if (downloadRecipes.isEmpty) {
-              return const Empty(
-                  text: 'You don\'t have any shopping list yet!');
-            } else {
-              return ListView.builder(
-                key: const PageStorageKey<String>('shopping_list_key'),
-                itemCount: downloadRecipes.length,
-                scrollDirection: Axis.vertical,
-                shrinkWrap: true,
-                padding: const EdgeInsets.all(4.0),
-                physics: ClampingScrollPhysics(),
-                itemBuilder: (context, index) {
-                  final itemRecipeDownload = downloadRecipes[index];
-                  final regExp =
-                      new RegExp(r'(?:\[)?(\[[^\]]*?\](?:,?))(?:\])?');
-                  final input = downloadRecipes[index].ingredients;
-                  final _ingredients = regExp
-                      .allMatches(input)
-                      .map((m) => m.group(1))
-                      .map((String item) =>
-                          item.replaceAll(new RegExp(r'[\[\]]'), ''))
-                      .toList();
-
-                  return Container(
-                    child: Card(
-                      child: ListTile(
-                        title: Text(
-                          '${itemRecipeDownload.title}',
-                          style: TextStyle(
-                            color: kColorDKGreen,
-                            fontSize: 20.0,
-                            fontFamily: kBalooTamma2,
-                          ),
-                        ),
-                        subtitle: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: _ingredients[_allRecipeNotifier.activeServe]
-                                  .isEmpty
-                              ? 'N/A'
-                              : _ingredients[_allRecipeNotifier.activeServe]
-                                  .split(', ')
-                                  .map<Widget>(
-                                    (eachServes) => Text(
-                                      '${eachServes.replaceAll(',', '')}',
-                                      style: const TextStyle(
-                                        fontFamily: kBalooTamma2,
-                                        fontSize: 18.0,
-                                      ),
-                                      textAlign: TextAlign.left,
-                                    ),
-                                  )
-                                  .toList(),
-                        ),
-                      ),
-                    ),
-                  );
-                },
-              );
-            }
-          });
-    }*/
-
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -99,6 +25,14 @@ class _ShoppingListState extends State<ShoppingList> {
             fontSize: 24.0,
           ),
         ),
+        actions: [
+          IconButton(
+              icon: Icon(
+                Icons.more_vert,
+                color: Theme.of(context).accentColor,
+              ),
+              onPressed: () {})
+        ],
       ),
       body: FutureBuilder(
         future: Provider.of<OfflineNotifier>(
@@ -109,8 +43,8 @@ class _ShoppingListState extends State<ShoppingList> {
             snapshot.connectionState == ConnectionState.waiting
                 ? LoadingInfo()
                 : Consumer<OfflineNotifier>(
-                    child: Center(
-                      child: const Text('You got Nothing ingredients!'),
+                    child: Empty(
+                      text: 'Shopping List is Empty. \n Start Adding!',
                     ),
                     builder: (context, notifier, child) =>
                         notifier.ingredientList.length <= 0
@@ -151,14 +85,6 @@ class _ShoppingListState extends State<ShoppingList> {
           color: kColorTeal.withOpacity(
             0.1,
           ),
-          /*boxShadow: [
-                                        BoxShadow(
-                                          blurRadius: 1.0,
-                                          color: kColorTeal.withOpacity(
-                                            0.1,
-                                          ),
-                                        ),
-                                      ],*/
           borderRadius: BorderRadius.circular(
             8.0,
           ),
@@ -197,15 +123,17 @@ class _ShoppingListState extends State<ShoppingList> {
             ),
             title: Text(
               data.title ?? 'N/A',
-              style: TextStyle(fontSize: 22.0),
+              style: TextStyle(
+                fontSize: 22.0,
+              ),
             ),
             children: <Widget>[
               Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 mainAxisSize: MainAxisSize.max,
-                children: _ingredients[notifier.activeServe].isEmpty
+                children: _ingredients[notifier?.activeServe].isEmpty
                     ? 'N/A'
-                    : _ingredients[notifier.activeServe]
+                    : _ingredients[notifier?.activeServe]
                         .split(', ')
                         .map<Widget>(
                           (eachServes) => Text(
@@ -223,9 +151,5 @@ class _ShoppingListState extends State<ShoppingList> {
         ),
       ),
     );
-  }
-
-  _buildItem1(String data) {
-    return Text(data);
   }
 }

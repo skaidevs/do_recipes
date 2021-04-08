@@ -38,7 +38,7 @@ class RecipesByCategory extends StatelessWidget {
               child = InternetError();
             } else if (notifier.recipeByCategoryList.isNotEmpty) {
               child = RecipeGrid(
-                data: notifier.recipeByCategoryList,
+                recipeList: notifier.recipeByCategoryList,
               );
             } else if (notifier.recipeByCategoryList.isEmpty) {
               child = Empty(

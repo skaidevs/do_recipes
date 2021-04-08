@@ -166,7 +166,8 @@ class RecipesAndCategories extends StatelessWidget {
                                       height: 8.0,
                                     ),*/
                                         RecipeGrid(
-                                          data: allRecipeNotifier.allRecipeData,
+                                          recipeList:
+                                              allRecipeNotifier.allRecipeData,
                                         ),
                                       ],
                                     ),

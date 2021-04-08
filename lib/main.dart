@@ -11,7 +11,6 @@ import 'providers/category.dart';
 import 'providers/recipe_by_category.dart';
 import 'providers/shopping_list.dart';
 import 'screens/do_recipe_home.dart';
-import 'screens/download_details.dart';
 import 'screens/recipe_detail.dart';
 import 'screens/recipes_by_category.dart';
 
@@ -80,55 +79,10 @@ class MyApp extends StatelessWidget {
         home: DoRecipeHomePage(),
         routes: {
           RecipeDetailScreen.routeName: (context) => RecipeDetailScreen(),
-          DownloadedRecipeDetailScreen.routeName: (context) =>
-              DownloadedRecipeDetailScreen(),
           RecipesByCategory.routeName: (context) => RecipesByCategory(),
           Categories.routeName: (context) => Categories(),
         },
       ),
     );
   }
-
-  Widget _buildCustomWidget({
-    String text,
-    Color color,
-    bool isLoadingInit,
-  }) =>
-      isLoadingInit
-          ? Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    child: CircularProgressIndicator(),
-                    width: 60,
-                    height: 60,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(top: 16),
-                    child: Text(text),
-                  )
-                ],
-              ),
-            )
-          : Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.error_outline,
-                    color: color,
-                    size: 60,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                      top: 16,
-                    ),
-                    child: Text(text),
-                  )
-                ],
-              ),
-            );
 }

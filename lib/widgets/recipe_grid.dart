@@ -3,20 +3,21 @@ import 'package:dorecipes/widgets/recipe_grid_item.dart';
 import 'package:flutter/material.dart';
 
 class RecipeGrid extends StatelessWidget {
-  final List<Data> data;
-  final String currentScreen;
+  final List<Data> recipeList;
 
-  const RecipeGrid({Key key, this.data, this.currentScreen}) : super(key: key);
+  const RecipeGrid({
+    Key key,
+    this.recipeList,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
-      itemCount: data.length,
+      itemCount: recipeList.length,
       itemBuilder: (context, index) {
-        final _data = data[index];
+        final _data = recipeList[index];
         return GridItemCard(
           data: _data,
-          currentScreen: currentScreen,
         );
       },
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(

@@ -128,7 +128,7 @@ class HeaderCard extends StatelessWidget {
           child: Stack(children: <Widget>[
             Row(
               children: <Widget>[
-                Expanded(child: Text(''), flex: 9),
+                Expanded(child: Text(''), flex: 6),
                 Expanded(
                   child: ClipRRect(
                     borderRadius: new BorderRadius.circular(
@@ -136,8 +136,8 @@ class HeaderCard extends StatelessWidget {
                     ),
                     child: CachedNetworkImage(
                       imageUrl: recipeData.imageUrl,
-                      /*height: double.infinity,
-                            width: double.infinity,*/
+                      height: 174.0,
+                      width: double.infinity,
                       fit: BoxFit.cover,
                       placeholder: (context, url) => Container(
                         color: kColorTeal.withOpacity(
@@ -156,6 +156,10 @@ class HeaderCard extends StatelessWidget {
                 Expanded(child: Text(''), flex: 0)
               ],
             ),
+            _headerTodayTitle(),
+            const SizedBox(
+              height: 28.0,
+            ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
@@ -168,6 +172,37 @@ class HeaderCard extends StatelessWidget {
                   height: 14.0,
                 ),
                 _timeCal(),
+                /*Container(
+                  padding: EdgeInsets.all(
+                    8.0,
+                  ),
+                  decoration: BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.teal.withOpacity(0.1),
+                      ),
+                    ],
+                    borderRadius: BorderRadius.circular(
+                      8.0,
+                    ),
+                  ),
+                  //width: 320.0,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 6.0,
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _title(),
+                        const SizedBox(
+                          height: 14.0,
+                        ),
+                        _timeCal(),
+                      ],
+                    ),
+                  ),
+                ),*/
               ],
             ),
           ]),

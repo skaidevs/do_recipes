@@ -24,6 +24,14 @@ class _RecipeBookState extends State<RecipeBook> {
             fontSize: 24.0,
           ),
         ),
+        actions: [
+          IconButton(
+              icon: Icon(
+                Icons.more_vert,
+                color: Theme.of(context).accentColor,
+              ),
+              onPressed: () {})
+        ],
       ),
       body: FutureBuilder(
         future: Provider.of<OfflineNotifier>(
@@ -41,8 +49,7 @@ class _RecipeBookState extends State<RecipeBook> {
                         notifier.recipeList.length <= 0
                             ? child
                             : RecipeGrid(
-                                data: notifier.recipeList,
-                                currentScreen: 'recipe_book',
+                                recipeList: notifier.recipeList,
                               ),
                   ),
       ),

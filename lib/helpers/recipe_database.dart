@@ -33,7 +33,7 @@ class DBHelper {
   }
 
   //Raw query to check if it's bookedMarked
-  static Future<int> queryForFav(String checkId) async {
+  static Future<int> queryForBookMarked(String checkId) async {
     final db = await DBHelper.database();
     int noOfRows = 0;
     try {
@@ -62,13 +62,14 @@ class DBHelper {
     Data data,
   }) async {
     final db = await DBHelper.database();
-    //print('Inserting ${recipe.isIngredientSaved}');
     Data ingredients = Data(
       id: data.id,
       title: data.title,
       duration: data.duration,
       ingredients: data.ingredients,
     );
+
+    print('Inserting Duration ${data.duration}');
 
     db.insert(
       'do_recipe_ing',
@@ -77,14 +78,25 @@ class DBHelper {
     );
   }
 
+  static Future<int> queryForShoppingList(String checkId) async {
+    final db = await DBHelper.database();
+    int noOfRows = 0;
+    try {
+      noOfRows = Sqflite.firstIntValue(await db.rawQuery(
+          'SELECT COUNT(*) FROM do_recipe_ing WHERE _id = ?', ['$checkId']));
+    } catch (e) {
+      print(e);
+    }
+    return noOfRows;
+  }
+
   static Future<List<Map<String, dynamic>>> fetchIngredientData() async {
     final db = await DBHelper.database();
     return db.query('do_recipe_ing');
   }
 
-  static Future<int> deleteIngredient(String id) async {
+  static Future<int> deleteIngredient({String id}) async {
     final db = await DBHelper.database();
-    print("delete called for do_recipe_ing table");
     return db.delete('do_recipe_ing', where: '_id = ?', whereArgs: [id]);
   }
 }

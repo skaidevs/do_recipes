@@ -15,19 +15,19 @@ class OfflineNotifier with ChangeNotifier {
     return [..._ingredientList];
   }
 
-  String _dataID;
-  String get dataID => _dataID;
-
-  bool _isOffline = false;
-  bool get isOffline => _isOffline;
-
   Data findRecipeById({String code}) {
     return _recipeList.firstWhere((id) => id.id == code, orElse: () => null);
+  }
+
+  Data findIngredientById({String code}) {
+    return _ingredientList.firstWhere((id) => id.id == code,
+        orElse: () => null);
   }
 
   OfflineNotifier() {
     print('Init recipe offline');
     fetchAndSetRecipe();
+    fetchAndSetIngredients();
   }
 
   Future<void> fetchAndSetRecipe() async {
@@ -45,36 +45,44 @@ class OfflineNotifier with ChangeNotifier {
     return null;
   }
 
-  Future<void> insertInToDataBase(
+  Future<void> insertAndRemoveRecipeFromDB(
     Data data,
     BuildContext context,
   ) async {
     final _id = findRecipeById(code: data.id)?.id;
     if (_id != null && _id == data.id) {
-      //print('Its favourite and removing it $data');
       deleteRecipeFromDb(recipeId: data.id);
       await kFlutterToast(context: context, msg: 'Removed from recipe book.');
     } else {
-      //print('Nothing found so inserting  $data');
       insertRecipeInToDb(recipeData: data);
       await kFlutterToast(context: context, msg: 'Added to recipe book.');
     }
   }
 
-  Future deleteRecipeFromDb({String recipeId}) {
-    _recipeList.removeWhere((data) => data.id == recipeId);
-    print("recipe delete.... ${_recipeList.length}");
-    notifyListeners();
-    return DBHelper.deleteRecipe(recipeId);
+  Future<void> insertAndRemoveIngFromDB(
+    Data data,
+    BuildContext context,
+  ) async {
+    final _id = findIngredientById(code: data.id)?.id;
+    if (_id != null && _id == data.id) {
+      deleteIngredientFromDb(recipeId: data.id);
+      await kFlutterToast(context: context, msg: 'Removed from shopping list.');
+    } else {
+      insertIngredientInToDb(recipeData: data);
+      await kFlutterToast(context: context, msg: 'Added to shopping list.');
+    }
   }
 
   Future insertRecipeInToDb({Data recipeData}) async {
-    print("recipe inserting.... ${recipeData.id}");
     await DBHelper.insertRecipe(data: recipeData)
         .then((_) => fetchAndSetRecipe());
   }
 
-  //final _dataList = await DBHelper.fetchRecipeData();
+  Future deleteRecipeFromDb({String recipeId}) {
+    _recipeList.removeWhere((data) => data.id == recipeId);
+    notifyListeners();
+    return DBHelper.deleteRecipe(recipeId);
+  }
 
   Future<void> fetchAndSetIngredients() async {
     final _dataList = await DBHelper.fetchIngredientData();
@@ -92,5 +100,15 @@ class OfflineNotifier with ChangeNotifier {
       return _ingredientList;
     }
     return null;
+  }
+
+  Future insertIngredientInToDb({Data recipeData}) async {
+    await DBHelper.insertIngredients(data: recipeData);
+  }
+
+  Future deleteIngredientFromDb({String recipeId}) {
+    _ingredientList.removeWhere((data) => data.id == recipeId);
+    notifyListeners();
+    return DBHelper.deleteIngredient(id: recipeId);
   }
 }

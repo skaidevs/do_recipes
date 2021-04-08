@@ -176,7 +176,7 @@ class _ShoppingListState extends State<ShoppingList> {
                 Icon(
                   Icons.access_time,
                   size: 22,
-                  color: kColorGrey,
+                  color: kColorTeal,
                 ),
                 Padding(
                   padding: const EdgeInsets.only(
@@ -189,7 +189,6 @@ class _ShoppingListState extends State<ShoppingList> {
                     overflow: TextOverflow.fade,
                     style: TextStyle(
                       fontFamily: kBalooTamma2,
-                      color: kColorGrey,
                       fontSize: 16.0,
                     ),
                   ),

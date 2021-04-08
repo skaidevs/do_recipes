@@ -121,7 +121,10 @@ class RecipesAndCategories extends StatelessWidget {
           ];
         },
         body: Consumer2<AllRecipeNotifier, CategoryNotifier>(
-          builder: (context, allRecipeNotifier, categoryNotifier, _) =>
+          child: Empty(
+            text: 'Recipe is Empty.',
+          ),
+          builder: (context, allRecipeNotifier, categoryNotifier, child) =>
               allRecipeNotifier.isLoading
                   ? LoadingInfo()
                   : allRecipeNotifier.internetConnectionError.isNotEmpty
@@ -130,42 +133,45 @@ class RecipesAndCategories extends StatelessWidget {
                           ? ErrorPage(
                               text: 'An Error Occurred!!',
                             )
-                          : ScrollConfiguration(
-                              behavior: ScrollConfigBehavior(),
-                              child: SingleChildScrollView(
-                                padding: const EdgeInsets.only(
-                                  top: 20.0,
-                                ),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    HeaderCard(
-                                        recipeData:
-                                            allRecipeNotifier.allRecipeData[
-                                                random.nextInt(allRecipeNotifier
-                                                    .allRecipeData.length)]),
-                                    const SizedBox(
-                                      height: 18.0,
+                          : allRecipeNotifier.allRecipeData.length <= 0
+                              ? child
+                              : ScrollConfiguration(
+                                  behavior: ScrollConfigBehavior(),
+                                  child: SingleChildScrollView(
+                                    padding: const EdgeInsets.only(
+                                      top: 20.0,
                                     ),
-                                    if (categoryNotifier.isCategoryLoaded)
-                                      _viewAllCategory(context,
-                                          categoryNotifier.categoryListData)
-                                    else
-                                      Container(),
-                                    _buildCategoryText(
-                                      categoryText: 'All Recipes',
-                                      viewAll: '',
-                                    ),
-                                    /*const SizedBox(
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        HeaderCard(
+                                            recipeData: allRecipeNotifier
+                                                .allRecipeData[random.nextInt(
+                                          allRecipeNotifier
+                                              .allRecipeData.length,
+                                        )]),
+                                        const SizedBox(
+                                          height: 18.0,
+                                        ),
+                                        if (categoryNotifier.isCategoryLoaded)
+                                          _viewAllCategory(context,
+                                              categoryNotifier.categoryListData)
+                                        else
+                                          Container(),
+                                        _buildCategoryText(
+                                          categoryText: 'All Recipes',
+                                          viewAll: '',
+                                        ),
+                                        /*const SizedBox(
                                       height: 8.0,
                                     ),*/
-                                    RecipeGrid(
-                                      data: allRecipeNotifier.allRecipeData,
+                                        RecipeGrid(
+                                          data: allRecipeNotifier.allRecipeData,
+                                        ),
+                                      ],
                                     ),
-                                  ],
+                                  ),
                                 ),
-                              ),
-                            ),
         ),
       ),
     );

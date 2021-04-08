@@ -18,18 +18,21 @@ class Empty extends StatelessWidget {
               text,
               textAlign: TextAlign.center,
               style: TextStyle(
-                  fontSize: 30.0,
-                  fontStyle: FontStyle.italic,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: kBalooTamma2,
-                  color: Colors.grey),
+                fontSize: 30.0,
+                fontStyle: FontStyle.italic,
+                fontWeight: FontWeight.bold,
+                fontFamily: kBalooTamma2,
+                color: kColorGrey,
+              ),
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Icon(
-                Icons.hourglass_empty,
+                Icons.kitchen_rounded,
                 size: 50.0,
-                color: Colors.grey,
+                color: Colors.grey.withOpacity(
+                  0.6,
+                ),
               ),
             ),
           ],
@@ -69,13 +72,7 @@ class CheckConnection extends StatelessWidget {
                 color: Colors.grey,
               ),
             ),
-            FlatButton(
-              color: Theme.of(context).primaryColor,
-              textColor: Colors.white,
-              disabledColor: Colors.grey,
-              disabledTextColor: Colors.black,
-              padding: EdgeInsets.all(8.0),
-              splashColor: Theme.of(context).primaryColor,
+            TextButton(
               onPressed: () {
                 Navigator.pushReplacement(
                   context,

@@ -72,10 +72,10 @@ class AllRecipeNotifier with ChangeNotifier {
 
   Future<List<Data>> _updateAllRecipe() async {
     final futureRecipe = await _getAllRecipe().catchError((onError) {
-      print("SOMETHING IS WRONG IN ALL RECIPE. $onError");
       if (onError.toString().contains('SocketException')) {
         _internetConnectionError = 'error';
       }
+      _recipeError = 'error';
       _isLoading = false;
       notifyListeners();
     });
@@ -94,11 +94,9 @@ class AllRecipeNotifier with ChangeNotifier {
         if (extractedData == null) {
           return null;
         }
-        //print('DATA: ${extractedData.toString()}');
-
         Recipe _recipe = Recipe.fromJson(extractedData);
-        print('DATA: ${_recipe.data[0].id}');
         _cachedAllRecipe[_id] = _recipe.data;
+        //print('DATA:....... ${_cachedAllRecipe[_id]}');
         notifyListeners();
       } else {
         _recipeError = _allRecipeResponse.body.toString();

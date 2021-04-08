@@ -137,14 +137,16 @@ class GridItemCard extends StatelessWidget {
                               ),
                             ],
                           ),*/
-                          Text(
-                            data.duration,
-                            softWrap: false,
-                            overflow: TextOverflow.fade,
-                            style: TextStyle(
-                              fontFamily: kBalooTamma2,
-                              color: kColorGrey,
-                              fontSize: 16.0,
+                          Expanded(
+                            child: Text(
+                              data.duration,
+                              softWrap: false,
+                              overflow: TextOverflow.fade,
+                              style: TextStyle(
+                                fontFamily: kBalooTamma2,
+                                color: kColorGrey,
+                                fontSize: 16.0,
+                              ),
                             ),
                           ),
                           RecipeBookmarkWidget(data),

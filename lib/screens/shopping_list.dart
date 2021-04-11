@@ -88,6 +88,7 @@ class _ShoppingListState extends State<ShoppingList> {
                                 itemCount: notifier.ingredientList.length,
                                 scrollDirection: Axis.vertical,
                                 shrinkWrap: true,
+                                reverse: true,
                                 padding: const EdgeInsets.all(4.0),
                                 physics: ClampingScrollPhysics(),
                                 itemBuilder: (context, index) =>

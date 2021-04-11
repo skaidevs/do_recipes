@@ -27,21 +27,46 @@ class _CategoriesState extends State<Categories> {
         ),
       ),
       body: Consumer<CategoryNotifier>(
-        builder: (context, notifier, _) => Container(
-          alignment: Alignment.center,
-          child: GridView(
-            padding: const EdgeInsets.all(
-              10.0,
+        builder: (context, notifier, _) => SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 10.0,
             ),
-            shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              childAspectRatio: 4 / 2.6,
-              crossAxisSpacing: 6,
-              mainAxisSpacing: 6,
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 10.0,
+                  ),
+                  child: Icon(
+                    Icons.category_rounded,
+                    size: 100.0,
+                    color: Colors.black87.withOpacity(
+                      0.9,
+                    ),
+                  ),
+                ),
+                Container(
+                  alignment: Alignment.center,
+                  child: GridView(
+                    padding: const EdgeInsets.all(
+                      10.0,
+                    ),
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      childAspectRatio: 4 / 2.4,
+                      crossAxisSpacing: 14,
+                      mainAxisSpacing: 14,
+                      //mainAxisExtent: 100.0,
+                    ),
+                    children:
+                        notifier.categoryListData.map(_buildItem).toList(),
+                  ),
+                ),
+              ],
             ),
-            children: notifier.categoryListData.map(_buildItem).toList(),
           ),
         ),
       ),
@@ -53,31 +78,31 @@ class _CategoriesState extends State<Categories> {
       context,
       listen: false,
     );
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(
-          Radius.circular(10.0),
+    return GestureDetector(
+      onTap: () {
+        Map _data = {
+          'id': category.id,
+          'name': category.name,
+        };
+        _selectedCategory(data: _data);
+      },
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(
+            Radius.circular(10.0),
+          ),
+          gradient: LinearGradient(
+            begin: Alignment.topRight,
+            end: Alignment.bottomLeft,
+            // stops: [0.9, 0.7, 0.5, 0.1],
+            colors: [
+              Colors.teal[300],
+              Colors.teal[300],
+              Colors.teal[200],
+              Colors.teal[500],
+            ],
+          ),
         ),
-        gradient: LinearGradient(
-          begin: Alignment.topRight,
-          end: Alignment.bottomLeft,
-          // stops: [0.9, 0.7, 0.5, 0.1],
-          colors: [
-            Colors.teal[100],
-            Colors.teal[200],
-            Colors.teal[400],
-            Colors.teal[500],
-          ],
-        ),
-      ),
-      child: GestureDetector(
-        onTap: () {
-          Map _data = {
-            'id': category.id,
-            'name': category.name,
-          };
-          _selectedCategory(data: _data);
-        },
         child: Stack(
           children: <Widget>[
             /* ClipRRect(

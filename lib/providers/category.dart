@@ -12,6 +12,7 @@ class CategoryNotifier with ChangeNotifier {
   String _categoryError = '';
   String _internetConnectionError = '';
 
+  String get categoryError => _categoryError;
   bool _isCategoryLoaded = false;
   bool get isCategoryLoaded => _isCategoryLoaded;
 
@@ -24,19 +25,31 @@ class CategoryNotifier with ChangeNotifier {
   bool get isLoading => _isLoading;
 
   CategoryNotifier() : _cachedCategories = Map() {
-    _initializeCategories().then((_) async {
+    initializeCategories().then((_) async {
       _isLoading = false;
       notifyListeners();
     });
   }
 
-  Future<List<cati.Category>> _initializeCategories() async {
+  Future<List<cati.Category>> initializeCategories() async {
     _internetConnectionError = '';
     _categoryError = '';
     _isLoading = true;
     notifyListeners();
 
     return _categoryList = await _updateCategories();
+  }
+
+  Future<void> refreshCategory() async {
+    _internetConnectionError = '';
+    _categoryError = '';
+    _isLoading = true;
+    notifyListeners();
+    await _updateCategories().then((categoryList) {
+      _categoryList = categoryList;
+      _isLoading = false;
+      notifyListeners();
+    });
   }
 
   Future<List<cati.Category>> _updateCategories() async {

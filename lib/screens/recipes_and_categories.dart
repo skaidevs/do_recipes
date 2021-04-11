@@ -59,11 +59,12 @@ class RecipesAndCategories extends StatelessWidget {
             text: 'Recipe is Empty.',
           ),
           builder: (context, allRecipeNotifier, categoryNotifier, child) =>
-              allRecipeNotifier.isLoading
+              allRecipeNotifier.isLoading || categoryNotifier.isLoading
                   ? LoadingInfo()
                   : allRecipeNotifier.internetConnectionError.isNotEmpty
                       ? InternetError()
-                      : allRecipeNotifier.recipeError.isNotEmpty
+                      : allRecipeNotifier.recipeError.isNotEmpty ||
+                              categoryNotifier.categoryError.isNotEmpty
                           ? ErrorPage(
                               text: 'An Error Occurred!!',
                             )

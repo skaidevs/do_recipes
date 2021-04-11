@@ -68,6 +68,18 @@ class AllRecipeNotifier with ChangeNotifier {
     return _allRecipeData = await _updateAllRecipe();
   }
 
+  Future<void> refreshRecipe() async {
+    _internetConnectionError = '';
+    _recipeError = '';
+    _isLoading = true;
+    notifyListeners();
+    await _getAllRecipe().then((recipeList) {
+      _allRecipeData = recipeList;
+      _isLoading = false;
+      notifyListeners();
+    });
+  }
+
   Future<List<Data>> _updateAllRecipe() async {
     final futureRecipe = await _getAllRecipe().catchError((onError) {
       if (onError.toString().contains('SocketException')) {

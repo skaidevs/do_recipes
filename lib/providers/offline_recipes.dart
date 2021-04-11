@@ -24,7 +24,6 @@ class OfflineNotifier with ChangeNotifier {
   }
 
   OfflineNotifier() {
-    print('Init recipe offline');
     fetchAndSetRecipe();
     fetchAndSetIngredients();
   }

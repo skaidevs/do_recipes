@@ -26,7 +26,6 @@ class ShoppingListNotifier with ChangeNotifier {
   }) {
     if (_listItems.containsKey(recipeId)) {
       //return
-      print('Already contain ShopListItem');
     } else {
       _listItems.putIfAbsent(
         recipeId,

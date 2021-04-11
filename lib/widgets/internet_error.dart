@@ -1,51 +1,87 @@
+import 'package:dorecipes/helpers/check_internet_connection.dart';
+import 'package:dorecipes/providers/all_recipe.dart';
+import 'package:dorecipes/providers/bottom_navigator.dart';
+import 'package:dorecipes/providers/category.dart';
+import 'package:dorecipes/widgets/commons.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class InternetError extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'No Internet Connection!',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                  fontSize: 30.0,
-                  fontStyle: FontStyle.italic,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.grey),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: IconButton(
-                  icon: Icon(
-                    Icons.refresh,
-                    color: Theme.of(context).primaryColor,
-                    size: 40,
+    return Consumer3<AllRecipeNotifier, BottomNavigation, CategoryNotifier>(
+      builder: (context, notifier, bottomNotifier, catiNotifier, _) {
+        return Container(
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                  width: 180.0,
+                  height: 180.0,
+                  child: Image.asset(
+                    'assets/images/internet_error.png',
+                    fit: BoxFit.cover,
                   ),
-                  onPressed: () {
-                    // _fetchDataAndCheckConnection();
-                  }),
-            ),
-            SizedBox(
-              height: 30,
-            ),
-            TextButton(
-              onPressed: () {
-                // _bottomNavigation.currentIndex = 2;
-              },
-              child: Text(
-                "Go to recipe book",
-                style: TextStyle(
-                  fontSize: 20.0,
                 ),
-              ),
+                SizedBox(
+                  height: 20.0,
+                ),
+                Flexible(
+                  child: Text(
+                    'No Internet Connection.',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 30.0,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black.withOpacity(
+                        0.7,
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 10.0,
+                ),
+                TextButton.icon(
+                    label: Text(
+                      'Try again',
+                      style: TextStyle(
+                        fontSize: 18.0,
+                      ),
+                    ),
+                    icon: Icon(
+                      Icons.refresh,
+                      color: kColorTeal,
+                      size: 30,
+                    ),
+                    onPressed: () {
+                      checkInternetConnection().then((connected) async {
+                        if (connected) {
+                          await catiNotifier.refreshCategory();
+                          await notifier.refreshRecipe();
+                        }
+                      });
+                    }),
+                SizedBox(
+                  height: 36,
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    bottomNotifier.currentIndex = 2;
+                  },
+                  child: Text(
+                    "Go To Recipe Book",
+                    style: TextStyle(
+                      fontSize: 20.0,
+                    ),
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 }

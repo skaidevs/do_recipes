@@ -63,13 +63,11 @@ class RecipeByCategoryNotifier with ChangeNotifier {
           }
           Recipe _recipe = Recipe.fromJson(extractedData);
           _cachedRecipeByCategory[categoryId] = _recipe.data;
-          print('DATA cati ${_recipe?.data?.first?.title}');
 
           _isLoading = false;
           notifyListeners();
         } else {
           _error = _recipeByCategoryResponse.body.toString();
-          print('Error cati $error');
           _isLoading = false;
           notifyListeners();
           /*throw RecipeError(

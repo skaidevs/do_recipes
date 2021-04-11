@@ -33,15 +33,24 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
               color: Theme.of(context).accentColor, //change your color here
             ),
             actions: <Widget>[
-              RecipeBookmarkWidget(_loadedRecipe),
+              RecipeBookmarkWidget(
+                data: _loadedRecipe,
+                isItemCard: false,
+              ),
+              SizedBox(
+                width: 14.0,
+              ),
               AddAndRemoveShoppingList(_loadedRecipe),
+              SizedBox(
+                width: 16.0,
+              ),
             ],
             expandedHeight: 360.0,
             floating: false,
             pinned: true,
             elevation: 0.0,
             backgroundColor: Colors.transparent,
-            collapsedHeight: 130.0,
+            collapsedHeight: 142.0,
             flexibleSpace: CachedNetworkImage(
               imageUrl: _loadedRecipe.imageUrl,
               imageBuilder: (context, imageProvider) => Container(

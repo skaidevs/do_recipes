@@ -53,8 +53,6 @@ class AllRecipeNotifier with ChangeNotifier {
     return _updateAllRecipe();
   }
 
-  Data getRandomTodaysMenu() {}
-
   AllRecipeNotifier() : _cachedAllRecipe = Map() {
     _initializeAllRecipe().then((_) async {
       _isLoading = false;
@@ -74,8 +72,9 @@ class AllRecipeNotifier with ChangeNotifier {
     final futureRecipe = await _getAllRecipe().catchError((onError) {
       if (onError.toString().contains('SocketException')) {
         _internetConnectionError = 'error';
+      } else {
+        _recipeError = 'error';
       }
-      _recipeError = 'error';
       _isLoading = false;
       notifyListeners();
     });

@@ -52,8 +52,12 @@ class DBHelper {
 
   static Future<int> deleteRecipe(String id) async {
     final db = await DBHelper.database();
-    print("delete called for table");
     return db.delete('do_recipe', where: '_id = ?', whereArgs: [id]);
+  }
+
+  static Future<int> deleteAllRecipe() async {
+    final db = await DBHelper.database();
+    return db.delete('do_recipe');
   }
 
   //INGREDIENTS DB
@@ -68,8 +72,6 @@ class DBHelper {
       duration: data.duration,
       ingredients: data.ingredients,
     );
-
-    print('Inserting Duration ${data.duration}');
 
     db.insert(
       'do_recipe_ing',
@@ -98,5 +100,10 @@ class DBHelper {
   static Future<int> deleteIngredient({String id}) async {
     final db = await DBHelper.database();
     return db.delete('do_recipe_ing', where: '_id = ?', whereArgs: [id]);
+  }
+
+  static Future<int> deleteAllIngredient() async {
+    final db = await DBHelper.database();
+    return db.delete('do_recipe_ing');
   }
 }

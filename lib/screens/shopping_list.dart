@@ -2,6 +2,7 @@ import 'package:dorecipes/models/recipe.dart';
 import 'package:dorecipes/providers/all_recipe.dart';
 import 'package:dorecipes/providers/offline_recipes.dart';
 import 'package:dorecipes/widgets/commons.dart';
+import 'package:dorecipes/widgets/customDialogSnack.dart';
 import 'package:dorecipes/widgets/empty_and_error_recipe.dart';
 import 'package:dorecipes/widgets/loading_info.dart';
 import 'package:flutter/material.dart';
@@ -13,8 +14,14 @@ class ShoppingList extends StatefulWidget {
 }
 
 class _ShoppingListState extends State<ShoppingList> {
+  final GlobalKey<PopupMenuButtonState<int>> _key = GlobalKey();
+
   @override
   Widget build(BuildContext context) {
+    final notifier = Provider.of<OfflineNotifier>(
+      context,
+      listen: false,
+    );
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -25,14 +32,40 @@ class _ShoppingListState extends State<ShoppingList> {
             fontSize: 24.0,
           ),
         ),
-        actions: [
-          IconButton(
-              icon: Icon(
-                Icons.more_vert,
-                color: Theme.of(context).accentColor,
-              ),
-              onPressed: () {})
-        ],
+        actions: notifier.ingredientList.isEmpty
+            ? null
+            : [
+                PopupMenuButton<int>(
+                  key: _key,
+                  elevation: 1,
+                  onSelected: (_) {
+                    CustomWidgets.buildDialog(
+                        onPressed: () {
+                          notifier.deleteAllIngredientFromDb().then(
+                                (_) => Navigator.of(context).pop(),
+                              );
+                        },
+                        context: context,
+                        title: 'Delete Shopping List?',
+                        contentText:
+                            'This action will delete all Ingredient from Shopping List.');
+                  },
+                  itemBuilder: (context) {
+                    return <PopupMenuEntry<int>>[
+                      PopupMenuItem(
+                        child: const Text(
+                          'Delete All',
+                          style: TextStyle(
+                            fontSize: 16.0,
+                            color: Colors.teal,
+                          ),
+                        ),
+                        value: 0,
+                      ),
+                    ];
+                  },
+                ),
+              ],
       ),
       body: FutureBuilder(
         future: Provider.of<OfflineNotifier>(
@@ -44,7 +77,8 @@ class _ShoppingListState extends State<ShoppingList> {
                 ? LoadingInfo()
                 : Consumer<OfflineNotifier>(
                     child: Empty(
-                      text: 'Shopping List is Empty. \n Start Adding!',
+                      screen: 'shopping_list',
+                      text: 'Shopping List is Empty.\n Start Adding!',
                     ),
                     builder: (context, notifier, child) =>
                         notifier.ingredientList.length <= 0
@@ -75,7 +109,6 @@ class _ShoppingListState extends State<ShoppingList> {
         .map((String item) => item.replaceAll(new RegExp(r'[\[\]]'), ''))
         .toList();
 
-    print(_ingredients);
     return Padding(
       key: Key(data.title),
       padding: const EdgeInsets.all(14.0),

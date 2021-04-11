@@ -42,7 +42,7 @@ class RecipesByCategory extends StatelessWidget {
               );
             } else if (notifier.recipeByCategoryList.isEmpty) {
               child = Empty(
-                text: 'No Recipe to Show',
+                text: 'No Recipe to Show.',
               );
             }
             return child;

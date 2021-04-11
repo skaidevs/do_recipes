@@ -1,5 +1,6 @@
 import 'package:dorecipes/models/recipe.dart';
 import 'package:dorecipes/providers/all_recipe.dart';
+import 'package:dorecipes/providers/offline_recipes.dart';
 import 'package:dorecipes/widgets/commons.dart';
 import 'package:dorecipes/widgets/empty_and_error_recipe.dart';
 import 'package:dorecipes/widgets/recipe_grid.dart';
@@ -36,21 +37,33 @@ class RecipeSearch extends SearchDelegate<Data> {
 
   @override
   Widget buildResults(BuildContext context) {
-    return Consumer<AllRecipeNotifier>(
-      builder: (context, notifier, _) {
-        final results = notifier.allRecipeData
-            .where(
-              (recipe) => recipe.title.toLowerCase().contains(query),
-            )
-            .toList();
-        if (notifier.allRecipeData.isEmpty || results.isEmpty) {
+    return Consumer2<AllRecipeNotifier, OfflineNotifier>(
+      builder: (context, notifier, offNotifier, _) {
+        List<Data> result = [];
+        if (notifier.internetConnectionError == '' &&
+            notifier.recipeError == '') {
+          result = notifier.allRecipeData
+              .where(
+                (recipe) => recipe?.title?.toLowerCase()?.contains(query),
+              )
+              .toList();
+        } else {
+          result = offNotifier.recipeList
+              .where(
+                (recipe) => recipe?.title?.toLowerCase()?.contains(query),
+              )
+              .toList();
+        }
+
+        if (result.isEmpty) {
           return Empty(
-            text: 'Recipe Item not Found.',
+            text: '',
+            screen: 'search',
           );
         }
 
         return RecipeGrid(
-          recipeList: results,
+          recipeList: result,
         );
       },
     );
@@ -76,17 +89,28 @@ class RecipeSearch extends SearchDelegate<Data> {
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    return Consumer<AllRecipeNotifier>(
-      builder: (context, notifier, _) {
-        final result = notifier.allRecipeData
-            .where(
-              (recipe) => recipe?.title?.toLowerCase()?.contains(query),
-            )
-            .toList();
+    return Consumer2<AllRecipeNotifier, OfflineNotifier>(
+      builder: (context, notifier, offNotifier, _) {
+        List<Data> result = [];
+        if (notifier.internetConnectionError == '' &&
+            notifier.recipeError == '') {
+          result = notifier.allRecipeData
+              .where(
+                (recipe) => recipe?.title?.toLowerCase()?.contains(query),
+              )
+              .toList();
+        } else {
+          result = offNotifier.recipeList
+              .where(
+                (recipe) => recipe?.title?.toLowerCase()?.contains(query),
+              )
+              .toList();
+        }
 
-        if (notifier.allRecipeData.isEmpty || result.isEmpty) {
+        if (result.isEmpty) {
           return Empty(
-            text: 'Search Recipe.',
+            text: '',
+            screen: 'search',
           );
         }
 

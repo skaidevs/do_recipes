@@ -15,7 +15,6 @@ class InternetError extends StatelessWidget {
                   fontSize: 30.0,
                   fontStyle: FontStyle.italic,
                   fontWeight: FontWeight.bold,
-                  //fontFamily: kBalooTamma2,
                   color: Colors.grey),
             ),
             Padding(

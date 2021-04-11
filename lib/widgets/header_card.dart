@@ -16,17 +16,17 @@ class HeaderCard extends StatelessWidget {
     Widget _headerTodayTitle() => Text(
           "Today's Menu",
           style: TextStyle(
-            fontSize: 18.0,
+            fontSize: 20.0,
             fontWeight: FontWeight.w500,
-            color: Colors.black54,
+            color: kColorWhite,
           ),
         );
     Widget _title() => Text(
           recipeData.title,
           style: TextStyle(
-            fontSize: 28.0,
+            fontSize: 20.0,
             fontWeight: FontWeight.bold,
-            color: Theme.of(context).accentColor,
+            color: kColorWhite,
           ),
         );
 
@@ -42,14 +42,14 @@ class HeaderCard extends StatelessWidget {
                   child: Icon(
                     Icons.access_time,
                     size: 22,
-                    color: kColorGrey,
+                    color: kColorWhite,
                   ),
                 ),
                 Text(
                   recipeData.duration,
                   style: TextStyle(
-                    fontFamily: kBalooTamma2,
-                    color: kColorGrey,
+                    color: kColorWhite,
+                    //fontWeight: FontWeight.bold,
                     fontSize: 18.0,
                   ),
                 ),
@@ -66,14 +66,14 @@ class HeaderCard extends StatelessWidget {
                   child: Icon(
                     Icons.show_chart,
                     size: 22,
-                    color: kColorGrey,
+                    color: kColorWhite,
                   ),
                 ),
                 Text(
                   '${recipeData.calories} Cals',
                   style: TextStyle(
-                    fontFamily: kBalooTamma2,
-                    color: kColorGrey,
+                    //fontWeight: FontWeight.bold,
+                    color: kColorWhite,
                     fontSize: 18.0,
                   ),
                 ),
@@ -86,15 +86,11 @@ class HeaderCard extends StatelessWidget {
         horizontal: 12.0,
       ),
       child: Container(
-        // height: MediaQuery.of(context).size.height * 0.36,
-        padding: EdgeInsets.all(
-          20.0,
-        ),
         decoration: BoxDecoration(
           boxShadow: [
             BoxShadow(
-              blurRadius: 1.0,
-              color: Colors.grey.shade400,
+              blurRadius: 0.0,
+              color: kColorGrey,
             ),
           ],
           /*gradient: LinearGradient(
@@ -126,84 +122,74 @@ class HeaderCard extends StatelessWidget {
             );
           },
           child: Stack(children: <Widget>[
-            Row(
-              children: <Widget>[
-                Expanded(child: Text(''), flex: 6),
-                Expanded(
-                  child: ClipRRect(
-                    borderRadius: new BorderRadius.circular(
-                      16.0,
+            ClipRRect(
+              borderRadius: new BorderRadius.circular(
+                16.0,
+              ),
+              child: CachedNetworkImage(
+                imageUrl: recipeData.imageUrl,
+                height: 200.0,
+                width: double.infinity,
+                fit: BoxFit.cover,
+                placeholder: (context, url) => Container(
+                  color: kColorTeal.withOpacity(
+                    0.1,
+                  ),
+                ),
+                errorWidget: (context, url, error) => Icon(Icons.error),
+              ) /*Image.network(
+                      addHttps(recipeData.imageUrl),
+                      //scale: 1.0,
+                    )*/
+              ,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(
+                16.0,
+              ),
+              child: _headerTodayTitle(),
+            ),
+            Positioned(
+              //top: 10.0,
+              bottom: 16.0,
+              right: 16.0,
+              left: 0.0,
+              child: Container(
+                padding: EdgeInsets.all(
+                  6.0,
+                ),
+                decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(
+                        0.7,
+                      ),
                     ),
-                    child: CachedNetworkImage(
-                      imageUrl: recipeData.imageUrl,
-                      height: 174.0,
-                      width: double.infinity,
-                      fit: BoxFit.cover,
-                      placeholder: (context, url) => Container(
-                        color: kColorTeal.withOpacity(
-                          0.1,
-                        ),
-                      ),
-                      errorWidget: (context, url, error) => Icon(Icons.error),
-                    ) /*Image.network(
-                            addHttps(recipeData.imageUrl),
-                            //scale: 1.0,
-                          )*/
-                    ,
+                  ],
+                  // color: kColorTeal.withOpacity(0.2),
+                  borderRadius: const BorderRadius.only(
+                    bottomRight: Radius.circular(
+                      2.0,
+                    ),
+                    topRight: Radius.circular(
+                      50.0,
+                    ),
                   ),
-                  flex: 8,
                 ),
-                Expanded(child: Text(''), flex: 0)
-              ],
-            ),
-            _headerTodayTitle(),
-            const SizedBox(
-              height: 28.0,
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                _headerTodayTitle(),
-                const SizedBox(
-                  height: 28.0,
-                ),
-                _title(),
-                const SizedBox(
-                  height: 14.0,
-                ),
-                _timeCal(),
-                /*Container(
-                  padding: EdgeInsets.all(
-                    8.0,
+                //width: 320.0,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 6.0,
                   ),
-                  decoration: BoxDecoration(
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.teal.withOpacity(0.1),
-                      ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _title(),
+                      _timeCal(),
                     ],
-                    borderRadius: BorderRadius.circular(
-                      8.0,
-                    ),
                   ),
-                  //width: 320.0,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 6.0,
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        _title(),
-                        const SizedBox(
-                          height: 14.0,
-                        ),
-                        _timeCal(),
-                      ],
-                    ),
-                  ),
-                ),*/
-              ],
+                ),
+              ),
             ),
           ]),
         ),

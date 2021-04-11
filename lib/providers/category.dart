@@ -9,7 +9,8 @@ import 'package:http/http.dart' as http;
 
 class CategoryNotifier with ChangeNotifier {
   Map<String, List<cati.Category>> _cachedCategories;
-  String error = '';
+  String _categoryError = '';
+  String _internetConnectionError = '';
 
   bool _isCategoryLoaded = false;
   bool get isCategoryLoaded => _isCategoryLoaded;
@@ -29,15 +30,23 @@ class CategoryNotifier with ChangeNotifier {
     });
   }
 
-  Future<void> _initializeCategories() async {
-    _categoryList = await _updateCategories();
+  Future<List<cati.Category>> _initializeCategories() async {
+    _internetConnectionError = '';
+    _categoryError = '';
+    _isLoading = true;
+    notifyListeners();
+
+    return _categoryList = await _updateCategories();
   }
 
   Future<List<cati.Category>> _updateCategories() async {
-    _isLoading = true;
-    notifyListeners();
     final futureCategories = await _getCategories().catchError((onError) {
       print("SOMETHING IS WRONG In Category. $onError");
+      if (onError.toString().contains('SocketException')) {
+        _internetConnectionError = 'error';
+      } else {
+        _categoryError = 'error';
+      }
       _isLoading = false;
       notifyListeners();
     });
@@ -59,7 +68,7 @@ class CategoryNotifier with ChangeNotifier {
         _cachedCategories[recipes] = _category.category;
         _isCategoryLoaded = true;
       } else {
-        error = _categoryResponse.body.toString();
+        _categoryError = _categoryResponse.body.toString();
         throw RecipeError('Categories could not be fetched. {{}}');
       }
     }

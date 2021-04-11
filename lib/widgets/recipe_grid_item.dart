@@ -139,7 +139,10 @@ class GridItemCard extends StatelessWidget {
                               ),
                             ),
                           ),
-                          RecipeBookmarkWidget(data),
+                          RecipeBookmarkWidget(
+                            data: data,
+                            isItemCard: true,
+                          ),
                         ],
                       ),
                     ],

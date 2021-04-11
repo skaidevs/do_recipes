@@ -1,6 +1,5 @@
 import 'package:dorecipes/helpers/recipe_database.dart';
 import 'package:dorecipes/models/recipe.dart';
-import 'package:dorecipes/widgets/commons.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 
@@ -45,31 +44,31 @@ class OfflineNotifier with ChangeNotifier {
     return null;
   }
 
-  Future<void> insertAndRemoveRecipeFromDB(
+  Future<bool> insertAndRemoveRecipeFromDB(
     Data data,
     BuildContext context,
   ) async {
     final _id = findRecipeById(code: data.id)?.id;
     if (_id != null && _id == data.id) {
       deleteRecipeFromDb(recipeId: data.id);
-      await kFlutterToast(context: context, msg: 'Removed from recipe book.');
+      return true;
     } else {
       insertRecipeInToDb(recipeData: data);
-      await kFlutterToast(context: context, msg: 'Added to recipe book.');
+      return false;
     }
   }
 
-  Future<void> insertAndRemoveIngFromDB(
+  Future<bool> insertAndRemoveIngFromDB(
     Data data,
     BuildContext context,
   ) async {
     final _id = findIngredientById(code: data.id)?.id;
     if (_id != null && _id == data.id) {
       deleteIngredientFromDb(recipeId: data.id);
-      await kFlutterToast(context: context, msg: 'Removed from shopping list.');
+      return true;
     } else {
       insertIngredientInToDb(recipeData: data);
-      await kFlutterToast(context: context, msg: 'Added to shopping list.');
+      return false;
     }
   }
 
@@ -82,6 +81,12 @@ class OfflineNotifier with ChangeNotifier {
     _recipeList.removeWhere((data) => data.id == recipeId);
     notifyListeners();
     return DBHelper.deleteRecipe(recipeId);
+  }
+
+  Future deleteAllRecipeFromDb() {
+    _recipeList.clear();
+    notifyListeners();
+    return DBHelper.deleteAllRecipe();
   }
 
   Future<void> fetchAndSetIngredients() async {
@@ -103,12 +108,19 @@ class OfflineNotifier with ChangeNotifier {
   }
 
   Future insertIngredientInToDb({Data recipeData}) async {
-    await DBHelper.insertIngredients(data: recipeData);
+    await DBHelper.insertIngredients(data: recipeData)
+        .then((_) => fetchAndSetIngredients());
   }
 
   Future deleteIngredientFromDb({String recipeId}) {
     _ingredientList.removeWhere((data) => data.id == recipeId);
     notifyListeners();
     return DBHelper.deleteIngredient(id: recipeId);
+  }
+
+  Future deleteAllIngredientFromDb() {
+    _ingredientList.clear();
+    notifyListeners();
+    return DBHelper.deleteAllIngredient();
   }
 }

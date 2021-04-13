@@ -64,8 +64,8 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
                 child: FlexibleSpaceBar(
                   centerTitle: true,
                   title: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 10.0,
+                    padding: const EdgeInsets.only(
+                      right: 10.0,
                     ),
                     child: Container(
                       width: double.infinity,

@@ -41,8 +41,8 @@ class _CategoriesState extends State<Categories> {
                   child: Icon(
                     Icons.category_rounded,
                     size: 100.0,
-                    color: Colors.black87.withOpacity(
-                      0.9,
+                    color: Colors.teal.withOpacity(
+                      0.7,
                     ),
                   ),
                 ),
@@ -74,10 +74,6 @@ class _CategoriesState extends State<Categories> {
   }
 
   Widget _buildItem(Category category) {
-    final notifier = Provider.of<RecipeByCategoryNotifier>(
-      context,
-      listen: false,
-    );
     return GestureDetector(
       onTap: () {
         Map _data = {
@@ -148,7 +144,7 @@ class _CategoriesState extends State<Categories> {
                   child: Column(
                     children: [
                       Align(
-                        //alignment: Alignment.bottomLeft,
+                        alignment: Alignment.bottomLeft,
                         child: Text(
                           category.name,
                           overflow: TextOverflow.ellipsis,

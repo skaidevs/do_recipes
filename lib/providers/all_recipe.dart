@@ -60,19 +60,20 @@ class AllRecipeNotifier with ChangeNotifier {
     });
   }
 
-  Future<List<Data>> _initializeAllRecipe() async {
+  void _initNotifierListener() {
     _internetConnectionError = '';
     _recipeError = '';
     _isLoading = true;
     notifyListeners();
+  }
+
+  Future<List<Data>> _initializeAllRecipe() async {
+    _initNotifierListener();
     return _allRecipeData = await _updateAllRecipe();
   }
 
   Future<void> refreshRecipe() async {
-    _internetConnectionError = '';
-    _recipeError = '';
-    _isLoading = true;
-    notifyListeners();
+    _initNotifierListener();
     await _getAllRecipe().then((recipeList) {
       _allRecipeData = recipeList;
       _isLoading = false;

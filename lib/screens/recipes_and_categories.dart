@@ -89,8 +89,10 @@ class RecipesAndCategories extends StatelessWidget {
                                           height: 18.0,
                                         ),
                                         if (categoryNotifier.isCategoryLoaded)
-                                          _viewAllCategory(context,
-                                              categoryNotifier.categoryListData)
+                                          _viewAllCategory(
+                                            context,
+                                            categoryNotifier.categoryListData,
+                                          )
                                         else
                                           Container(),
                                         _buildCategoryText(

@@ -69,7 +69,11 @@ class AllRecipeNotifier with ChangeNotifier {
 
   Future<List<Data>> _initializeAllRecipe() async {
     _initNotifierListener();
-    return _allRecipeData = await _updateAllRecipe();
+    var recipeList = await _updateAllRecipe();
+    Iterable inReverse = recipeList.reversed;
+    var recipeInReverse = inReverse.toList();
+    _allRecipeData = recipeInReverse;
+    return _allRecipeData;
   }
 
   Future<void> refreshRecipe() async {
@@ -91,6 +95,7 @@ class AllRecipeNotifier with ChangeNotifier {
       _isLoading = false;
       notifyListeners();
     });
+
     return futureRecipe;
   }
 
@@ -107,6 +112,7 @@ class AllRecipeNotifier with ChangeNotifier {
           return null;
         }
         Recipe _recipe = Recipe.fromJson(extractedData);
+
         _cachedAllRecipe[_id] = _recipe.data;
         //print('DATA:....... ${_cachedAllRecipe[_id]}');
         notifyListeners();

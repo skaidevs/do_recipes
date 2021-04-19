@@ -22,6 +22,7 @@ class RecipeGrid extends StatelessWidget {
       },
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
+        //mainAxisExtent: 200,
         childAspectRatio: 3 / 4,
         crossAxisSpacing: 3,
         mainAxisSpacing: 3,

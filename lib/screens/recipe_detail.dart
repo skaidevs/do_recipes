@@ -241,7 +241,7 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
                                         12.0,
                                       ),
                                       child: Text(
-                                        _loadedRecipe.preparation,
+                                        _loadedRecipe.preparation.trim(),
                                         style: TextStyle(
                                           //fontWeight: FontWeight.bold,
                                           fontSize: 20.0,

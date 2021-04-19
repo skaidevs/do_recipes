@@ -30,9 +30,12 @@ class OfflineNotifier with ChangeNotifier {
 
   Future<void> fetchAndSetRecipe() async {
     final _dataList = await DBHelper.fetchRecipeData();
+
     if (_dataList.length > 0) {
       //print("Fetching offline recipe list 1 ${_dataList[0].values}");
-      _recipeList = _dataList
+      Iterable inReverse = _dataList.reversed;
+      var recipeInReverse = inReverse.toList();
+      _recipeList = recipeInReverse
           .map(
             (item) => Data.fromDb(item),
           )
@@ -90,7 +93,9 @@ class OfflineNotifier with ChangeNotifier {
 
   Future<void> fetchAndSetIngredients() async {
     final _dataList = await DBHelper.fetchIngredientData();
-    if (_dataList.length > 0) {
+    Iterable inReverse = _dataList.reversed;
+    var ingredientInReverse = inReverse.toList();
+    if (ingredientInReverse.length > 0) {
       //print("Fetching offline Ingredient list  ${_dataList[0].values}");
       _ingredientList = _dataList
           .map(

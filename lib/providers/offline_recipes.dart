@@ -112,8 +112,9 @@ class OfflineNotifier with ChangeNotifier {
   }
 
   Future insertIngredientInToDb({Data recipeData}) async {
-    await DBHelper.insertIngredients(data: recipeData)
-        .then((_) => fetchAndSetIngredients());
+    await DBHelper.insertIngredients(data: recipeData).then(
+      (_) => fetchAndSetIngredients(),
+    );
   }
 
   Future deleteIngredientFromDb({String recipeId}) {

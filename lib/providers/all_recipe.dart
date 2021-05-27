@@ -70,6 +70,9 @@ class AllRecipeNotifier with ChangeNotifier {
   Future<List<Data>> _initializeAllRecipe() async {
     _initNotifierListener();
     var recipeList = await _updateAllRecipe();
+    if (recipeList == null) {
+      return [];
+    }
     Iterable inReverse = recipeList.reversed;
     var recipeInReverse = inReverse.toList();
     _allRecipeData = recipeInReverse;

@@ -39,7 +39,6 @@ class _DoRecipeHomePageState extends State<DoRecipeHomePage> {
   @override
   void initState() {
     print('IS INIT');
-
     _initPages();
     super.initState();
   }

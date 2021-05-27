@@ -26,6 +26,9 @@ class MyApp extends StatelessWidget {
           create: (_) => BottomNavigation(),
           child: DoRecipeHomePage(),
         ),
+        ChangeNotifierProvider<BottomNavigation>(
+          create: (_) => BottomNavigation(),
+        ),
         /*Provider<RecipeDao>(
           create: (_) => AppDatabase().recipeDao,
           child: DoRecipeHomePage(),
